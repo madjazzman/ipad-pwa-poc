@@ -1,1 +1,1 @@
-# ipad-pwa-poc
+# PWA Test V2\n1. Otevři v Safari.\n2. Přidej na plochu.\n3. Vyplň formulář, klikni +1.\n4. Přepni Safari ↔ PWA a ověř zachování stavu.
