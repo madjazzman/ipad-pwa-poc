@@ -11,81 +11,215 @@
   <link rel="stylesheet" href="style.css">
   <title>PWA Test V2</title>
   <style>
-    /* Základní styl pro podpisové plátno */
+    /* Styly pro horní bar s vlajkami */
+    .header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .lang-picker {
+      display: flex;
+      gap: 8px;
+    }
+    .lang-btn {
+      background: #1e293b;
+      border: 1px solid #334155;
+      font-size: 1.4rem;
+      padding: 6px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      line-height: 1;
+      transition: transform 0.1s, border-color 0.2s;
+    }
+    .lang-btn:active {
+      transform: scale(0.92);
+    }
+    .lang-btn.active {
+      border-color: #38bdf8;
+      background: #0f172a;
+      box-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
+    }
+
+    /* Kreslicí plátno pro podpis */
     #sig-canvas {
       border: 2px dashed #cbd5e1;
       border-radius: 8px;
-      touch-action: none; /* Důležité pro Safari: zabrání scrollování stránky při kreslení */
+      touch-action: none; /* Zabrání scrollování stránky na iPadu při kreslení */
       background: #ffffff;
       cursor: crosshair;
       width: 100%;
       max-width: 400px;
       height: 150px;
     }
+
+    .btn-group {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>📖 Návštěvní kniha – TEST V2</h1>
-  <div class="status" id="mode">Načítám…</div>
+  <div class="header-bar">
+    <h1 id="t-title" style="margin:0;">📖 Návštěvní kniha</h1>
+    <div class="lang-picker">
+      <button class="lang-btn" data-lang="cz" title="Čeština">🇨🇿</button>
+      <button class="lang-btn" data-lang="en" title="English">🇬🇧</button>
+      <button class="lang-btn" data-lang="de" title="Deutsch">🇩🇪</button>
+      <button class="lang-btn" data-lang="ro" title="Română">🇷🇴</button>
+    </div>
+  </div>
   
   <div class="card">
-    <label for="event">Událost</label>
+    <label id="t-lbl-event" for="event">Událost</label>
     <select id="event">
-      <option>Zásilka</option>
-      <option>Servis</option>
-      <option>Abholer</option>
-      <option>Návštěva</option>
+      <option value="Zásilka" id="t-opt-shipment">Zásilka</option>
+      <option value="Servis" id="t-opt-service">Servis</option>
+      <option value="Abholer" id="t-opt-pickup">Odběr / Abholer</option>
+      <option value="Návštěva" id="t-opt-visit">Návštěva</option>
     </select>
     
-    <label for="name">Jméno</label>
-    <input id="name" placeholder="Sem napiš jméno">
+    <label id="t-lbl-name" for="name">Jméno</label>
+    <input id="name" placeholder="...">
     
-    <label for="note">Poznámka</label>
-    <textarea id="note" rows="3" placeholder="Rozpracovaný text..."></textarea>
+    <label id="t-lbl-note" for="note">Poznámka</label>
+    <textarea id="note" rows="3" placeholder="..."></textarea>
+    
+    <div class="btn-group">
+      <button id="reset-form" class="secondary">Resetovat formulář</button>
+    </div>
   </div>
 
-  <!-- Přidaná sekce pro podpis -->
   <div class="card">
-    <h3>Podpis</h3>
+    <h3 id="t-h3-signature">Podpis</h3>
     <canvas id="sig-canvas"></canvas>
-    <br>
-    <button id="clear-sig" class="secondary" style="margin-top: 8px;">Vymazat podpis</button>
+    <div class="btn-group">
+      <button id="clear-sig" class="secondary">Vymazat podpis</button>
+    </div>
   </div>
 
   <div class="card">
-    <h3>Stav aplikace</h3>
-    <p>Počet kliknutí: <span id="count">0</span></p>
-    <button id="plus">+1 klik</button>
-    <button id="clear" class="secondary">Reset</button>
+    <h3 id="t-h3-appstatus">Stav aplikace</h3>
+    <p><span id="t-txt-clicks">Počet kliknutí:</span> <span id="count">0</span></p>
+    <div class="btn-group">
+      <button id="plus">+1 klik</button>
+      <button id="reset-counter" class="secondary">Reset čítače</button>
+    </div>
   </div>
 
   <div class="card">
-    <h3>Testovací ID</h3>
+    <h3 id="t-h3-testid">Testovací ID</h3>
     <p id="session"></p>
     <p id="saved"></p>
   </div>
 </div>
 
 <script>
-  // Explicitní načtení prvků pro 100% kompatibilitu s iOS Safari
-  const elMode = document.getElementById('mode');
+  // --- Překladový slovník (i18n) ---
+  const translations = {
+    cz: {
+      title: "📖 Návštěvní kniha – TEST V2",
+      lblEvent: "Událost",
+      optShipment: "Zásilka",
+      optService: "Servis",
+      optPickup: "Odběr / Abholer",
+      optVisit: "Návštěva",
+      lblName: "Jméno",
+      phName: "Sem napiš jméno",
+      lblNote: "Poznámka",
+      phNote: "Rozpracovaný text...",
+      btnResetForm: "Resetovat formulář",
+      h3Sig: "Podpis",
+      btnClearSig: "Vymazat podpis",
+      h3AppStatus: "Stav aplikace",
+      txtClicks: "Počet kliknutí:",
+      btnPlus: "+1 klik",
+      btnResetCounter: "Reset čítače",
+      h3TestId: "Testovací ID",
+      lblSaved: "Uloženo:"
+    },
+    en: {
+      title: "📖 Visitor Logbook – TEST V2",
+      lblEvent: "Event",
+      optShipment: "Shipment",
+      optService: "Service",
+      optPickup: "Pickup",
+      optVisit: "Visit",
+      lblName: "Name",
+      phName: "Enter name here",
+      lblNote: "Note",
+      phNote: "Draft text...",
+      btnResetForm: "Reset Form",
+      h3Sig: "Signature",
+      btnClearSig: "Clear Signature",
+      h3AppStatus: "App Status",
+      txtClicks: "Click count:",
+      btnPlus: "+1 click",
+      btnResetCounter: "Reset Counter",
+      h3TestId: "Test ID",
+      lblSaved: "Saved:"
+    },
+    de: {
+      title: "📖 Besucherbuch – TEST V2",
+      lblEvent: "Ereignis",
+      optShipment: "Lieferung",
+      optService: "Service",
+      optPickup: "Abholer",
+      optVisit: "Besuch",
+      lblName: "Name",
+      phName: "Name hier eingeben",
+      lblNote: "Notiz",
+      phNote: "Entwurfstext...",
+      btnResetForm: "Formular zurücksetzen",
+      h3Sig: "Unterschrift",
+      btnClearSig: "Unterschrift löschen",
+      h3AppStatus: "App-Status",
+      txtClicks: "Klickanzahl:",
+      btnPlus: "+1 Klick",
+      btnResetCounter: "Zähler zurücksetzen",
+      h3TestId: "Test-ID",
+      lblSaved: "Gespeichert:"
+    },
+    ro: {
+      title: "📖 Registru Vizitatori – TEST V2",
+      lblEvent: "Eveniment",
+      optShipment: "Livrare",
+      optService: "Service",
+      optPickup: "Ridicare",
+      optVisit: "Vizită",
+      lblName: "Nume",
+      phName: "Introduceți numele",
+      lblNote: "Notă",
+      phNote: "Text în lucru...",
+      btnResetForm: "Resetează formularul",
+      h3Sig: "Semnătură",
+      btnClearSig: "Șterge semnătura",
+      h3AppStatus: "Stare aplicație",
+      txtClicks: "Număr de clicuri:",
+      btnPlus: "+1 clic",
+      btnResetCounter: "Resetează contorul",
+      h3TestId: "ID Test",
+      lblSaved: "Salvat:"
+    }
+  };
+
+  // Načtení DOM prvků
   const elEvent = document.getElementById('event');
   const elName = document.getElementById('name');
   const elNote = document.getElementById('note');
   const elCount = document.getElementById('count');
   const elPlus = document.getElementById('plus');
-  const elClear = document.getElementById('clear');
+  const elResetCounter = document.getElementById('reset-counter');
+  const elResetForm = document.getElementById('reset-form');
   const elSession = document.getElementById('session');
   const elSaved = document.getElementById('saved');
-  
   const canvas = document.getElementById('sig-canvas');
   const elClearSig = document.getElementById('clear-sig');
   const ctx = canvas.getContext('2d');
-
-  // Detekce Standalone režimu
-  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
-  elMode.textContent = isStandalone ? "✅ STANDALONE – vlastní okno" : "⚠️ Běží v Safari";
 
   const K = 'pwa-test-v2';
   let st = JSON.parse(localStorage.getItem(K) || JSON.stringify({
@@ -93,8 +227,37 @@
     event: "Zásilka",
     name: "",
     note: "",
+    lang: "cz",
     session: crypto.randomUUID()
   }));
+
+  // Aktualizace jazyka v UI
+  function applyLanguage(lang) {
+    const t = translations[lang] || translations.cz;
+    document.getElementById('t-title').textContent = t.title;
+    document.getElementById('t-lbl-event').textContent = t.lblEvent;
+    document.getElementById('t-opt-shipment').textContent = t.optShipment;
+    document.getElementById('t-opt-service').textContent = t.optService;
+    document.getElementById('t-opt-pickup').textContent = t.optPickup;
+    document.getElementById('t-opt-visit').textContent = t.optVisit;
+    document.getElementById('t-lbl-name').textContent = t.lblName;
+    elName.placeholder = t.phName;
+    document.getElementById('t-lbl-note').textContent = t.lblNote;
+    elNote.placeholder = t.phNote;
+    elResetForm.textContent = t.btnResetForm;
+    document.getElementById('t-h3-signature').textContent = t.h3Sig;
+    elClearSig.textContent = t.btnClearSig;
+    document.getElementById('t-h3-appstatus').textContent = t.h3AppStatus;
+    document.getElementById('t-txt-clicks').textContent = t.txtClicks;
+    elPlus.textContent = t.btnPlus;
+    elResetCounter.textContent = t.btnResetCounter;
+    document.getElementById('t-h3-testid').textContent = t.h3TestId;
+
+    // Zvýraznění aktivní vlajky
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.lang === lang);
+    });
+  }
 
   function render() {
     elEvent.value = st.event;
@@ -102,11 +265,23 @@
     elNote.value = st.note;
     elCount.textContent = st.count;
     elSession.textContent = 'ID: ' + st.session;
-    elSaved.textContent = 'Uloženo: ' + new Date().toLocaleTimeString('cs-CZ');
+    
+    const t = translations[st.lang] || translations.cz;
+    elSaved.textContent = t.lblSaved + ' ' + new Date().toLocaleTimeString();
+    
+    applyLanguage(st.lang);
     localStorage.setItem(K, JSON.stringify(st));
   }
 
-  // Event Listenery pro formulářové prvky
+  // Přepínání jazyků
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      st.lang = btn.dataset.lang;
+      render();
+    });
+  });
+
+  // Event Listenery formuláře
   [elEvent, elName, elNote].forEach(el => {
     el.addEventListener('input', e => {
       st[e.target.id] = e.target.value;
@@ -114,20 +289,26 @@
     });
   });
 
-  // Event Listenery pro tlačítka
+  // Tlačítko +1
   elPlus.addEventListener('click', () => {
     st.count++;
     render();
   });
 
-  elClear.addEventListener('click', () => {
-    if (confirm("Resetovat test?")) {
-      localStorage.removeItem(K);
-      location.reload();
-    }
+  // Granulární resetování
+  elResetCounter.addEventListener('click', () => {
+    st.count = 0;
+    render();
   });
 
-  // --- Logika kreslení podpisu (Touch + Mouse support) ---
+  elResetForm.addEventListener('click', () => {
+    st.event = "Zásilka";
+    st.name = "";
+    st.note = "";
+    render();
+  });
+
+  // --- Kreslení podpisu (Touch + Mouse) ---
   let isDrawing = false;
 
   function resizeCanvas() {
@@ -139,7 +320,6 @@
     ctx.strokeStyle = '#0f172a';
   }
 
-  // Nastavení rozlišení plátna
   resizeCanvas();
   window.addEventListener('resize', resizeCanvas);
 
@@ -184,7 +364,7 @@
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   });
 
-  // Počáteční vykreslení
+  // První vykreslení
   render();
 </script>
 </body>
