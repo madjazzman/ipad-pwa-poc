@@ -11,7 +11,6 @@
   <link rel="stylesheet" href="style.css">
   <title>PWA Test V2</title>
   <style>
-    /* Styly pro horní bar s vlajkami */
     .header-bar {
       display: flex;
       justify-content: space-between;
@@ -43,11 +42,10 @@
       box-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
     }
 
-    /* Kreslicí plátno pro podpis */
     #sig-canvas {
       border: 2px dashed #cbd5e1;
       border-radius: 8px;
-      touch-action: none; /* Zabrání scrollování stránky na iPadu při kreslení */
+      touch-action: none;
       background: #ffffff;
       cursor: crosshair;
       width: 100%;
@@ -60,6 +58,35 @@
       gap: 8px;
       margin-top: 10px;
     }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Blok pro bezpečnostní pravidla */
+    .terms-card {
+      max-height: 45vh;
+      overflow-y: auto;
+      line-height: 1.5;
+      font-size: 0.9rem;
+    }
+    .terms-card ul {
+      padding-left: 20px;
+      margin: 10px 0;
+    }
+    .terms-card li {
+      margin-bottom: 8px;
+    }
+    
+    /* Styl pro formální prohlášení na samostatném řádku */
+    .declaration-text {
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px solid #334155;
+      font-weight: 600;
+      font-style: italic;
+      color: #e2e8f0;
+    }
   </style>
 </head>
 <body>
@@ -67,15 +94,16 @@
   <div class="header-bar">
     <h1 id="t-title" style="margin:0;">📖 Návštěvní kniha</h1>
     <div class="lang-picker">
-      <button class="lang-btn" data-lang="cz" title="Čeština">🇨🇿</button>
-      <button class="lang-btn" data-lang="en" title="English">🇬🇧</button>
       <button class="lang-btn" data-lang="de" title="Deutsch">🇩🇪</button>
+      <button class="lang-btn" data-lang="en" title="English">🇬🇧</button>
+      <button class="lang-btn" data-lang="cz" title="Čeština">🇨🇿</button>
       <button class="lang-btn" data-lang="ro" title="Română">🇷🇴</button>
     </div>
   </div>
   
-  <div class="card">
-    <label id="t-lbl-event" for="event">Událost</label>
+  <!-- KARTA 1: Po kliknutí na Dále se zcela skryje -->
+  <div id="step-one-container" class="card">
+    <label id="t-lbl-event" for="event">Účel návštěvy</label>
     <select id="event">
       <option value="Zásilka" id="t-opt-shipment">Zásilka</option>
       <option value="Servis" id="t-opt-service">Servis</option>
@@ -86,53 +114,82 @@
     <label id="t-lbl-name" for="name">Jméno</label>
     <input id="name" placeholder="...">
     
-    <label id="t-lbl-note" for="note">Poznámka</label>
+    <label id="t-lbl-note" for="note">Poznámka (volitelné)</label>
     <textarea id="note" rows="3" placeholder="..."></textarea>
     
     <div class="btn-group">
       <button id="reset-form" class="secondary">Resetovat formulář</button>
+      <button id="btn-next">Dále</button>
     </div>
   </div>
 
-  <div class="card">
-    <h3 id="t-h3-signature">Podpis</h3>
-    <canvas id="sig-canvas"></canvas>
-    <div class="btn-group">
-      <button id="clear-sig" class="secondary">Vymazat podpis</button>
+  <!-- KARTA 2: Výchozí skrytá -->
+  <div id="step-two-container" class="hidden">
+    
+    <!-- Bezpečnostní pravidla EXPRESLog -->
+    <div class="card terms-card">
+      <h3 id="t-h3-terms">Bezpečnostní pravidla pro pohyb na provozní ploše (Spedice EXPRESLog)</h3>
+      <ul id="t-rules-list">
+        <!-- Pravidla se dynamicky vkládají z JS -->
+      </ul>
+      <p id="t-declaration" class="declaration-text"></p>
     </div>
-  </div>
 
-  <div class="card">
-    <h3 id="t-h3-appstatus">Stav aplikace</h3>
-    <p><span id="t-txt-clicks">Počet kliknutí:</span> <span id="count">0</span></p>
-    <div class="btn-group">
-      <button id="plus">+1 klik</button>
-      <button id="reset-counter" class="secondary">Reset čítače</button>
+    <div class="card">
+      <h3 id="t-h3-signature">Podpis</h3>
+      <canvas id="sig-canvas"></canvas>
+      <div class="btn-group">
+        <button id="clear-sig" class="secondary">Vymazat podpis</button>
+      </div>
     </div>
-  </div>
 
-  <div class="card">
-    <h3 id="t-h3-testid">Testovací ID</h3>
-    <p id="session"></p>
-    <p id="saved"></p>
+    <div class="card">
+      <h3 id="t-h3-appstatus">Stav aplikace</h3>
+      <p><span id="t-txt-clicks">Počet kliknutí:</span> <span id="count">0</span></p>
+      <div class="btn-group">
+        <button id="plus">+1 klik</button>
+        <button id="reset-counter" class="secondary">Reset čítače</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 id="t-h3-testid">Testovací ID</h3>
+      <p id="session"></p>
+      <p id="saved"></p>
+    </div>
+
   </div>
 </div>
 
 <script>
-  // --- Překladový slovník (i18n) ---
   const translations = {
     cz: {
       title: "📖 Návštěvní kniha – TEST V2",
-      lblEvent: "Událost",
+      lblEvent: "Účel návštěvy",
       optShipment: "Zásilka",
       optService: "Servis",
       optPickup: "Odběr / Abholer",
       optVisit: "Návštěva",
       lblName: "Jméno",
       phName: "Sem napiš jméno",
-      lblNote: "Poznámka",
+      lblNote: "Poznámka (volitelné)",
       phNote: "Rozpracovaný text...",
       btnResetForm: "Resetovat formulář",
+      btnNext: "Dále",
+      h3Terms: "Bezpečnostní pravidla pro pohyb na provozní ploše (Spedice EXPRESLog)",
+      rules: [
+        "<strong>Reflexní vesta:</strong> Vstup na provozní plochu je povolen pouze v reflexní vestě s vysokou viditelností (třída 2 nebo vyšší).",
+        "<strong>Bezpečnostní obuv:</strong> Všichni pracovníci i návštěvníci musí nosit uzavřenou bezpečnostní obuv s ocelovou nebo kompozitní špičkou a protiskluzovou podrážkou.",
+        "<strong>Vyznačené koridory:</strong> Pro pěší pohyb využívejte výhradně zeleně vyznačené chodníky a přechody. Je přísně zakázáno zkracovat si cestu přes manipulativní zóny.",
+        "<strong>Přednost v jízdě:</strong> Manipulační technika (vysokozdvižné vozíky, tahače) a nákladní automobily mají vždy přednost před pěšími.",
+        "<strong>Oční kontakt:</strong> Než vstoupíte do dráhy vozidla nebo vysokozdvižného vozíku, vždy navažte přímý oční kontakt s řidičem a vyčkejte, až vás zaznamená.",
+        "<strong>Zákaz mobilních telefonů:</strong> Na provozní ploše je přísně zakázáno používat mobilní telefony, sluchátka nebo provádět jakékoli jiné činnosti odvádějící pozornost.",
+        "<strong>Sledování slepých úhlů:</strong> Při obcházení zaparkovaných kamionů, kontejnerů a v rozích budov dbejte zvýšené opatrnosti a udržujte dostatečný odstup od slepých úhlů.",
+        "<strong>Používání ochranné přilby:</strong> V zónách s rizikem pádu břemene nebo při nakládce/vykládce ve výškách je povinné nosit ochrannou přilbu.",
+        "<strong>Zákaz vstupu pod břemeno:</strong> Je přísně zakázáno vstupovat pod zavěšená břemena nebo se zdržovat v těsné blízkosti zvedacího mechanizmu techniky.",
+        "<strong>Ohlášení nebezpečí a úrazů:</strong> Jakékoli poškození infrastruktury, rozlité provozní kapaliny nebo „skoronehody“ okamžitě nahlaste vedoucímu směny."
+      ],
+      declaration: "Podpisem stvrzuji, že jsem se s těmito bezpečnostními pravidly řádně seznámil/a a zavazuji se k jejich bezvýhradnému dodržování.",
       h3Sig: "Podpis",
       btnClearSig: "Vymazat podpis",
       h3AppStatus: "Stav aplikace",
@@ -144,16 +201,31 @@
     },
     en: {
       title: "📖 Visitor Logbook – TEST V2",
-      lblEvent: "Event",
+      lblEvent: "Purpose of visit",
       optShipment: "Shipment",
       optService: "Service",
       optPickup: "Pickup",
       optVisit: "Visit",
       lblName: "Name",
       phName: "Enter name here",
-      lblNote: "Note",
+      lblNote: "Note (optional)",
       phNote: "Draft text...",
       btnResetForm: "Reset Form",
+      btnNext: "Next",
+      h3Terms: "Safety Rules for Operating Area (EXPRESLog Freight)",
+      rules: [
+        "<strong>High-Visibility Vest:</strong> Entry is permitted only with a high-visibility vest (Class 2 or higher).",
+        "<strong>Safety Footwear:</strong> Closed safety shoes with steel or composite toecaps and anti-slip soles are mandatory.",
+        "<strong>Designated Walkways:</strong> Use green-marked pedestrian paths only. Shortening routes across handling zones is prohibited.",
+        "<strong>Right of Way:</strong> Handling equipment (forklifts, tuggers) and trucks always have priority over pedestrians.",
+        "<strong>Eye Contact:</strong> Always establish direct eye contact with drivers before crossing their path.",
+        "<strong>No Mobile Phones:</strong> Using mobile phones or headphones in operating areas is strictly forbidden.",
+        "<strong>Blind Spots:</strong> Pay extra attention around parked trucks, containers, and building corners.",
+        "<strong>Hard Hats:</strong> Helmets are required in areas with overhead load hazards or high unloading.",
+        "<strong>Suspended Loads:</strong> Never walk under suspended loads or stay near lifting mechanisms.",
+        "<strong>Report Hazards:</strong> Immediately report damages, fluid spills, or near-misses to the shift supervisor."
+      ],
+      declaration: "By signing below, I confirm that I have read and understood these safety rules and agree to strictly comply with them.",
       h3Sig: "Signature",
       btnClearSig: "Clear Signature",
       h3AppStatus: "App Status",
@@ -165,16 +237,31 @@
     },
     de: {
       title: "📖 Besucherbuch – TEST V2",
-      lblEvent: "Ereignis",
+      lblEvent: "Besuchszweck",
       optShipment: "Lieferung",
       optService: "Service",
       optPickup: "Abholer",
       optVisit: "Besuch",
       lblName: "Name",
       phName: "Name hier eingeben",
-      lblNote: "Notiz",
+      lblNote: "Notiz (optional)",
       phNote: "Entwurfstext...",
       btnResetForm: "Formular zurücksetzen",
+      btnNext: "Weiter",
+      h3Terms: "Sicherheitsregeln für den Betriebsbereich (EXPRESLog)",
+      rules: [
+        "<strong>Warnweste:</strong> Zutritt nur mit Hochsicherheits-Warnweste (Klasse 2 oder höher) gestattet.",
+        "<strong>Sicherheitsschuhe:</strong> Geschlossene Sicherheitsschuhe mit Zehenschutzkappe und rutschfester Sohle sind Pflicht.",
+        "<strong>Markierte Wege:</strong> Nutzen Sie ausschließlich die grün markierten Fußwege. Abkürzungen sind verboten.",
+        "<strong>Vorfahrt:</strong> Flurförderzeuge (Gabelstapler) und LKW haben stets Vorrang vor Fußgängern.",
+        "<strong>Blickkontakt:</strong> Suchen Sie immer direkten Blickkontakt zum Fahrer, bevor Sie dessen Fahrspur kreuzen.",
+        "<strong>Handyverbot:</strong> Die Nutzung von Mobiltelefonen oder Kopfhörern im Betriebsbereich ist strengstens untersagt.",
+        "<strong>Toter Winkel:</strong> Achten Sie besonders auf tote Winkel bei geparkten LKW, Containern und Gebäudeecken.",
+        "<strong>Schutzhelm:</strong> Helm-Pflicht in Zonen mit Kranbetrieb oder Überkopfbeladung.",
+        "<strong>Schwebende Lasten:</strong> Das Betreten von Bereichen unter schwebenden Lasten ist verboten.",
+        "<strong>Meldepflicht:</strong> Schäden, ausgelaufene Flüssigkeiten oder Beinahe-Unfälle sofort dem Schichtleiter melden."
+      ],
+      declaration: "Mit meiner Unterschrift bestätige ich, dass ich diese Sicherheitsregeln zur Kenntnis genommen habe und mich zu deren uneingeschränkter Einhaltung verpflichte.",
       h3Sig: "Unterschrift",
       btnClearSig: "Unterschrift löschen",
       h3AppStatus: "App-Status",
@@ -186,16 +273,31 @@
     },
     ro: {
       title: "📖 Registru Vizitatori – TEST V2",
-      lblEvent: "Eveniment",
+      lblEvent: "Scopul vizitei",
       optShipment: "Livrare",
       optService: "Service",
       optPickup: "Ridicare",
       optVisit: "Vizită",
       lblName: "Nume",
       phName: "Introduceți numele",
-      lblNote: "Notă",
+      lblNote: "Notă (opțional)",
       phNote: "Text în lucru...",
       btnResetForm: "Resetează formularul",
+      btnNext: "Mai departe",
+      h3Terms: "Reguli de siguranță pentru zona operațională (EXPRESLog)",
+      rules: [
+        "<strong>Vestă reflectorizantă:</strong> Accesul este permis doar cu vestă reflectorizantă (Clasa 2 sau mai înaltă).",
+        "<strong>Încălțăminte de protecție:</strong> Încălțămintea închisă cu bombeu metalic și talpă antiderapantă este obligatorie.",
+        "<strong>Culoare desemnate:</strong> Folosiți exclusiv traseele pietonale marcate cu verde.",
+        "<strong>Prioritate de trecere:</strong> Stivuitoarele și camioanele au întotdeauna prioritate față de pietoni.",
+        "<strong>Contact vizual:</strong> Stabiliți întotdeauna contact vizual cu șoferul înainte de a-i tăia calea.",
+        "<strong>Interzis telefoanele:</strong> Utilizarea telefoanelor sau căștilor în zona operațională este strict interzisă.",
+        "<strong>Unghiuri moarte:</strong> Fiți foarte atenți în jurul camioanelor parcate, containerelor și colțurilor clădirilor.",
+        "<strong>Cască de protecție:</strong> Casca este obligatorie în zonele cu risc de cădere a obiectelor.",
+        "<strong>Sarcini suspendate:</strong> Este interzis accesul sub sarcinile suspendate ale echipamentelor.",
+        "<strong>Raportare pericole:</strong> Raportați imediat șefului de schimb orice daună, scurgere sau incident."
+      ],
+      declaration: "Prin semnătură, confirm că am citit și am înțeles aceste reguli de siguranță și mă oblig să le respect cu strictețe.",
       h3Sig: "Semnătură",
       btnClearSig: "Șterge semnătura",
       h3AppStatus: "Stare aplicație",
@@ -207,7 +309,6 @@
     }
   };
 
-  // Načtení DOM prvků
   const elEvent = document.getElementById('event');
   const elName = document.getElementById('name');
   const elNote = document.getElementById('note');
@@ -215,10 +316,15 @@
   const elPlus = document.getElementById('plus');
   const elResetCounter = document.getElementById('reset-counter');
   const elResetForm = document.getElementById('reset-form');
+  const elBtnNext = document.getElementById('btn-next');
   const elSession = document.getElementById('session');
   const elSaved = document.getElementById('saved');
   const canvas = document.getElementById('sig-canvas');
   const elClearSig = document.getElementById('clear-sig');
+  const elStepOne = document.getElementById('step-one-container');
+  const elStepTwo = document.getElementById('step-two-container');
+  const elRulesList = document.getElementById('t-rules-list');
+  const elDeclaration = document.getElementById('t-declaration');
   const ctx = canvas.getContext('2d');
 
   const K = 'pwa-test-v2';
@@ -227,13 +333,12 @@
     event: "Zásilka",
     name: "",
     note: "",
-    lang: "cz",
+    lang: "de",
     session: crypto.randomUUID()
   }));
 
-  // Aktualizace jazyka v UI
   function applyLanguage(lang) {
-    const t = translations[lang] || translations.cz;
+    const t = translations[lang] || translations.de;
     document.getElementById('t-title').textContent = t.title;
     document.getElementById('t-lbl-event').textContent = t.lblEvent;
     document.getElementById('t-opt-shipment').textContent = t.optShipment;
@@ -245,6 +350,13 @@
     document.getElementById('t-lbl-note').textContent = t.lblNote;
     elNote.placeholder = t.phNote;
     elResetForm.textContent = t.btnResetForm;
+    elBtnNext.textContent = t.btnNext;
+    
+    // Pravidla a Prohlášení
+    document.getElementById('t-h3-terms').textContent = t.h3Terms;
+    elRulesList.innerHTML = t.rules.map(r => `<li>${r}</li>`).join('');
+    elDeclaration.textContent = t.declaration;
+
     document.getElementById('t-h3-signature').textContent = t.h3Sig;
     elClearSig.textContent = t.btnClearSig;
     document.getElementById('t-h3-appstatus').textContent = t.h3AppStatus;
@@ -253,7 +365,6 @@
     elResetCounter.textContent = t.btnResetCounter;
     document.getElementById('t-h3-testid').textContent = t.h3TestId;
 
-    // Zvýraznění aktivní vlajky
     document.querySelectorAll('.lang-btn').forEach(btn => {
       btn.classList.toggle('active', btn.dataset.lang === lang);
     });
@@ -266,14 +377,13 @@
     elCount.textContent = st.count;
     elSession.textContent = 'ID: ' + st.session;
     
-    const t = translations[st.lang] || translations.cz;
+    const t = translations[st.lang] || translations.de;
     elSaved.textContent = t.lblSaved + ' ' + new Date().toLocaleTimeString();
     
     applyLanguage(st.lang);
     localStorage.setItem(K, JSON.stringify(st));
   }
 
-  // Přepínání jazyků
   document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       st.lang = btn.dataset.lang;
@@ -281,7 +391,6 @@
     });
   });
 
-  // Event Listenery formuláře
   [elEvent, elName, elNote].forEach(el => {
     el.addEventListener('input', e => {
       st[e.target.id] = e.target.value;
@@ -289,13 +398,11 @@
     });
   });
 
-  // Tlačítko +1
   elPlus.addEventListener('click', () => {
     st.count++;
     render();
   });
 
-  // Granulární resetování
   elResetCounter.addEventListener('click', () => {
     st.count = 0;
     render();
@@ -308,19 +415,28 @@
     render();
   });
 
-  // --- Kreslení podpisu (Touch + Mouse) ---
+  elBtnNext.addEventListener('click', () => {
+    elStepOne.classList.add('hidden');
+    elStepTwo.classList.remove('hidden');
+    
+    resizeCanvas();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // --- Kreslení podpisu ---
   let isDrawing = false;
 
   function resizeCanvas() {
     const rect = canvas.getBoundingClientRect();
-    canvas.width = rect.width;
-    canvas.height = rect.height;
-    ctx.lineWidth = 2;
-    ctx.lineCap = 'round';
-    ctx.strokeStyle = '#0f172a';
+    if(rect.width > 0) {
+      canvas.width = rect.width;
+      canvas.height = rect.height;
+      ctx.lineWidth = 2;
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = '#0f172a';
+    }
   }
 
-  resizeCanvas();
   window.addEventListener('resize', resizeCanvas);
 
   function getPos(e) {
@@ -364,7 +480,6 @@
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   });
 
-  // První vykreslení
   render();
 </script>
 </body>
