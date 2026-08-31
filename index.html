@@ -103,7 +103,6 @@
       line-height: 1.4;
     }
 
-    /* Chybové stavy */
     .error-msg {
       color: #ef4444;
       font-size: 0.85rem;
@@ -114,7 +113,6 @@
       border: 2px solid #ef4444 !important;
     }
 
-    /* Zelená fajfka pro úspěšné odeslání */
     .success-box {
       display: flex;
       flex-direction: column;
@@ -179,9 +177,6 @@
     <label id="t-lbl-name" for="name">Jméno a příjmení</label>
     <input id="name" placeholder="...">
     
-    <label id="t-lbl-note" for="note">Poznámka (volitelné)</label>
-    <textarea id="note" rows="3" placeholder="..."></textarea>
-    
     <div id="validation-error" class="error-msg hidden"></div>
 
     <div class="btn-group">
@@ -202,7 +197,6 @@
     <div class="card">
       <h3 id="t-h3-signature">Podpis</h3>
       
-      <!-- Formulář s podpisem -->
       <div id="sig-form-wrapper">
         <canvas id="sig-canvas"></canvas>
         <p id="t-sig-declaration" class="sig-declaration"></p>
@@ -213,7 +207,6 @@
         </div>
       </div>
 
-      <!-- Zobrazí se po úspěšném odeslání -->
       <div id="success-message" class="success-box hidden">
         <div class="success-icon">✓</div>
         <h3 id="t-success-title" style="margin: 0 0 8px 0; color: #22c55e;">Děkujeme!</h3>
@@ -241,6 +234,8 @@
 </div>
 
 <script>
+  const SCRIPT_URL = "DOPLNTE_VASE_URL_NASAZENEHO_APPS_SCRIPTU";
+
   const translations = {
     cz: {
       title: "📖 Návštěvní kniha – TEST V2",
@@ -255,8 +250,6 @@
       btnSaveCustom: "Uložit",
       lblName: "Jméno a příjmení",
       phName: "Jan Novák",
-      lblNote: "Poznámka (volitelné)",
-      phNote: "Rozpracovaný text...",
       btnResetForm: "Resetovat formulář",
       btnNext: "Dále",
       errSelect: "Prosím vyberte účel návštěvy.",
@@ -304,8 +297,6 @@
       btnSaveCustom: "Save",
       lblName: "First and last name",
       phName: "John Doe",
-      lblNote: "Note (optional)",
-      phNote: "Draft text...",
       btnResetForm: "Reset Form",
       btnNext: "Next",
       errSelect: "Please select the purpose of your visit.",
@@ -353,8 +344,6 @@
       btnSaveCustom: "Speichern",
       lblName: "Vor- und Nachname",
       phName: "Max Mustermann",
-      lblNote: "Notiz (optional)",
-      phNote: "Entwurfstext...",
       btnResetForm: "Formular zurücksetzen",
       btnNext: "Weiter",
       errSelect: "Bitte wählen Sie den Besuchszweck aus.",
@@ -402,8 +391,6 @@
       btnSaveCustom: "Salvează",
       lblName: "Nume și prenume",
       phName: "Ion Popescu",
-      lblNote: "Notă (opțional)",
-      phNote: "Text în lucru...",
       btnResetForm: "Resetează formularul",
       btnNext: "Mai departe",
       errSelect: "Vă rugăm să selectați scopul vizitei.",
@@ -445,7 +432,6 @@
   const elCustomEvent = document.getElementById('custom-event');
   const elBtnSaveCustom = document.getElementById('btn-save-custom');
   const elName = document.getElementById('name');
-  const elNote = document.getElementById('note');
   const elCount = document.getElementById('count');
   const elPlus = document.getElementById('plus');
   const elResetCounter = document.getElementById('reset-counter');
@@ -473,7 +459,6 @@
     event: "",
     customEvent: "",
     name: "",
-    note: "",
     lang: "de",
     session: crypto.randomUUID()
   }));
@@ -493,8 +478,6 @@
 
     document.getElementById('t-lbl-name').textContent = t.lblName;
     elName.placeholder = t.phName;
-    document.getElementById('t-lbl-note').textContent = t.lblNote;
-    elNote.placeholder = t.phNote;
     elResetForm.textContent = t.btnResetForm;
     elBtnNext.textContent = t.btnNext;
     
@@ -524,7 +507,6 @@
     elEvent.value = st.event;
     elCustomEvent.value = st.customEvent || "";
     elName.value = st.name;
-    elNote.value = st.note;
     elCount.textContent = st.count;
     elSession.textContent = 'ID: ' + st.session;
     
@@ -574,11 +556,9 @@
     }
   });
 
-  [elName, elNote].forEach(el => {
-    el.addEventListener('input', e => {
-      st[e.target.id] = e.target.value;
-      render();
-    });
+  elName.addEventListener('input', e => {
+    st.name = e.target.value;
+    render();
   });
 
   elPlus.addEventListener('click', () => {
@@ -595,7 +575,6 @@
     st.event = "";
     st.customEvent = "";
     st.name = "";
-    st.note = "";
     elValError.classList.add('hidden');
     elEvent.classList.remove('input-error');
     elCustomEvent.classList.remove('input-error');
@@ -647,7 +626,6 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
-  // --- Kreslení a Potvrzení podpisu ---
   let isDrawing = false;
 
   function resizeCanvas() {
@@ -720,11 +698,41 @@
     if (isCanvasBlank(canvas)) {
       elSigError.textContent = t.errSig;
       elSigError.classList.remove('hidden');
-    } else {
+      return;
+    }
+
+    const signatureData = canvas.toDataURL('image/png');
+
+    const payload = {
+      event: st.event,
+      customEvent: st.customEvent,
+      name: st.name,
+      signature: signatureData
+    };
+
+    elConfirmSig.disabled = true;
+
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    })
+    .then(() => {
       elSigError.classList.add('hidden');
       elSigFormWrapper.classList.add('hidden');
       elSuccessMessage.classList.remove('hidden');
-    }
+    })
+    .catch(err => {
+      console.error('Chyba odesílání:', err);
+      elSigError.textContent = "Chyba při ukládání dat do tabulky.";
+      elSigError.classList.remove('hidden');
+    })
+    .finally(() => {
+      elConfirmSig.disabled = false;
+    });
   });
 
   render();
