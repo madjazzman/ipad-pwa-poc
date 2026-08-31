@@ -59,11 +59,20 @@
       margin-top: 10px;
     }
 
+    .custom-option-group {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+      margin-bottom: 12px;
+    }
+    .custom-option-group input {
+      flex: 1;
+    }
+
     .hidden {
       display: none !important;
     }
 
-    /* Blok pro bezpečnostní pravidla */
     .terms-card {
       max-height: 45vh;
       overflow-y: auto;
@@ -78,7 +87,6 @@
       margin-bottom: 8px;
     }
     
-    /* Styl pro formální prohlášení na samostatném řádku */
     .declaration-text {
       margin-top: 16px;
       padding-top: 12px;
@@ -86,6 +94,56 @@
       font-weight: 600;
       font-style: italic;
       color: #e2e8f0;
+    }
+
+    .sig-declaration {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      margin-top: 8px;
+      line-height: 1.4;
+    }
+
+    /* Chybové stavy */
+    .error-msg {
+      color: #ef4444;
+      font-size: 0.85rem;
+      margin-top: 8px;
+      font-weight: 600;
+    }
+    .input-error {
+      border: 2px solid #ef4444 !important;
+    }
+
+    /* Zelená fajfka pro úspěšné odeslání */
+    .success-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+      text-align: center;
+    }
+
+    .success-icon {
+      width: 64px;
+      height: 64px;
+      background-color: #22c55e;
+      color: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      font-weight: bold;
+      margin-bottom: 12px;
+      box-shadow: 0 0 16px rgba(34, 197, 94, 0.4);
+      animation: popIn 0.3s ease-out;
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0); opacity: 0; }
+      80% { transform: scale(1.1); opacity: 1; }
+      100% { transform: scale(1); }
     }
   </style>
 </head>
@@ -101,46 +159,67 @@
     </div>
   </div>
   
-  <!-- KARTA 1: Po kliknutí na Dále se zcela skryje -->
+  <!-- KARTA 1 -->
   <div id="step-one-container" class="card">
     <label id="t-lbl-event" for="event">Účel návštěvy</label>
     <select id="event">
+      <option value="" id="t-opt-select">-- Vyberte účel návštěvy --</option>
       <option value="Zásilka" id="t-opt-shipment">Zásilka</option>
       <option value="Servis" id="t-opt-service">Servis</option>
       <option value="Abholer" id="t-opt-pickup">Odběr / Abholer</option>
       <option value="Návštěva" id="t-opt-visit">Návštěva</option>
+      <option value="Jiná volba" id="t-opt-other">Jiná volba</option>
     </select>
+
+    <div id="custom-event-container" class="custom-option-group hidden">
+      <input id="custom-event" placeholder="Specifikujte účel návštěvy...">
+      <button id="btn-save-custom" class="secondary" type="button">Uložit</button>
+    </div>
     
-    <label id="t-lbl-name" for="name">Jméno</label>
+    <label id="t-lbl-name" for="name">Jméno a příjmení</label>
     <input id="name" placeholder="...">
     
     <label id="t-lbl-note" for="note">Poznámka (volitelné)</label>
     <textarea id="note" rows="3" placeholder="..."></textarea>
     
+    <div id="validation-error" class="error-msg hidden"></div>
+
     <div class="btn-group">
       <button id="reset-form" class="secondary">Resetovat formulář</button>
       <button id="btn-next">Dále</button>
     </div>
   </div>
 
-  <!-- KARTA 2: Výchozí skrytá -->
+  <!-- KARTA 2 -->
   <div id="step-two-container" class="hidden">
     
-    <!-- Bezpečnostní pravidla EXPRESLog -->
     <div class="card terms-card">
       <h3 id="t-h3-terms">Bezpečnostní pravidla pro pohyb na provozní ploše (Spedice EXPRESLog)</h3>
-      <ul id="t-rules-list">
-        <!-- Pravidla se dynamicky vkládají z JS -->
-      </ul>
+      <ul id="t-rules-list"></ul>
       <p id="t-declaration" class="declaration-text"></p>
     </div>
 
     <div class="card">
       <h3 id="t-h3-signature">Podpis</h3>
-      <canvas id="sig-canvas"></canvas>
-      <div class="btn-group">
-        <button id="clear-sig" class="secondary">Vymazat podpis</button>
+      
+      <!-- Formulář s podpisem -->
+      <div id="sig-form-wrapper">
+        <canvas id="sig-canvas"></canvas>
+        <p id="t-sig-declaration" class="sig-declaration"></p>
+        <div id="sig-error" class="error-msg hidden"></div>
+        <div class="btn-group">
+          <button id="clear-sig" class="secondary">Vymazat podpis</button>
+          <button id="confirm-sig">Odeslat a potvrdit</button>
+        </div>
       </div>
+
+      <!-- Zobrazí se po úspěšném potvrditelném stavu -->
+      <div id="success-message" class="success-box hidden">
+        <div class="success-icon">✓</div>
+        <h3 id="t-success-title" style="margin: 0 0 8px 0; color: #22c55e;">Úspěšně uloženo</h3>
+        <p id="t-success-text" style="margin: 0; color: #94a3b8; font-size: 0.9rem;"></p>
+      </div>
+
     </div>
 
     <div class="card">
@@ -166,16 +245,25 @@
     cz: {
       title: "📖 Návštěvní kniha – TEST V2",
       lblEvent: "Účel návštěvy",
+      optSelect: "-- Vyberte účel návštěvy --",
       optShipment: "Zásilka",
       optService: "Servis",
       optPickup: "Odběr / Abholer",
       optVisit: "Návštěva",
-      lblName: "Jméno",
-      phName: "Sem napiš jméno",
+      optOther: "Jiná volba",
+      phCustomEvent: "Napište účel návštěvy...",
+      btnSaveCustom: "Uložit",
+      lblName: "Jméno a příjmení",
+      phName: "Jan Novák",
       lblNote: "Poznámka (volitelné)",
       phNote: "Rozpracovaný text...",
       btnResetForm: "Resetovat formulář",
       btnNext: "Dále",
+      errSelect: "Prosím vyberte účel návštěvy.",
+      errCustomEvent: "Prosím vyplňte zadaný účel návštěvy.",
+      errName: "Prosím zadejte jméno i příjmení (minimálně dvě slova).",
+      errBoth: "Prosím zkontrolujte výběr účelu návštěvy a zadejte jméno i příjmení.",
+      errSig: "Před potvrzením se prosím podepište.",
       h3Terms: "Bezpečnostní pravidla pro pohyb na provozní ploše (Spedice EXPRESLog)",
       rules: [
         "<strong>Reflexní vesta:</strong> Vstup na provozní plochu je povolen pouze v reflexní vestě s vysokou viditelností (třída 2 nebo vyšší).",
@@ -191,7 +279,11 @@
       ],
       declaration: "Podpisem stvrzuji, že jsem se s těmito bezpečnostními pravidly řádně seznámil/a a zavazuji se k jejich bezvýhradnému dodržování.",
       h3Sig: "Podpis",
+      sigDeclaration: "Svým podpisem stvrzuji, že jsem se seznámil/a s výše uvedenými pravidly a zavazuji se k jejich řádnému dodržování.",
       btnClearSig: "Vymazat podpis",
+      btnConfirmSig: "Odeslat a potvrdit",
+      successTitle: "Děkujeme za registraci!",
+      successText: "Váš podpis a souhlas s pravidly byly v pořádku zaznamenány.",
       h3AppStatus: "Stav aplikace",
       txtClicks: "Počet kliknutí:",
       btnPlus: "+1 klik",
@@ -202,16 +294,25 @@
     en: {
       title: "📖 Visitor Logbook – TEST V2",
       lblEvent: "Purpose of visit",
+      optSelect: "-- Select purpose of visit --",
       optShipment: "Shipment",
       optService: "Service",
       optPickup: "Pickup",
       optVisit: "Visit",
-      lblName: "Name",
-      phName: "Enter name here",
+      optOther: "Other option",
+      phCustomEvent: "Enter visit purpose...",
+      btnSaveCustom: "Save",
+      lblName: "First and last name",
+      phName: "John Doe",
       lblNote: "Note (optional)",
       phNote: "Draft text...",
       btnResetForm: "Reset Form",
       btnNext: "Next",
+      errSelect: "Please select the purpose of your visit.",
+      errCustomEvent: "Please fill in the custom visit purpose.",
+      errName: "Please enter both first and last name (at least two words).",
+      errBoth: "Please check purpose selection and enter full name.",
+      errSig: "Please provide a signature before confirming.",
       h3Terms: "Safety Rules for Operating Area (EXPRESLog Freight)",
       rules: [
         "<strong>High-Visibility Vest:</strong> Entry is permitted only with a high-visibility vest (Class 2 or higher).",
@@ -227,7 +328,11 @@
       ],
       declaration: "By signing below, I confirm that I have read and understood these safety rules and agree to strictly comply with them.",
       h3Sig: "Signature",
+      sigDeclaration: "By signing below, I confirm that I have read the safety rules above and agree to comply with them.",
       btnClearSig: "Clear Signature",
+      btnConfirmSig: "Submit & Confirm",
+      successTitle: "Thank you for registering!",
+      successText: "Your signature and agreement have been successfully saved.",
       h3AppStatus: "App Status",
       txtClicks: "Click count:",
       btnPlus: "+1 click",
@@ -238,16 +343,25 @@
     de: {
       title: "📖 Besucherbuch – TEST V2",
       lblEvent: "Besuchszweck",
+      optSelect: "-- Besuchszweck auswählen --",
       optShipment: "Lieferung",
       optService: "Service",
       optPickup: "Abholer",
       optVisit: "Besuch",
-      lblName: "Name",
-      phName: "Name hier eingeben",
+      optOther: "Andere Option",
+      phCustomEvent: "Geben Sie den Zweck ein...",
+      btnSaveCustom: "Speichern",
+      lblName: "Vor- und Nachname",
+      phName: "Max Mustermann",
       lblNote: "Notiz (optional)",
       phNote: "Entwurfstext...",
       btnResetForm: "Formular zurücksetzen",
       btnNext: "Weiter",
+      errSelect: "Bitte wählen Sie den Besuchszweck aus.",
+      errCustomEvent: "Bitte tragen Sie den eigenen Zweck ein.",
+      errName: "Bitte geben Sie Vor- und Nachnamen ein (mindestens zwei Wörter).",
+      errBoth: "Bitte überprüfen Sie den Zweck und den Namen.",
+      errSig: "Bitte leisten Sie eine Unterschrift vor der Bestätigung.",
       h3Terms: "Sicherheitsregeln für den Betriebsbereich (EXPRESLog)",
       rules: [
         "<strong>Warnweste:</strong> Zutritt nur mit Hochsicherheits-Warnweste (Klasse 2 oder höher) gestattet.",
@@ -263,7 +377,11 @@
       ],
       declaration: "Mit meiner Unterschrift bestätige ich, dass ich diese Sicherheitsregeln zur Kenntnis genommen habe und mich zu deren uneingeschränkter Einhaltung verpflichte.",
       h3Sig: "Unterschrift",
+      sigDeclaration: "Mit meiner Unterschrift bestätige ich, die oben genannten Regeln gelesen zu haben und diese einzuhalten.",
       btnClearSig: "Unterschrift löschen",
+      btnConfirmSig: "Bestätigen & Absenden",
+      successTitle: "Vielen Dank für Ihre Registrierung!",
+      successText: "Ihre Unterschrift und Zustimmung wurden erfolgreich erfasst.",
       h3AppStatus: "App-Status",
       txtClicks: "Klickanzahl:",
       btnPlus: "+1 Klick",
@@ -274,16 +392,25 @@
     ro: {
       title: "📖 Registru Vizitatori – TEST V2",
       lblEvent: "Scopul vizitei",
+      optSelect: "-- Selectați scopul vizitei --",
       optShipment: "Livrare",
       optService: "Service",
       optPickup: "Ridicare",
       optVisit: "Vizită",
-      lblName: "Nume",
-      phName: "Introduceți numele",
+      optOther: "Altă opțiune",
+      phCustomEvent: "Introduceți scopul...",
+      btnSaveCustom: "Salvează",
+      lblName: "Nume și prenume",
+      phName: "Ion Popescu",
       lblNote: "Notă (opțional)",
       phNote: "Text în lucru...",
       btnResetForm: "Resetează formularul",
       btnNext: "Mai departe",
+      errSelect: "Vă rugăm să selectați scopul vizitei.",
+      errCustomEvent: "Vă rugăm să completați scopul vizitei.",
+      errName: "Vă rugăm să introduceți atât numele, cât și prenumele.",
+      errBoth: "Vă rugăm să verificați scopul și numele complet.",
+      errSig: "Vă rugăm să semnați înainte de a confirma.",
       h3Terms: "Reguli de siguranță pentru zona operațională (EXPRESLog)",
       rules: [
         "<strong>Vestă reflectorizantă:</strong> Accesul este permis doar cu vestă reflectorizantă (Clasa 2 sau mai înaltă).",
@@ -299,7 +426,11 @@
       ],
       declaration: "Prin semnătură, confirm că am citit și am înțeles aceste reguli de siguranță și mă oblig să le respect cu strictețe.",
       h3Sig: "Semnătură",
+      sigDeclaration: "Prin semnătură, confirm că am citit regulile de mai sus și mă oblig să le respect întocmai.",
       btnClearSig: "Șterge semnătura",
+      btnConfirmSig: "Confirmă și trimite",
+      successTitle: "Vă mulțumim pentru înregistrare!",
+      successText: "Semnătura și acordul dumneavoastră au fost înregistrate cu succes.",
       h3AppStatus: "Stare aplicație",
       txtClicks: "Număr de clicuri:",
       btnPlus: "+1 clic",
@@ -310,6 +441,9 @@
   };
 
   const elEvent = document.getElementById('event');
+  const elCustomEventContainer = document.getElementById('custom-event-container');
+  const elCustomEvent = document.getElementById('custom-event');
+  const elBtnSaveCustom = document.getElementById('btn-save-custom');
   const elName = document.getElementById('name');
   const elNote = document.getElementById('note');
   const elCount = document.getElementById('count');
@@ -321,16 +455,23 @@
   const elSaved = document.getElementById('saved');
   const canvas = document.getElementById('sig-canvas');
   const elClearSig = document.getElementById('clear-sig');
+  const elConfirmSig = document.getElementById('confirm-sig');
+  const elSigDeclaration = document.getElementById('t-sig-declaration');
+  const elSigError = document.getElementById('sig-error');
   const elStepOne = document.getElementById('step-one-container');
   const elStepTwo = document.getElementById('step-two-container');
   const elRulesList = document.getElementById('t-rules-list');
   const elDeclaration = document.getElementById('t-declaration');
+  const elValError = document.getElementById('validation-error');
+  const elSigFormWrapper = document.getElementById('sig-form-wrapper');
+  const elSuccessMessage = document.getElementById('success-message');
   const ctx = canvas.getContext('2d');
 
   const K = 'pwa-test-v2';
   let st = JSON.parse(localStorage.getItem(K) || JSON.stringify({
     count: 0,
-    event: "Zásilka",
+    event: "",
+    customEvent: "",
     name: "",
     note: "",
     lang: "de",
@@ -341,10 +482,15 @@
     const t = translations[lang] || translations.de;
     document.getElementById('t-title').textContent = t.title;
     document.getElementById('t-lbl-event').textContent = t.lblEvent;
+    document.getElementById('t-opt-select').textContent = t.optSelect;
     document.getElementById('t-opt-shipment').textContent = t.optShipment;
     document.getElementById('t-opt-service').textContent = t.optService;
     document.getElementById('t-opt-pickup').textContent = t.optPickup;
     document.getElementById('t-opt-visit').textContent = t.optVisit;
+    document.getElementById('t-opt-other').textContent = t.optOther;
+    elCustomEvent.placeholder = t.phCustomEvent;
+    elBtnSaveCustom.textContent = t.btnSaveCustom;
+
     document.getElementById('t-lbl-name').textContent = t.lblName;
     elName.placeholder = t.phName;
     document.getElementById('t-lbl-note').textContent = t.lblNote;
@@ -352,13 +498,17 @@
     elResetForm.textContent = t.btnResetForm;
     elBtnNext.textContent = t.btnNext;
     
-    // Pravidla a Prohlášení
     document.getElementById('t-h3-terms').textContent = t.h3Terms;
     elRulesList.innerHTML = t.rules.map(r => `<li>${r}</li>`).join('');
     elDeclaration.textContent = t.declaration;
 
     document.getElementById('t-h3-signature').textContent = t.h3Sig;
+    elSigDeclaration.textContent = t.sigDeclaration;
     elClearSig.textContent = t.btnClearSig;
+    elConfirmSig.textContent = t.btnConfirmSig;
+    document.getElementById('t-success-title').textContent = t.successTitle;
+    document.getElementById('t-success-text').textContent = t.successText;
+
     document.getElementById('t-h3-appstatus').textContent = t.h3AppStatus;
     document.getElementById('t-txt-clicks').textContent = t.txtClicks;
     elPlus.textContent = t.btnPlus;
@@ -372,11 +522,18 @@
 
   function render() {
     elEvent.value = st.event;
+    elCustomEvent.value = st.customEvent || "";
     elName.value = st.name;
     elNote.value = st.note;
     elCount.textContent = st.count;
     elSession.textContent = 'ID: ' + st.session;
     
+    if (st.event === "Jiná volba") {
+      elCustomEventContainer.classList.remove('hidden');
+    } else {
+      elCustomEventContainer.classList.add('hidden');
+    }
+
     const t = translations[st.lang] || translations.de;
     elSaved.textContent = t.lblSaved + ' ' + new Date().toLocaleTimeString();
     
@@ -391,7 +548,33 @@
     });
   });
 
-  [elEvent, elName, elNote].forEach(el => {
+  elEvent.addEventListener('change', e => {
+    st.event = e.target.value;
+    if (st.event !== "Jiná volba") {
+      elCustomEvent.classList.remove('input-error');
+    }
+    render();
+  });
+
+  elCustomEvent.addEventListener('input', e => {
+    st.customEvent = e.target.value;
+    render();
+  });
+
+  elBtnSaveCustom.addEventListener('click', () => {
+    const t = translations[st.lang] || translations.de;
+    if (elCustomEvent.value.trim() === "") {
+      elCustomEvent.classList.add('input-error');
+      elValError.textContent = t.errCustomEvent;
+      elValError.classList.remove('hidden');
+    } else {
+      elCustomEvent.classList.remove('input-error');
+      elValError.classList.add('hidden');
+      render();
+    }
+  });
+
+  [elName, elNote].forEach(el => {
     el.addEventListener('input', e => {
       st[e.target.id] = e.target.value;
       render();
@@ -409,13 +592,54 @@
   });
 
   elResetForm.addEventListener('click', () => {
-    st.event = "Zásilka";
+    st.event = "";
+    st.customEvent = "";
     st.name = "";
     st.note = "";
+    elValError.classList.add('hidden');
+    elEvent.classList.remove('input-error');
+    elCustomEvent.classList.remove('input-error');
+    elName.classList.remove('input-error');
+    elSigFormWrapper.classList.remove('hidden');
+    elSuccessMessage.classList.add('hidden');
     render();
   });
 
   elBtnNext.addEventListener('click', () => {
+    const t = translations[st.lang] || translations.de;
+    
+    let isEventValid = elEvent.value.trim() !== "";
+    let isCustomValid = true;
+
+    if (elEvent.value === "Jiná volba") {
+      isCustomValid = elCustomEvent.value.trim() !== "";
+    }
+
+    const words = elName.value.trim().split(/\s+/).filter(w => w.length > 0);
+    const isNameValid = words.length >= 2;
+
+    elEvent.classList.remove('input-error');
+    elCustomEvent.classList.remove('input-error');
+    elName.classList.remove('input-error');
+    elValError.classList.add('hidden');
+
+    if (!isEventValid || !isCustomValid || !isNameValid) {
+      if (!isEventValid) elEvent.classList.add('input-error');
+      if (!isCustomValid) elCustomEvent.classList.add('input-error');
+      if (!isNameValid) elName.classList.add('input-error');
+
+      if (!isEventValid) {
+        elValError.textContent = t.errSelect;
+      } else if (!isCustomValid) {
+        elValError.textContent = t.errCustomEvent;
+      } else if (!isNameValid) {
+        elValError.textContent = t.errName;
+      }
+
+      elValError.classList.remove('hidden');
+      return;
+    }
+
     elStepOne.classList.add('hidden');
     elStepTwo.classList.remove('hidden');
     
@@ -423,7 +647,7 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
-  // --- Kreslení podpisu ---
+  // --- Kreslení a Potvrzení podpisu ---
   let isDrawing = false;
 
   function resizeCanvas() {
@@ -451,6 +675,7 @@
 
   function startDrawing(e) {
     isDrawing = true;
+    elSigError.classList.add('hidden');
     const pos = getPos(e);
     ctx.beginPath();
     ctx.moveTo(pos.x, pos.y);
@@ -476,8 +701,30 @@
   canvas.addEventListener('touchmove', draw, { passive: true });
   canvas.addEventListener('touchend', stopDrawing);
 
+  function isCanvasBlank(c) {
+    const pixels = ctx.getImageData(0, 0, c.width, c.height).data;
+    for (let i = 0; i < pixels.length; i += 4) {
+      if (pixels[i + 3] !== 0) return false;
+    }
+    return true;
+  }
+
   elClearSig.addEventListener('click', () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    elSigError.classList.add('hidden');
+  });
+
+  elConfirmSig.addEventListener('click', () => {
+    const t = translations[st.lang] || translations.de;
+    
+    if (isCanvasBlank(canvas)) {
+      elSigError.textContent = t.errSig;
+      elSigError.classList.remove('hidden');
+    } else {
+      elSigError.classList.add('hidden');
+      elSigFormWrapper.classList.add('hidden');
+      elSuccessMessage.classList.remove('hidden');
+    }
   });
 
   render();
