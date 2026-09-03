@@ -86,15 +86,6 @@
     .terms-card li {
       margin-bottom: 8px;
     }
-    
-    .declaration-text {
-      margin-top: 16px;
-      padding-top: 12px;
-      border-top: 1px solid #334155;
-      font-weight: 600;
-      font-style: italic;
-      color: #e2e8f0;
-    }
 
     .sig-declaration {
       font-size: 0.85rem;
@@ -191,7 +182,6 @@
     <div class="card terms-card">
       <h3 id="t-h3-terms">Bezpečnostní pravidla pro pohyb na provozní ploše (Spedice EXPRESLog)</h3>
       <ul id="t-rules-list"></ul>
-      <p id="t-declaration" class="declaration-text"></p>
     </div>
 
     <div class="card">
@@ -270,7 +260,6 @@
         "<strong>Zákaz vstupu pod břemeno:</strong> Je přísně zakázáno vstupovat pod zavěšená břemena nebo se zdržovat v těsné blízkosti zvedacího mechanizmu techniky.",
         "<strong>Ohlášení nebezpečí a úrazů:</strong> Jakékoli poškození infrastruktury, rozlité provozní kapaliny nebo „skoronehody“ okamžitě nahlaste vedoucímu směny."
       ],
-      declaration: "Podpisem stvrzuji, že jsem se s těmito bezpečnostními pravidly řádně seznámil/a a zavazuji se k jejich bezvýhradnému dodržování.",
       h3Sig: "Podpis",
       sigDeclaration: "Svým podpisem stvrzuji, že jsem se seznámil/a s výše uvedenými pravidly a zavazuji se k jejich řádnému dodržování.",
       btnClearSig: "Vymazat podpis",
@@ -317,7 +306,6 @@
         "<strong>Suspended Loads:</strong> Never walk under suspended loads or stay near lifting mechanisms.",
         "<strong>Report Hazards:</strong> Immediately report damages, fluid spills, or near-misses to the shift supervisor."
       ],
-      declaration: "By signing below, I confirm that I have read and understood these safety rules and agree to strictly comply with them.",
       h3Sig: "Signature",
       sigDeclaration: "By signing below, I confirm that I have read the safety rules above and agree to comply with them.",
       btnClearSig: "Clear Signature",
@@ -364,7 +352,6 @@
         "<strong>Schwebende Lasten:</strong> Das Betreten von Bereichen unter schwebenden Lasten ist verboten.",
         "<strong>Meldepflicht:</strong> Schäden, ausgelaufene Flüssigkeiten oder Beinahe-Unfälle sofort dem Schichtleiter melden."
       ],
-      declaration: "Mit meiner Unterschrift bestätige ich, dass ich diese Sicherheitsregeln zur Kenntnis genommen habe und mich zu deren uneingeschränkter Einhaltung verpflichte.",
       h3Sig: "Unterschrift",
       sigDeclaration: "Mit meiner Unterschrift bestätige ich, die oben genannten Regeln gelesen zu haben und diese einzuhalten.",
       btnClearSig: "Unterschrift löschen",
@@ -411,7 +398,6 @@
         "<strong>Sarcini suspendate:</strong> Este interzis accesul sub sarcinile suspendate ale echipamentelor.",
         "<strong>Raportare pericole:</strong> Raportați imediat șefului de schimb orice daună, scurgere sau incident."
       ],
-      declaration: "Prin semnătură, confirm că am citit și am înțeles aceste reguli de siguranță și mă oblig să le respect cu strictețe.",
       h3Sig: "Semnătură",
       sigDeclaration: "Prin semnătură, confirm că am citit regulile de mai sus și mă oblig să le respect întocmai.",
       btnClearSig: "Șterge semnătura",
@@ -447,7 +433,6 @@
   const elStepOne = document.getElementById('step-one-container');
   const elStepTwo = document.getElementById('step-two-container');
   const elRulesList = document.getElementById('t-rules-list');
-  const elDeclaration = document.getElementById('t-declaration');
   const elValError = document.getElementById('validation-error');
   const elSigFormWrapper = document.getElementById('sig-form-wrapper');
   const elSuccessMessage = document.getElementById('success-message');
@@ -483,7 +468,6 @@
     
     document.getElementById('t-h3-terms').textContent = t.h3Terms;
     elRulesList.innerHTML = t.rules.map(r => `<li>${r}</li>`).join('');
-    elDeclaration.textContent = t.declaration;
 
     document.getElementById('t-h3-signature').textContent = t.h3Sig;
     elSigDeclaration.textContent = t.sigDeclaration;
