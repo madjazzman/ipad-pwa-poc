@@ -87,10 +87,12 @@
       margin-bottom: 8px;
     }
 
+    /* Úprava textu prohlášení u podpisu: tučné a červené */
     .sig-declaration {
-      font-size: 0.85rem;
-      color: #94a3b8;
-      margin-top: 8px;
+      font-size: 0.9rem;
+      color: #ef4444;
+      font-weight: bold;
+      margin-bottom: 10px;
       line-height: 1.4;
     }
 
@@ -188,8 +190,9 @@
       <h3 id="t-h3-signature">Podpis</h3>
       
       <div id="sig-form-wrapper">
-        <canvas id="sig-canvas"></canvas>
+        <!-- Text přesunut PŘED podpisové pole -->
         <p id="t-sig-declaration" class="sig-declaration"></p>
+        <canvas id="sig-canvas"></canvas>
         <div id="sig-error" class="error-msg hidden"></div>
         <div class="btn-group">
           <button id="clear-sig" class="secondary">Vymazat podpis</button>
@@ -200,24 +203,10 @@
       <div id="success-message" class="success-box hidden">
         <div class="success-icon">✓</div>
         <h3 id="t-success-title" style="margin: 0 0 8px 0; color: #22c55e;">Děkujeme!</h3>
-        <p id="t-success-text" style="margin: 0; color: #94a3b8; font-size: 0.9rem;"></p>
+        <p id="t-success-text" style="margin: 0 0 16px 0; color: #94a3b8; font-size: 0.9rem;"></p>
+        <button id="btn-new-visitor" class="primary">Nový návštěvník</button>
       </div>
 
-    </div>
-
-    <div class="card">
-      <h3 id="t-h3-appstatus">Stav aplikace</h3>
-      <p><span id="t-txt-clicks">Počet kliknutí:</span> <span id="count">0</span></p>
-      <div class="btn-group">
-        <button id="plus">+1 klik</button>
-        <button id="reset-counter" class="secondary">Reset čítače</button>
-      </div>
-    </div>
-
-    <div class="card">
-      <h3 id="t-h3-testid">Testovací ID</h3>
-      <p id="session"></p>
-      <p id="saved"></p>
     </div>
 
   </div>
@@ -266,12 +255,7 @@
       btnConfirmSig: "Odeslat a potvrdit",
       successTitle: "Děkujeme!",
       successText: "Váš podpis a souhlas s pravidly byly v pořádku zaznamenány.",
-      h3AppStatus: "Stav aplikace",
-      txtClicks: "Počet kliknutí:",
-      btnPlus: "+1 klik",
-      btnResetCounter: "Reset čítače",
-      h3TestId: "Testovací ID",
-      lblSaved: "Uloženo:"
+      btnNewVisitor: "Nový návštěvník"
     },
     en: {
       title: "📖 Visitor Logbook – TEST V2",
@@ -312,12 +296,7 @@
       btnConfirmSig: "Submit & Confirm",
       successTitle: "Thank you!",
       successText: "Your signature and agreement have been successfully saved.",
-      h3AppStatus: "App Status",
-      txtClicks: "Click count:",
-      btnPlus: "+1 click",
-      btnResetCounter: "Reset Counter",
-      h3TestId: "Test ID",
-      lblSaved: "Saved:"
+      btnNewVisitor: "New Visitor"
     },
     de: {
       title: "📖 Besucherbuch – TEST V2",
@@ -358,12 +337,7 @@
       btnConfirmSig: "Bestätigen & Absenden",
       successTitle: "Vielen Dank!",
       successText: "Ihre Unterschrift und Zustimmung wurden erfolgreich erfasst.",
-      h3AppStatus: "App-Status",
-      txtClicks: "Klickanzahl:",
-      btnPlus: "+1 Klick",
-      btnResetCounter: "Zähler zurücksetzen",
-      h3TestId: "Test-ID",
-      lblSaved: "Gespeichert:"
+      btnNewVisitor: "Neuer Besucher"
     },
     ro: {
       title: "📖 Registru Vizitatori – TEST V2",
@@ -404,12 +378,7 @@
       btnConfirmSig: "Confirmă și trimite",
       successTitle: "Vă mulțumim!",
       successText: "Semnătura și acordul dumneavoastră au fost înregistrate cu succes.",
-      h3AppStatus: "Stare aplicație",
-      txtClicks: "Număr de clicuri:",
-      btnPlus: "+1 clic",
-      btnResetCounter: "Resetează contorul",
-      h3TestId: "ID Test",
-      lblSaved: "Salvat:"
+      btnNewVisitor: "Vizitator nou"
     }
   };
 
@@ -418,13 +387,8 @@
   const elCustomEvent = document.getElementById('custom-event');
   const elBtnSaveCustom = document.getElementById('btn-save-custom');
   const elName = document.getElementById('name');
-  const elCount = document.getElementById('count');
-  const elPlus = document.getElementById('plus');
-  const elResetCounter = document.getElementById('reset-counter');
   const elResetForm = document.getElementById('reset-form');
   const elBtnNext = document.getElementById('btn-next');
-  const elSession = document.getElementById('session');
-  const elSaved = document.getElementById('saved');
   const canvas = document.getElementById('sig-canvas');
   const elClearSig = document.getElementById('clear-sig');
   const elConfirmSig = document.getElementById('confirm-sig');
@@ -436,16 +400,15 @@
   const elValError = document.getElementById('validation-error');
   const elSigFormWrapper = document.getElementById('sig-form-wrapper');
   const elSuccessMessage = document.getElementById('success-message');
+  const elBtnNewVisitor = document.getElementById('btn-new-visitor');
   const ctx = canvas.getContext('2d');
 
   const K = 'pwa-test-v2';
   let st = JSON.parse(localStorage.getItem(K) || JSON.stringify({
-    count: 0,
     event: "",
     customEvent: "",
     name: "",
-    lang: "de",
-    session: crypto.randomUUID()
+    lang: "de"
   }));
 
   function applyLanguage(lang) {
@@ -475,12 +438,7 @@
     elConfirmSig.textContent = t.btnConfirmSig;
     document.getElementById('t-success-title').textContent = t.successTitle;
     document.getElementById('t-success-text').textContent = t.successText;
-
-    document.getElementById('t-h3-appstatus').textContent = t.h3AppStatus;
-    document.getElementById('t-txt-clicks').textContent = t.txtClicks;
-    elPlus.textContent = t.btnPlus;
-    elResetCounter.textContent = t.btnResetCounter;
-    document.getElementById('t-h3-testid').textContent = t.h3TestId;
+    elBtnNewVisitor.textContent = t.btnNewVisitor;
 
     document.querySelectorAll('.lang-btn').forEach(btn => {
       btn.classList.toggle('active', btn.dataset.lang === lang);
@@ -491,8 +449,6 @@
     elEvent.value = st.event;
     elCustomEvent.value = st.customEvent || "";
     elName.value = st.name;
-    elCount.textContent = st.count;
-    elSession.textContent = 'ID: ' + st.session;
     
     if (st.event === "Jiná volba") {
       elCustomEventContainer.classList.remove('hidden');
@@ -500,11 +456,33 @@
       elCustomEventContainer.classList.add('hidden');
     }
 
-    const t = translations[st.lang] || translations.de;
-    elSaved.textContent = t.lblSaved + ' ' + new Date().toLocaleTimeString();
-    
     applyLanguage(st.lang);
     localStorage.setItem(K, JSON.stringify(st));
+  }
+
+  function resetFullForm() {
+    st.event = "";
+    st.customEvent = "";
+    st.name = "";
+    
+    // Vyčistit případné chyby
+    elValError.classList.add('hidden');
+    elSigError.classList.add('hidden');
+    elEvent.classList.remove('input-error');
+    elCustomEvent.classList.remove('input-error');
+    elName.classList.remove('input-error');
+
+    // Vyčistit podpis
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Přepnout karty zpět do výchozího stavu
+    elSigFormWrapper.classList.remove('hidden');
+    elSuccessMessage.classList.add('hidden');
+    elStepTwo.classList.add('hidden');
+    elStepOne.classList.remove('hidden');
+
+    render();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   document.querySelectorAll('.lang-btn').forEach(btn => {
@@ -545,28 +523,8 @@
     render();
   });
 
-  elPlus.addEventListener('click', () => {
-    st.count++;
-    render();
-  });
-
-  elResetCounter.addEventListener('click', () => {
-    st.count = 0;
-    render();
-  });
-
-  elResetForm.addEventListener('click', () => {
-    st.event = "";
-    st.customEvent = "";
-    st.name = "";
-    elValError.classList.add('hidden');
-    elEvent.classList.remove('input-error');
-    elCustomEvent.classList.remove('input-error');
-    elName.classList.remove('input-error');
-    elSigFormWrapper.classList.remove('hidden');
-    elSuccessMessage.classList.add('hidden');
-    render();
-  });
+  elResetForm.addEventListener('click', resetFullForm);
+  elBtnNewVisitor.addEventListener('click', resetFullForm);
 
   elBtnNext.addEventListener('click', () => {
     const t = translations[st.lang] || translations.de;
