@@ -225,6 +225,14 @@
       80% { transform: scale(1.1); opacity: 1; }
       100% { transform: scale(1); }
     }
+
+    /* Oddelený spodní odkaz na úvodní stránce */
+    .footer-link-container {
+      margin-top: 32px;
+      padding-top: 16px;
+      border-top: 1px dashed #005c38;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
@@ -260,34 +268,36 @@
   </div>
   
   <!-- KARTA 1 -->
-  <div id="step-one-container" class="card">
-    <label id="t-lbl-event" for="event">Besuchszweck</label>
-    <select id="event">
-      <option value="" id="t-opt-select">-- Besuchszweck auswählen --</option>
-      <option value="Lieferung" id="t-opt-shipment">Lieferung</option>
-      <option value="Service" id="t-opt-service">Service</option>
-      <option value="Abholer" id="t-opt-pickup">Abholer</option>
-      <option value="Besuch" id="t-opt-visit">Besuch</option>
-      <option value="Andere Option" id="t-opt-other">Andere Option</option>
-    </select>
+  <div id="step-one-container">
+    <div class="card">
+      <label id="t-lbl-event" for="event">Besuchszweck</label>
+      <select id="event">
+        <option value="" id="t-opt-select">-- Besuchszweck auswählen --</option>
+        <option value="Lieferung" id="t-opt-shipment">Lieferung</option>
+        <option value="Service" id="t-opt-service">Service</option>
+        <option value="Abholer" id="t-opt-pickup">Abholer</option>
+        <option value="Besuch" id="t-opt-visit">Besuch</option>
+        <option value="Andere Option" id="t-opt-other">Andere Option</option>
+      </select>
 
-    <div id="custom-event-container" class="custom-option-group hidden">
-      <input id="custom-event" placeholder="Geben Sie den Zweck ein...">
-      <button id="btn-save-custom" class="secondary" type="button">Speichern</button>
+      <div id="custom-event-container" class="custom-option-group hidden">
+        <input id="custom-event" placeholder="Geben Sie den Zweck ein...">
+        <button id="btn-save-custom" class="secondary" type="button">Speichern</button>
+      </div>
+      
+      <label id="t-lbl-name" for="name" style="margin-top: 12px; display: block;">Vor- und Nachname</label>
+      <input id="name" placeholder="Max Mustermann">
+      
+      <div id="validation-error" class="error-msg hidden"></div>
+
+      <div class="btn-group">
+        <button id="reset-form" class="secondary">Formular zurücksetzen</button>
+        <button id="btn-next">Weiter</button>
+      </div>
     </div>
-    
-    <label id="t-lbl-name" for="name" style="margin-top: 12px; display: block;">Vor- und Nachname</label>
-    <input id="name" placeholder="Max Mustermann">
-    
-    <div id="validation-error" class="error-msg hidden"></div>
 
-    <div class="btn-group">
-      <button id="reset-form" class="secondary">Formular zurücksetzen</button>
-      <button id="btn-next">Weiter</button>
-    </div>
-
-    <!-- ODKAZ NA TABULKU NA ÚVODNÍ STRÁNCE -->
-    <div style="margin-top: 12px;">
+    <!-- ODDĚLENÝ ODKAZ NA SPODKU ÚVODNÍ STRÁNKY -->
+    <div class="footer-link-container">
       <a id="t-link-sheet-1" href="https://docs.google.com/spreadsheets/d/14JY3pVGkHyJmKMuELZCVU_PEHpvDgVXs5fPVw_OwZB8/edit?usp=sharing" target="_blank" class="btn-link secondary">Besucherliste öffnen</a>
     </div>
   </div>
