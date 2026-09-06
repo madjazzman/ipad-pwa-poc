@@ -296,7 +296,7 @@
 </div>
 
 <script>
-  const SCRIPT_URL = "DOPLNTE_VASE_URL_NASAZENEHO_APPS_SCRIPTU";
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbznDtaDvUkFQM1jEplC1PnDxAtGPxnoFc7VqExTrxaQRNqqSzCLPy5v_vzpKK5hgYex/exec";
 
   const translations = {
     de: {
@@ -684,7 +684,7 @@
     st.event = "";
     st.customEvent = "";
     st.name = "";
-    st.lang = "de"; // Reset nastavení zpět na výchozí němčinu
+    st.lang = "de"; 
     
     elValError.classList.add('hidden');
     elSigError.classList.add('hidden');
@@ -863,9 +863,14 @@
 
     const signatureData = canvas.toDataURL('image/png');
 
+    // Pokud je vybrána jiná volba, připojíme upřesnění přímo k účelu návštěvy
+    let finalEvent = st.event;
+    if (isOtherOption(st.event) && st.customEvent.trim() !== "") {
+      finalEvent = st.event + ": " + st.customEvent.trim();
+    }
+
     const payload = {
-      event: st.event,
-      customEvent: st.customEvent,
+      event: finalEvent,
       name: st.name,
       signature: signatureData
     };
