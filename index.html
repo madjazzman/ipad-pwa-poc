@@ -3,47 +3,114 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#0f172a">
+  <meta name="theme-color" content="#002b1a">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="Návštěvní test">
+  <meta name="apple-mobile-web-app-title" content="Návštěvní kniha">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icon.svg">
   <link rel="stylesheet" href="style.css">
-  <title>PWA Test V2</title>
+  <title>Návštěvní kniha</title>
   <style>
-    .header-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
-      gap: 10px;
+    body {
+      background-color: #002b1a;
+      color: #ffffff;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      margin: 0;
+      padding: 16px;
     }
+
+    .wrap {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .logo-container {
+      text-align: center;
+      margin-bottom: 20px;
+      padding-top: 10px;
+    }
+    .brand-logo {
+      max-width: 240px;
+      height: auto;
+      display: inline-block;
+    }
+
     .lang-picker {
       display: flex;
       gap: 8px;
+      justify-content: center;
+      margin-top: 15px;
+      flex-wrap: nowrap;
     }
     .lang-btn {
-      background: #1e293b;
-      border: 1px solid #334155;
-      font-size: 1.4rem;
+      background: #003822;
+      border: 1px solid #005c38;
       padding: 6px 10px;
       border-radius: 8px;
       cursor: pointer;
-      line-height: 1;
-      transition: transform 0.1s, border-color 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.1s, border-color 0.2s, background-color 0.2s;
+    }
+    .lang-btn svg {
+      width: 24px;
+      height: 16px;
+      border-radius: 2px;
+      display: block;
+      pointer-events: none;
     }
     .lang-btn:active {
       transform: scale(0.92);
     }
-    .lang-btn.active {
-      border-color: #38bdf8;
-      background: #0f172a;
-      box-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
+    .lang-btn img {
+  width: 24px;
+  height: 16px;
+  object-fit: cover;
+  border-radius: 2px;
+  display: block;
+  pointer-events: none;
+}
+
+    .card {
+      background: #003822;
+      border: 1px solid #005c38;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #005c38;
+      background: #002215;
+      color: #ffffff;
+      box-sizing: border-box;
+      font-size: 1rem;
+    }
+
+    button {
+      background-color: #10b981;
+      color: white;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    button:hover {
+      background-color: #059669;
+    }
+    button.secondary {
+      background-color: transparent;
+      border: 1px solid #005c38;
+      color: #cbd5e1;
     }
 
     #sig-canvas {
-      border: 2px dashed #cbd5e1;
+      border: 2px dashed #005c38;
       border-radius: 8px;
       touch-action: none;
       background: #ffffff;
@@ -87,17 +154,16 @@
       margin-bottom: 8px;
     }
 
-    /* Úprava textu prohlášení u podpisu: tučné a červené */
     .sig-declaration {
       font-size: 0.9rem;
-      color: #ef4444;
+      color: #f87171;
       font-weight: bold;
       margin-bottom: 10px;
       line-height: 1.4;
     }
 
     .error-msg {
-      color: #ef4444;
+      color: #f87171;
       font-size: 0.85rem;
       margin-top: 8px;
       font-weight: 600;
@@ -140,14 +206,31 @@
 </head>
 <body>
 <div class="wrap">
-  <div class="header-bar">
-    <h1 id="t-title" style="margin:0;">📖 Návštěvní kniha</h1>
+
+  <!-- LOGO A VLAJKY POD LOGEM -->
+  <div class="logo-container">
+    <img src="Tradisa-logo-bl.png" alt="Tradisa Logo" class="brand-logo">
+    
     <div class="lang-picker">
-      <button class="lang-btn" data-lang="de" title="Deutsch">🇩🇪</button>
-      <button class="lang-btn" data-lang="en" title="English">🇬🇧</button>
-      <button class="lang-btn" data-lang="cz" title="Čeština">🇨🇿</button>
-      <button class="lang-btn" data-lang="ro" title="Română">🇷🇴</button>
-    </div>
+  <button class="lang-btn" data-lang="de" title="Deutsch">
+    <img src="de.svg" alt="DE">
+  </button>
+  <button class="lang-btn" data-lang="en" title="English">
+    <img src="gb.svg" alt="EN">
+  </button>
+  <button class="lang-btn" data-lang="cz" title="Čeština">
+    <img src="cz.svg" alt="CZ">
+  </button>
+  <button class="lang-btn" data-lang="pl" title="Polski">
+    <img src="pl.svg" alt="PL">
+  </button>
+  <button class="lang-btn" data-lang="ro" title="Română">
+    <img src="ro.svg" alt="RO">
+  </button>
+  <button class="lang-btn" data-lang="ru" title="Русский">
+    <img src="ru.svg" alt="RU">
+  </button>
+</div>
   </div>
   
   <!-- KARTA 1 -->
@@ -167,7 +250,7 @@
       <button id="btn-save-custom" class="secondary" type="button">Uložit</button>
     </div>
     
-    <label id="t-lbl-name" for="name">Jméno a příjmení</label>
+    <label id="t-lbl-name" for="name" style="margin-top: 12px; display: block;">Jméno a příjmení</label>
     <input id="name" placeholder="...">
     
     <div id="validation-error" class="error-msg hidden"></div>
@@ -190,7 +273,6 @@
       <h3 id="t-h3-signature">Podpis</h3>
       
       <div id="sig-form-wrapper">
-        <!-- Text přesunut PŘED podpisové pole -->
         <p id="t-sig-declaration" class="sig-declaration"></p>
         <canvas id="sig-canvas"></canvas>
         <div id="sig-error" class="error-msg hidden"></div>
@@ -203,7 +285,7 @@
       <div id="success-message" class="success-box hidden">
         <div class="success-icon">✓</div>
         <h3 id="t-success-title" style="margin: 0 0 8px 0; color: #22c55e;">Děkujeme!</h3>
-        <p id="t-success-text" style="margin: 0 0 16px 0; color: #94a3b8; font-size: 0.9rem;"></p>
+        <p id="t-success-text" style="margin: 0 0 16px 0; color: #cbd5e1; font-size: 0.9rem;"></p>
         <button id="btn-new-visitor" class="primary">Nový návštěvník</button>
       </div>
 
@@ -217,7 +299,7 @@
 
   const translations = {
     cz: {
-      title: "📖 Návštěvní kniha – TEST V2",
+      title: "Návštěvní kniha",
       lblEvent: "Účel návštěvy",
       optSelect: "-- Vyberte účel návštěvy --",
       optShipment: "Zásilka",
@@ -258,7 +340,7 @@
       btnNewVisitor: "Nový návštěvník"
     },
     en: {
-      title: "📖 Visitor Logbook – TEST V2",
+      title: "Visitor Logbook",
       lblEvent: "Purpose of visit",
       optSelect: "-- Select purpose of visit --",
       optShipment: "Shipment",
@@ -299,7 +381,7 @@
       btnNewVisitor: "New Visitor"
     },
     de: {
-      title: "📖 Besucherbuch – TEST V2",
+      title: "Besucherbuch",
       lblEvent: "Besuchszweck",
       optSelect: "-- Besuchszweck auswählen --",
       optShipment: "Lieferung",
@@ -339,8 +421,49 @@
       successText: "Ihre Unterschrift und Zustimmung wurden erfolgreich erfasst.",
       btnNewVisitor: "Neuer Besucher"
     },
+    pl: {
+      title: "Księga gości",
+      lblEvent: "Cel wizyty",
+      optSelect: "-- Wybierz cel wizyty --",
+      optShipment: "Dostawa",
+      optService: "Serwis",
+      optPickup: "Odbiór",
+      optVisit: "Wizyta",
+      optOther: "Inna opcja",
+      phCustomEvent: "Wpisz cel wizyty...",
+      btnSaveCustom: "Zapisz",
+      lblName: "Imię i nazwisko",
+      phName: "Jan Kowalski",
+      btnResetForm: "Zresetuj formularz",
+      btnNext: "Dalej",
+      errSelect: "Proszę wybrać cel wizyty.",
+      errCustomEvent: "Proszę podać cel wizyty.",
+      errName: "Proszę podać imię i nazwisko (co najmniej dwa słowa).",
+      errBoth: "Proszę sprawdzić cel wizyty oraz wprowadzić imię i nazwisko.",
+      errSig: "Proszę złożyć podpis przed potwierdzeniem.",
+      h3Terms: "Zasady bezpieczeństwa na terenie operacyjnym (EXPRESLog)",
+      rules: [
+        "<strong>Kamizelka odblaskowa:</strong> Wstęp na teren operacyjny jest dozwolony wyłącznie w kamizelce odblaskowej (klasa 2 lub wyższa).",
+        "<strong>Obuwie ochronne:</strong> Obowiązkowe jest noszenie zamkniętego obuwia ochronnego z podnoskiem stalowym/kompozytowym i podeszwą antypoślizgową.",
+        "<strong>Wyznaczone ciągi:</strong> Należy poruszać się wyłącznie po zielono oznaczonych chodnikach i przejściach dla pieszych.",
+        "<strong>Pierwszeństwo przejazdu:</strong> Wózki widłowe i pojazdy ciężarowe mają zawsze pierwszeństwo przed pieszymi.",
+        "<strong>Kontakt wzrokowy:</strong> Przed wejściem na tor jazdy pojazdu zawsze nawiąż bezpośredni kontakt wzrokowy z kierowcą.",
+        "<strong>Zakaz używania telefonów:</strong> Używanie telefonów komórkowych lub słuchawek na terenie operacyjnym jest surowo zabronione.",
+        "<strong>Martwe pola:</strong> Zachowaj szczególną ostrożność przy omijaniu zaparkowanych ciężarówek i w rogach budynków.",
+        "<strong>Kask ochronny:</strong> Obowiązkowy w strefach zagrożenia upadkiem ładunku lub podczas załadunku/rozładunku.",
+        "<strong>Zakaz przebywania pod ładunkiem:</strong> Surowo zabrania się wchodzenia pod zawieszone ładunki.",
+        "<strong>Zgłaszanie zagrożeń:</strong> Wszelkie uszkodzenia, wycieki lub incydenty należy natychmiast zgłaszać kierownikowi zmiany."
+      ],
+      h3Sig: "Podpis",
+      sigDeclaration: "Składając podpis, potwierdzam zapoznanie się z powyższymi zasadami i zobowiązuję się do ich przestrzegania.",
+      btnClearSig: "Wyczyść podpis",
+      btnConfirmSig: "Wyślij i potwierdź",
+      successTitle: "Dziękujemy!",
+      successText: "Twój podpis i akceptacja regulaminu zostały pomyślnie zapisane.",
+      btnNewVisitor: "Nowy gość"
+    },
     ro: {
-      title: "📖 Registru Vizitatori – TEST V2",
+      title: "Registru Vizitatori",
       lblEvent: "Scopul vizitei",
       optSelect: "-- Selectați scopul vizitei --",
       optShipment: "Livrare",
@@ -379,6 +502,47 @@
       successTitle: "Vă mulțumim!",
       successText: "Semnătura și acordul dumneavoastră au fost înregistrate cu succes.",
       btnNewVisitor: "Vizitator nou"
+    },
+    ru: {
+      title: "Журнал посещений",
+      lblEvent: "Цель визита",
+      optSelect: "-- Выберите цель визита --",
+      optShipment: "Доставка",
+      optService: "Сервис",
+      optPickup: "Забор / Самовывоз",
+      optVisit: "Визит",
+      optOther: "Другой вариант",
+      phCustomEvent: "Укажите цель визита...",
+      btnSaveCustom: "Сохранить",
+      lblName: "Имя и фамилия",
+      phName: "Иван Иванов",
+      btnResetForm: "Сбросить форму",
+      btnNext: "Далее",
+      errSelect: "Пожалуйста, выберите цель визита.",
+      errCustomEvent: "Пожалуйста, укажите цель визита.",
+      errName: "Пожалуйста, введите имя и фамилию (минимум два слова).",
+      errBoth: "Пожалуйста, проверьте цель визита и введите имя и фамилию.",
+      errSig: "Пожалуйста, поставьте подпись перед подтверждением.",
+      h3Terms: "Правила безопасности на территории (EXPRESLog)",
+      rules: [
+        "<strong>Сигнальный жилет:</strong> Вход разрешен только в сигнальном жилете высокой видимости (класс 2 или выше).",
+        "<strong>Защитная обувь:</strong> Обязательна закрытая защитная обувь с металлическим или композитным подноском.",
+        "<strong>Выделенные пешеходные зоны:</strong> Передвигайтесь строго по зеленым пешеходным дорожкам.",
+        "<strong>Приоритет движения:</strong> Погрузочная техника и грузовые автомобили всегда имеют преимущество.",
+        "<strong>Визуальный контакт:</strong> Убедитесь в наличии визуального контакта с водителем, прежде чем пересекать его путь.",
+        "<strong>Запрет мобильных телефонов:</strong> Использование телефонов или наушников строго запрещено.",
+        "<strong>Слепые зоны:</strong> Будьте предельно внимательны возле припаркованных грузовиков и углов зданий.",
+        "<strong>Защитная каска:</strong> Ношение каски обязательно в зонах с риском падения груза.",
+        "<strong>Запрет нахождения под грузом:</strong> Строго запрещено находиться под подвешенным грузом.",
+        "<strong>Сообщение об опасности:</strong> О любых повреждениях или происшествиях немедленно сообщайте начальнику смены."
+      ],
+      h3Sig: "Подпись",
+      sigDeclaration: "Своей подписью я подтверждаю, что ознакомлен(а) с вышеуказанными правилами и обязуюсь их соблюдать.",
+      btnClearSig: "Очистить подпись",
+      btnConfirmSig: "Отправить и подтвердить",
+      successTitle: "Спасибо!",
+      successText: "Ваша подпись и согласие с правилами успешно зарегистрированы.",
+      btnNewVisitor: "Новый посетитель"
     }
   };
 
@@ -413,7 +577,9 @@
 
   function applyLanguage(lang) {
     const t = translations[lang] || translations.de;
-    document.getElementById('t-title').textContent = t.title;
+    
+    document.title = t.title;
+    
     document.getElementById('t-lbl-event').textContent = t.lblEvent;
     document.getElementById('t-opt-select').textContent = t.optSelect;
     document.getElementById('t-opt-shipment').textContent = t.optShipment;
@@ -465,17 +631,14 @@
     st.customEvent = "";
     st.name = "";
     
-    // Vyčistit případné chyby
     elValError.classList.add('hidden');
     elSigError.classList.add('hidden');
     elEvent.classList.remove('input-error');
     elCustomEvent.classList.remove('input-error');
     elName.classList.remove('input-error');
 
-    // Vyčistit podpis
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Přepnout karty zpět do výchozího stavu
     elSigFormWrapper.classList.remove('hidden');
     elSuccessMessage.classList.add('hidden');
     elStepTwo.classList.add('hidden');
