@@ -319,6 +319,7 @@
       errName: "Bitte geben Sie Vor- und Nachnamen ein (mindestens zwei Wörter).",
       errBoth: "Bitte überprüfen Sie den Zweck und den Namen.",
       errSig: "Bitte leisten Sie eine Unterschrift vor der Bestätigung.",
+      errServer: "Fehler beim Speichern der Daten. Bitte Verbindung prüfen.",
       h3Terms: "Sicherheitsregeln für den Betriebsbereich (EXPRESLog)",
       rules: [
         "<strong>Warnweste:</strong> Zutritt nur mit Hochsicherheits-Warnweste (Klasse 2 oder höher) gestattet.",
@@ -360,6 +361,7 @@
       errName: "Prosím zadejte jméno i příjmení (minimálně dvě slova).",
       errBoth: "Prosím zkontrolujte výběr účelu návštěvy a zadejte jméno i příjmení.",
       errSig: "Před potvrzením se prosím podepište.",
+      errServer: "Chyba při ukládání dat. Zkontrolujte připojení k internetu.",
       h3Terms: "Bezpečnostní pravidla pro pohyb na provozní ploše (Spedice EXPRESLog)",
       rules: [
         "<strong>Reflexní vesta:</strong> Vstup na provozní plochu je povolen pouze v reflexní vestě s vysokou viditelností (třída 2 nebo vyšší).",
@@ -401,6 +403,7 @@
       errName: "Please enter both first and last name (at least two words).",
       errBoth: "Please check purpose selection and enter full name.",
       errSig: "Please provide a signature before confirming.",
+      errServer: "Error saving data. Please check your connection.",
       h3Terms: "Safety Rules for Operating Area (EXPRESLog Freight)",
       rules: [
         "<strong>High-Visibility Vest:</strong> Entry is permitted only with a high-visibility vest (Class 2 or higher).",
@@ -442,6 +445,7 @@
       errName: "Kérjük, adja meg a teljes nevét (legalább két szó).",
       errBoth: "Kérjük, ellenőrizze a megadott adatokat.",
       errSig: "Kérjük, írja alá a megerősítés előtt.",
+      errServer: "Hiba az adatok mentése során. Kérjük, ellenőrizze a kapcsolatot.",
       h3Terms: "Biztonsági szabályok az üzemi területen (EXPRESLog)",
       rules: [
         "<strong>Láthatósági mellény:</strong> A belépés csak láthatósági mellényben (2. osztályú) engedélyezett.",
@@ -483,6 +487,7 @@
       errName: "Proszę podać imię i nazwisko (co najmniej dwa słowa).",
       errBoth: "Proszę sprawdzić cel wizyty oraz wprowadzić imię i nazwisko.",
       errSig: "Proszę złożyć podpis przed potwierdzeniem.",
+      errServer: "Błąd podczas zapisywania danych. Sprawdź połączenie.",
       h3Terms: "Zasady bezpieczeństwa na terenie operacyjnym (EXPRESLog)",
       rules: [
         "<strong>Kamizelka odblaskowa:</strong> Wstęp na teren operacyjny jest dozwolony wyłącznie w kamizelce odblaskowej (klasa 2 lub wyższa).",
@@ -524,6 +529,7 @@
       errName: "Vă rugăm să introduceți atât numele, cât și prenumele.",
       errBoth: "Vă rugăm să verificați scopul și numele complet.",
       errSig: "Vă rugăm să semnați înainte de a confirma.",
+      errServer: "Eroare la salvarea datelor. Vă rugăm să verificați conexiunea.",
       h3Terms: "Reguli de siguranță pentru zona operațională (EXPRESLog)",
       rules: [
         "<strong>Vestă reflectorizantă:</strong> Accesul este permis doar cu vestă reflectorizantă (Clasa 2 sau mai înaltă).",
@@ -565,6 +571,7 @@
       errName: "Пожалуйста, введите имя и фамилию (минимум два слова).",
       errBoth: "Пожалуйста, проверьте цель визита и введите имя и фамилию.",
       errSig: "Пожалуйста, поставьте подпись перед подтверждением.",
+      errServer: "Ошибка при сохранении данных. Проверьте подключение.",
       h3Terms: "Правила безопасности на территории (EXPRESLog)",
       rules: [
         "<strong>Сигнальный жилет:</strong> Вход разрешен только в сигнальном жилете высокой видимости (класс 2 или выше).",
@@ -610,13 +617,17 @@
   const ctx = canvas.getContext('2d');
 
   const K = 'pwa-test-v2';
-  
   let st = JSON.parse(localStorage.getItem(K) || JSON.stringify({
     event: "",
     customEvent: "",
     name: "",
     lang: "de"
   }));
+
+  function isOtherOption(val) {
+    const otherValues = ["Andere Option", "Jiná volba", "Other option", "Egyéb lehetőség", "Inna opcja", "Altă opțiune", "Другой вариант"];
+    return otherValues.includes(val);
+  }
 
   function applyLanguage(lang) {
     const t = translations[lang] || translations.de;
@@ -659,7 +670,7 @@
     elCustomEvent.value = st.customEvent || "";
     elName.value = st.name;
     
-    if (st.event === "Andere Option" || st.event === "Jiná volba" || st.event === "Other option") {
+    if (isOtherOption(st.event)) {
       elCustomEventContainer.classList.remove('hidden');
     } else {
       elCustomEventContainer.classList.add('hidden');
@@ -673,7 +684,7 @@
     st.event = "";
     st.customEvent = "";
     st.name = "";
-    st.lang = "de"; // Vždy resetovat zpět do výchozí němčiny
+    st.lang = "de"; // Reset nastavení zpět na výchozí němčinu
     
     elValError.classList.add('hidden');
     elSigError.classList.add('hidden');
@@ -701,7 +712,9 @@
 
   elEvent.addEventListener('change', e => {
     st.event = e.target.value;
-    elCustomEvent.classList.remove('input-error');
+    if (!isOtherOption(st.event)) {
+      elCustomEvent.classList.remove('input-error');
+    }
     render();
   });
 
@@ -737,7 +750,7 @@
     let isEventValid = elEvent.value.trim() !== "";
     let isCustomValid = true;
 
-    if (elEvent.value === "Andere Option" || elEvent.value === "Jiná volba" || elEvent.value === "Other option") {
+    if (isOtherOption(elEvent.value)) {
       isCustomValid = elCustomEvent.value.trim() !== "";
     }
 
@@ -874,7 +887,7 @@
     })
     .catch(err => {
       console.error('Chyba odesílání:', err);
-      elSigError.textContent = "Fehler beim Speichern der Daten.";
+      elSigError.textContent = t.errServer;
       elSigError.classList.remove('hidden');
     })
     .finally(() => {
