@@ -79,7 +79,7 @@
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
     }
 
-    input, select, button {
+    input, select, button, a.btn-link {
       width: 100%;
       padding: 12px;
       border-radius: 8px;
@@ -88,6 +88,10 @@
       color: #ffffff;
       box-sizing: border-box;
       font-size: 1rem;
+      text-align: center;
+      text-decoration: none;
+      display: block;
+      font-weight: bold;
     }
 
     button {
@@ -101,10 +105,13 @@
     button:hover {
       background-color: #059669;
     }
-    button.secondary {
+    button.secondary, a.btn-link.secondary {
       background-color: transparent;
       border: 1px solid #005c38;
       color: #cbd5e1;
+    }
+    a.btn-link.secondary:hover {
+      background-color: rgba(0, 92, 56, 0.3);
     }
 
     #sig-canvas {
@@ -143,11 +150,9 @@
       overflow-y: auto;
       line-height: 1.5;
       font-size: 0.9rem;
-      /* Výraznější posuvník pro moderní prohlížeče */
       scrollbar-width: thin;
       scrollbar-color: #10b981 #002215;
     }
-    /* Výraznější posuvník pro Chrome / Safari / Edge */
     .terms-card::-webkit-scrollbar {
       width: 10px;
     }
@@ -280,6 +285,11 @@
       <button id="reset-form" class="secondary">Formular zurücksetzen</button>
       <button id="btn-next">Weiter</button>
     </div>
+
+    <!-- ODKAZ NA TABULKU NA ÚVODNÍ STRÁNCE -->
+    <div style="margin-top: 12px;">
+      <a id="t-link-sheet-1" href="https://docs.google.com/spreadsheets/d/14JY3pVGkHyJmKMuELZCVU_PEHpvDgVXs5fPVw_OwZB8/edit?usp=sharing" target="_blank" class="btn-link secondary">Besucherliste öffnen</a>
+    </div>
   </div>
 
   <!-- KARTA 2 -->
@@ -307,7 +317,9 @@
         <div class="success-icon">✓</div>
         <h3 id="t-success-title" style="margin: 0 0 8px 0; color: #22c55e;">Vielen Dank!</h3>
         <p id="t-success-text" style="margin: 0 0 16px 0; color: #cbd5e1; font-size: 0.9rem;"></p>
-        <button id="btn-new-visitor" class="primary">Neuer Besucher</button>
+        <button id="btn-new-visitor" class="primary" style="margin-bottom: 10px;">Neuer Besucher</button>
+        <!-- ODKAZ NA TABULKU PO ÚSPĚŠNÉM ODESLÁNÍ -->
+        <a id="t-link-sheet-2" href="https://docs.google.com/spreadsheets/d/14JY3pVGkHyJmKMuELZCVU_PEHpvDgVXs5fPVw_OwZB8/edit?usp=sharing" target="_blank" class="btn-link secondary">Besucherliste öffnen</a>
       </div>
 
     </div>
@@ -334,6 +346,7 @@
       phName: "Max Mustermann",
       btnResetForm: "Formular zurücksetzen",
       btnNext: "Weiter",
+      linkSheet: "Besucherliste öffnen",
       errSelect: "Bitte wählen Sie den Besuchszweck aus.",
       errCustomEvent: "Bitte tragen Sie den eigenen Zweck ein.",
       errName: "Bitte geben Sie Vor- und Nachnamen ein (mindestens zwei Wörter).",
@@ -376,6 +389,7 @@
       phName: "Jan Novák",
       btnResetForm: "Resetovat formulář",
       btnNext: "Dále",
+      linkSheet: "Otevřít seznam návštěv",
       errSelect: "Prosím vyberte účel návštěvy.",
       errCustomEvent: "Prosím vyplňte zadaný účel návštěvy.",
       errName: "Prosím zadejte jméno i příjmení (minimálně dvě slova).",
@@ -418,6 +432,7 @@
       phName: "John Doe",
       btnResetForm: "Reset Form",
       btnNext: "Next",
+      linkSheet: "Open Visitor List",
       errSelect: "Please select the purpose of your visit.",
       errCustomEvent: "Please fill in the custom visit purpose.",
       errName: "Please enter both first and last name (at least two words).",
@@ -460,6 +475,7 @@
       phName: "Kovács János",
       btnResetForm: "Űrlap alaphelyzetbe állítása",
       btnNext: "Tovább",
+      linkSheet: "Vendéglista megnyitása",
       errSelect: "Kérjük, válassza ki a látogatás célját.",
       errCustomEvent: "Kérjük, adja meg a látogatás célját.",
       errName: "Kérjük, adja meg a teljes nevét (legalább két szó).",
@@ -502,6 +518,7 @@
       phName: "Jan Kowalski",
       btnResetForm: "Zresetuj formularz",
       btnNext: "Dalej",
+      linkSheet: "Otwórz listę gości",
       errSelect: "Proszę wybrać cel wizyty.",
       errCustomEvent: "Proszę podać cel wizyty.",
       errName: "Proszę podać imię i nazwisko (co najmniej dwa słowa).",
@@ -544,6 +561,7 @@
       phName: "Ion Popescu",
       btnResetForm: "Resetează formularul",
       btnNext: "Mai departe",
+      linkSheet: "Deschide lista vizitatorilor",
       errSelect: "Vă rugăm să selectați scopul vizitei.",
       errCustomEvent: "Vă rugăm să completați scopul vizitei.",
       errName: "Vă rugăm să introduceți atât numele, cât și prenumele.",
@@ -586,6 +604,7 @@
       phName: "Иван Иванов",
       btnResetForm: "Сбросить форму",
       btnNext: "Далее",
+      linkSheet: "Открыть список посещений",
       errSelect: "Пожалуйста, выберите цель визита.",
       errCustomEvent: "Пожалуйста, укажите цель визита.",
       errName: "Пожалуйста, введите имя и фамилию (минимум два слова).",
@@ -634,6 +653,8 @@
   const elSigFormWrapper = document.getElementById('sig-form-wrapper');
   const elSuccessMessage = document.getElementById('success-message');
   const elBtnNewVisitor = document.getElementById('btn-new-visitor');
+  const elLinkSheet1 = document.getElementById('t-link-sheet-1');
+  const elLinkSheet2 = document.getElementById('t-link-sheet-2');
   const ctx = canvas.getContext('2d');
 
   const K = 'pwa-test-v2';
@@ -669,6 +690,9 @@
     elResetForm.textContent = t.btnResetForm;
     elBtnNext.textContent = t.btnNext;
     
+    elLinkSheet1.textContent = t.linkSheet;
+    elLinkSheet2.textContent = t.linkSheet;
+
     document.getElementById('t-h3-terms').textContent = t.h3Terms;
     elRulesList.innerHTML = t.rules.map(r => `<li>${r}</li>`).join('');
 
@@ -813,8 +837,7 @@
     if(rect.width > 0) {
       canvas.width = rect.width;
       canvas.height = rect.height;
-      // ZMĚNA ZDE: Zvětšena tloušťka čáry na 4 (původně 2) pro lepší čitelnost
-      ctx.lineWidth = 5;
+      ctx.lineWidth = 6;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
       ctx.strokeStyle = '#0f172a';
