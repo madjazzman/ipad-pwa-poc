@@ -1,15 +1,15 @@
 <!doctype html>
-<html lang="cs">
+<html lang="de">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#002b1a">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="Návštěvní kniha">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Besucherbuch">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icon.svg">
-  <link rel="stylesheet" href="style.css">
-  <title>Návštěvní kniha</title>
+  <title>Besucherbuch</title>
   <style>
     body {
       background-color: #002b1a;
@@ -53,9 +53,10 @@
       justify-content: center;
       transition: transform 0.1s, border-color 0.2s, background-color 0.2s;
     }
-    .lang-btn svg {
+    .lang-btn img {
       width: 24px;
       height: 16px;
+      object-fit: cover;
       border-radius: 2px;
       display: block;
       pointer-events: none;
@@ -63,14 +64,11 @@
     .lang-btn:active {
       transform: scale(0.92);
     }
-    .lang-btn img {
-  width: 24px;
-  height: 16px;
-  object-fit: cover;
-  border-radius: 2px;
-  display: block;
-  pointer-events: none;
-}
+    .lang-btn.active {
+      border-color: #22c55e;
+      background: #001f13;
+      box-shadow: 0 0 8px rgba(34, 197, 94, 0.4);
+    }
 
     .card {
       background: #003822;
@@ -212,52 +210,55 @@
     <img src="Tradisa-logo-bl.png" alt="Tradisa Logo" class="brand-logo">
     
     <div class="lang-picker">
-  <button class="lang-btn" data-lang="de" title="Deutsch">
-    <img src="de.svg" alt="DE">
-  </button>
-  <button class="lang-btn" data-lang="en" title="English">
-    <img src="gb.svg" alt="EN">
-  </button>
-  <button class="lang-btn" data-lang="cz" title="Čeština">
-    <img src="cz.svg" alt="CZ">
-  </button>
-  <button class="lang-btn" data-lang="pl" title="Polski">
-    <img src="pl.svg" alt="PL">
-  </button>
-  <button class="lang-btn" data-lang="ro" title="Română">
-    <img src="ro.svg" alt="RO">
-  </button>
-  <button class="lang-btn" data-lang="ru" title="Русский">
-    <img src="ru.svg" alt="RU">
-  </button>
-</div>
+      <button class="lang-btn" data-lang="de" title="Deutsch">
+        <img src="de.svg" alt="DE">
+      </button>
+      <button class="lang-btn" data-lang="en" title="English">
+        <img src="gb.svg" alt="EN">
+      </button>
+      <button class="lang-btn" data-lang="cz" title="Čeština">
+        <img src="cz.svg" alt="CZ">
+      </button>
+      <button class="lang-btn" data-lang="hu" title="Magyar">
+        <img src="hu.svg" alt="HU">
+      </button>
+      <button class="lang-btn" data-lang="pl" title="Polski">
+        <img src="pl.svg" alt="PL">
+      </button>
+      <button class="lang-btn" data-lang="ro" title="Română">
+        <img src="ro.svg" alt="RO">
+      </button>
+      <button class="lang-btn" data-lang="ru" title="Русский">
+        <img src="ru.svg" alt="RU">
+      </button>
+    </div>
   </div>
   
   <!-- KARTA 1 -->
   <div id="step-one-container" class="card">
-    <label id="t-lbl-event" for="event">Účel návštěvy</label>
+    <label id="t-lbl-event" for="event">Besuchszweck</label>
     <select id="event">
-      <option value="" id="t-opt-select">-- Vyberte účel návštěvy --</option>
-      <option value="Zásilka" id="t-opt-shipment">Zásilka</option>
-      <option value="Servis" id="t-opt-service">Servis</option>
-      <option value="Abholer" id="t-opt-pickup">Odběr / Abholer</option>
-      <option value="Návštěva" id="t-opt-visit">Návštěva</option>
-      <option value="Jiná volba" id="t-opt-other">Jiná volba</option>
+      <option value="" id="t-opt-select">-- Besuchszweck auswählen --</option>
+      <option value="Lieferung" id="t-opt-shipment">Lieferung</option>
+      <option value="Service" id="t-opt-service">Service</option>
+      <option value="Abholer" id="t-opt-pickup">Abholer</option>
+      <option value="Besuch" id="t-opt-visit">Besuch</option>
+      <option value="Andere Option" id="t-opt-other">Andere Option</option>
     </select>
 
     <div id="custom-event-container" class="custom-option-group hidden">
-      <input id="custom-event" placeholder="Specifikujte účel návštěvy...">
-      <button id="btn-save-custom" class="secondary" type="button">Uložit</button>
+      <input id="custom-event" placeholder="Geben Sie den Zweck ein...">
+      <button id="btn-save-custom" class="secondary" type="button">Speichern</button>
     </div>
     
-    <label id="t-lbl-name" for="name" style="margin-top: 12px; display: block;">Jméno a příjmení</label>
-    <input id="name" placeholder="...">
+    <label id="t-lbl-name" for="name" style="margin-top: 12px; display: block;">Vor- und Nachname</label>
+    <input id="name" placeholder="Max Mustermann">
     
     <div id="validation-error" class="error-msg hidden"></div>
 
     <div class="btn-group">
-      <button id="reset-form" class="secondary">Resetovat formulář</button>
-      <button id="btn-next">Dále</button>
+      <button id="reset-form" class="secondary">Formular zurücksetzen</button>
+      <button id="btn-next">Weiter</button>
     </div>
   </div>
 
@@ -265,28 +266,28 @@
   <div id="step-two-container" class="hidden">
     
     <div class="card terms-card">
-      <h3 id="t-h3-terms">Bezpečnostní pravidla pro pohyb na provozní ploše (Spedice EXPRESLog)</h3>
+      <h3 id="t-h3-terms">Sicherheitsregeln für den Betriebsbereich (EXPRESLog)</h3>
       <ul id="t-rules-list"></ul>
     </div>
 
     <div class="card">
-      <h3 id="t-h3-signature">Podpis</h3>
+      <h3 id="t-h3-signature">Unterschrift</h3>
       
       <div id="sig-form-wrapper">
         <p id="t-sig-declaration" class="sig-declaration"></p>
         <canvas id="sig-canvas"></canvas>
         <div id="sig-error" class="error-msg hidden"></div>
         <div class="btn-group">
-          <button id="clear-sig" class="secondary">Vymazat podpis</button>
-          <button id="confirm-sig">Odeslat a potvrdit</button>
+          <button id="clear-sig" class="secondary">Unterschrift löschen</button>
+          <button id="confirm-sig">Bestätigen & Absenden</button>
         </div>
       </div>
 
       <div id="success-message" class="success-box hidden">
         <div class="success-icon">✓</div>
-        <h3 id="t-success-title" style="margin: 0 0 8px 0; color: #22c55e;">Děkujeme!</h3>
+        <h3 id="t-success-title" style="margin: 0 0 8px 0; color: #22c55e;">Vielen Dank!</h3>
         <p id="t-success-text" style="margin: 0 0 16px 0; color: #cbd5e1; font-size: 0.9rem;"></p>
-        <button id="btn-new-visitor" class="primary">Nový návštěvník</button>
+        <button id="btn-new-visitor" class="primary">Neuer Besucher</button>
       </div>
 
     </div>
@@ -298,6 +299,47 @@
   const SCRIPT_URL = "DOPLNTE_VASE_URL_NASAZENEHO_APPS_SCRIPTU";
 
   const translations = {
+    de: {
+      title: "Besucherbuch",
+      lblEvent: "Besuchszweck",
+      optSelect: "-- Besuchszweck auswählen --",
+      optShipment: "Lieferung",
+      optService: "Service",
+      optPickup: "Abholer",
+      optVisit: "Besuch",
+      optOther: "Andere Option",
+      phCustomEvent: "Geben Sie den Zweck ein...",
+      btnSaveCustom: "Speichern",
+      lblName: "Vor- und Nachname",
+      phName: "Max Mustermann",
+      btnResetForm: "Formular zurücksetzen",
+      btnNext: "Weiter",
+      errSelect: "Bitte wählen Sie den Besuchszweck aus.",
+      errCustomEvent: "Bitte tragen Sie den eigenen Zweck ein.",
+      errName: "Bitte geben Sie Vor- und Nachnamen ein (mindestens zwei Wörter).",
+      errBoth: "Bitte überprüfen Sie den Zweck und den Namen.",
+      errSig: "Bitte leisten Sie eine Unterschrift vor der Bestätigung.",
+      h3Terms: "Sicherheitsregeln für den Betriebsbereich (EXPRESLog)",
+      rules: [
+        "<strong>Warnweste:</strong> Zutritt nur mit Hochsicherheits-Warnweste (Klasse 2 oder höher) gestattet.",
+        "<strong>Sicherheitsschuhe:</strong> Geschlossene Sicherheitsschuhe mit Zehenschutzkappe und rutschfester Sohle sind Pflicht.",
+        "<strong>Markierte Wege:</strong> Nutzen Sie ausschließlich die grün markierten Fußwege. Abkürzungen sind verboten.",
+        "<strong>Vorfahrt:</strong> Flurförderzeuge (Gabelstapler) und LKW haben stets Vorrang vor Fußgängern.",
+        "<strong>Blickkontakt:</strong> Suchen Sie immer direkten Blickkontakt zum Fahrer, bevor Sie dessen Fahrspur kreuzen.",
+        "<strong>Handyverbot:</strong> Die Nutzung von Mobiltelefonen oder Kopfhörern im Betriebsbereich ist strengstens untersagt.",
+        "<strong>Toter Winkel:</strong> Achten Sie besonders auf tote Winkel bei geparkten LKW, Containern und Gebäudeecken.",
+        "<strong>Schutzhelm:</strong> Helm-Pflicht in Zonen mit Kranbetrieb oder Überkopfbeladung.",
+        "<strong>Schwebende Lasten:</strong> Das Betreten von Bereichen unter schwebenden Lasten ist verboten.",
+        "<strong>Meldepflicht:</strong> Schäden, ausgelaufene Flüssigkeiten oder Beinahe-Unfälle sofort dem Schichtleiter melden."
+      ],
+      h3Sig: "Unterschrift",
+      sigDeclaration: "Mit meiner Unterschrift bestätige ich, die oben genannten Regeln gelesen zu haben und diese einzuhalten.",
+      btnClearSig: "Unterschrift löschen",
+      btnConfirmSig: "Bestätigen & Absenden",
+      successTitle: "Vielen Dank!",
+      successText: "Ihre Unterschrift und Zustimmung wurden erfolgreich erfasst.",
+      btnNewVisitor: "Neuer Besucher"
+    },
     cz: {
       title: "Návštěvní kniha",
       lblEvent: "Účel návštěvy",
@@ -380,46 +422,46 @@
       successText: "Your signature and agreement have been successfully saved.",
       btnNewVisitor: "New Visitor"
     },
-    de: {
-      title: "Besucherbuch",
-      lblEvent: "Besuchszweck",
-      optSelect: "-- Besuchszweck auswählen --",
-      optShipment: "Lieferung",
-      optService: "Service",
-      optPickup: "Abholer",
-      optVisit: "Besuch",
-      optOther: "Andere Option",
-      phCustomEvent: "Geben Sie den Zweck ein...",
-      btnSaveCustom: "Speichern",
-      lblName: "Vor- und Nachname",
-      phName: "Max Mustermann",
-      btnResetForm: "Formular zurücksetzen",
-      btnNext: "Weiter",
-      errSelect: "Bitte wählen Sie den Besuchszweck aus.",
-      errCustomEvent: "Bitte tragen Sie den eigenen Zweck ein.",
-      errName: "Bitte geben Sie Vor- und Nachnamen ein (mindestens zwei Wörter).",
-      errBoth: "Bitte überprüfen Sie den Zweck und den Namen.",
-      errSig: "Bitte leisten Sie eine Unterschrift vor der Bestätigung.",
-      h3Terms: "Sicherheitsregeln für den Betriebsbereich (EXPRESLog)",
+    hu: {
+      title: "Vendégkönyv",
+      lblEvent: "Látogatás célja",
+      optSelect: "-- Válassza ki a látogatás célját --",
+      optShipment: "Szállítás",
+      optService: "Szerviz",
+      optPickup: "Átvétel",
+      optVisit: "Látogatás",
+      optOther: "Egyéb lehetőség",
+      phCustomEvent: "Adja meg a célját...",
+      btnSaveCustom: "Mentés",
+      lblName: "Vezetéknév és keresztnév",
+      phName: "Kovács János",
+      btnResetForm: "Űrlap alaphelyzetbe állítása",
+      btnNext: "Tovább",
+      errSelect: "Kérjük, válassza ki a látogatás célját.",
+      errCustomEvent: "Kérjük, adja meg a látogatás célját.",
+      errName: "Kérjük, adja meg a teljes nevét (legalább két szó).",
+      errBoth: "Kérjük, ellenőrizze a megadott adatokat.",
+      errSig: "Kérjük, írja alá a megerősítés előtt.",
+      h3Terms: "Biztonsági szabályok az üzemi területen (EXPRESLog)",
       rules: [
-        "<strong>Warnweste:</strong> Zutritt nur mit Hochsicherheits-Warnweste (Klasse 2 oder höher) gestattet.",
-        "<strong>Sicherheitsschuhe:</strong> Geschlossene Sicherheitsschuhe mit Zehenschutzkappe und rutschfester Sohle sind Pflicht.",
-        "<strong>Markierte Wege:</strong> Nutzen Sie ausschließlich die grün markierten Fußwege. Abkürzungen sind verboten.",
-        "<strong>Vorfahrt:</strong> Flurförderzeuge (Gabelstapler) und LKW haben stets Vorrang vor Fußgängern.",
-        "<strong>Blickkontakt:</strong> Suchen Sie immer direkten Blickkontakt zum Fahrer, bevor Sie dessen Fahrspur kreuzen.",
-        "<strong>Handyverbot:</strong> Die Nutzung von Mobiltelefonen oder Kopfhörern im Betriebsbereich ist strengstens untersagt.",
-        "<strong>Toter Winkel:</strong> Achten Sie besonders auf tote Winkel bei geparkten LKW, Containern und Gebäudeecken.",
-        "<strong>Schutzhelm:</strong> Helm-Pflicht in Zonen mit Kranbetrieb oder Überkopfbeladung.",
-        "<strong>Schwebende Lasten:</strong> Das Betreten von Bereichen unter schwebenden Lasten ist verboten.",
-        "<strong>Meldepflicht:</strong> Schäden, ausgelaufene Flüssigkeiten oder Beinahe-Unfälle sofort dem Schichtleiter melden."
+        "<strong>Láthatósági mellény:</strong> A belépés csak láthatósági mellényben (2. osztályú) engedélyezett.",
+        "<strong>Munkavédelmi cipő:</strong> Zárt munkavédelmi cipő viselése kötelező.",
+        "<strong>Kijelölt útvonalak:</strong> Kizárólag a zölddel jelölt gyalogos útvonalakat használja.",
+        "<strong>Elsőbbség:</strong> A gépeknek és teherautóknak mindig elsőbbségük van.",
+        "<strong>Szemkontaktus:</strong> Mindig vegye fel a szemkontaktust a gépjárművezetővel.",
+        "<strong>Mobiltelefon tilalom:</strong> Mobiltelefon és fülhallgató használata szigorúan tilos.",
+        "<strong>Vakfoltok:</strong> Ügyeljen a vakfoltokra a parkoló teherautók körül.",
+        "<strong>Védősisak:</strong> Teheremelési zónákban a védősisak használata kötelező.",
+        "<strong>Függő teher:</strong> Függő teher alatt tartózkodni szigorúan tilos.",
+        "<strong>Veszélyek jelentése:</strong> Bármilyen sérülést azonnal jelentsen a műszakvezetőnek."
       ],
-      h3Sig: "Unterschrift",
-      sigDeclaration: "Mit meiner Unterschrift bestätige ich, die oben genannten Regeln gelesen zu haben und diese einzuhalten.",
-      btnClearSig: "Unterschrift löschen",
-      btnConfirmSig: "Bestätigen & Absenden",
-      successTitle: "Vielen Dank!",
-      successText: "Ihre Unterschrift und Zustimmung wurden erfolgreich erfasst.",
-      btnNewVisitor: "Neuer Besucher"
+      h3Sig: "Aláírás",
+      sigDeclaration: "Aláírásommal igazolom, hogy a fenti szabályokat megismertem és elfogadom.",
+      btnClearSig: "Aláírás törlése",
+      btnConfirmSig: "Küldés és megerősítés",
+      successTitle: "Köszönjük!",
+      successText: "Az aláírását és a szabályok elfogadását sikeresen rögzítettük.",
+      btnNewVisitor: "Új látogató"
     },
     pl: {
       title: "Księga gości",
@@ -568,6 +610,7 @@
   const ctx = canvas.getContext('2d');
 
   const K = 'pwa-test-v2';
+  
   let st = JSON.parse(localStorage.getItem(K) || JSON.stringify({
     event: "",
     customEvent: "",
@@ -616,7 +659,7 @@
     elCustomEvent.value = st.customEvent || "";
     elName.value = st.name;
     
-    if (st.event === "Jiná volba") {
+    if (st.event === "Andere Option" || st.event === "Jiná volba" || st.event === "Other option") {
       elCustomEventContainer.classList.remove('hidden');
     } else {
       elCustomEventContainer.classList.add('hidden');
@@ -630,6 +673,7 @@
     st.event = "";
     st.customEvent = "";
     st.name = "";
+    st.lang = "de"; // Vždy resetovat zpět do výchozí němčiny
     
     elValError.classList.add('hidden');
     elSigError.classList.add('hidden');
@@ -657,9 +701,7 @@
 
   elEvent.addEventListener('change', e => {
     st.event = e.target.value;
-    if (st.event !== "Jiná volba") {
-      elCustomEvent.classList.remove('input-error');
-    }
+    elCustomEvent.classList.remove('input-error');
     render();
   });
 
@@ -695,7 +737,7 @@
     let isEventValid = elEvent.value.trim() !== "";
     let isCustomValid = true;
 
-    if (elEvent.value === "Jiná volba") {
+    if (elEvent.value === "Andere Option" || elEvent.value === "Jiná volba" || elEvent.value === "Other option") {
       isCustomValid = elCustomEvent.value.trim() !== "";
     }
 
@@ -832,7 +874,7 @@
     })
     .catch(err => {
       console.error('Chyba odesílání:', err);
-      elSigError.textContent = "Chyba při ukládání dat do tabulky.";
+      elSigError.textContent = "Fehler beim Speichern der Daten.";
       elSigError.classList.remove('hidden');
     })
     .finally(() => {
