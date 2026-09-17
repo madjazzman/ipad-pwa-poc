@@ -20,7 +20,7 @@
     }
 
     .wrap {
-      max-width: 600px;
+      max-width: 650px;
       margin: 0 auto;
     }
 
@@ -145,40 +145,108 @@
       display: none !important;
     }
 
+    /* STYL PRO BEZPEČNOSTNÍ PROTOKOL */
     .terms-card {
-      max-height: 45vh;
+      max-height: 55vh;
       overflow-y: auto;
-      line-height: 1.5;
-      font-size: 0.9rem;
+      line-height: 1.4;
+      font-size: 0.88rem;
       scrollbar-width: thin;
       scrollbar-color: #10b981 #002215;
+      padding: 12px;
     }
     .terms-card::-webkit-scrollbar {
-      width: 10px;
+      width: 8px;
     }
     .terms-card::-webkit-scrollbar-track {
       background: #002215;
-      border-radius: 6px;
+      border-radius: 4px;
     }
     .terms-card::-webkit-scrollbar-thumb {
       background: #10b981;
-      border-radius: 6px;
-      border: 2px solid #002215;
-    }
-    .terms-card::-webkit-scrollbar-thumb:hover {
-      background: #059669;
+      border-radius: 4px;
     }
 
-    .terms-card ul {
-      padding-left: 20px;
-      margin: 10px 0;
+    .sec-section-title {
+      font-size: 0.95rem;
+      color: #34d399;
+      margin: 14px 0 8px 0;
+      border-bottom: 1px solid #005c38;
+      padding-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
-    .terms-card li {
-      margin-bottom: 8px;
+
+    .icon-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .icon-box {
+      background: #002215;
+      border: 1px solid #004d2f;
+      border-radius: 8px;
+      padding: 8px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .icon-symbol {
+      font-size: 1.8rem;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Vlastní stylování dopravní značky 30 */
+    .speed-sign-30 {
+      width: 44px;
+      height: 44px;
+      background-color: #ffffff;
+      border: 5px solid #dc2626;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 1.1rem;
+      color: #000000;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      letter-spacing: -1px;
+    }
+
+    .icon-label {
+      font-size: 0.75rem;
+      color: #e2e8f0;
+      line-height: 1.2;
+    }
+
+    .rule-list {
+      padding-left: 18px;
+      margin: 6px 0;
+    }
+    .rule-list li {
+      margin-bottom: 6px;
+    }
+
+    .warning-box {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid #ef4444;
+      border-radius: 8px;
+      padding: 10px;
+      margin-top: 12px;
+      font-size: 0.85rem;
+      color: #fca5a5;
     }
 
     .sig-declaration {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: #f87171;
       font-weight: bold;
       margin-bottom: 10px;
@@ -226,7 +294,6 @@
       100% { transform: scale(1); }
     }
 
-    /* Oddelený spodní odkaz na úvodní stránce */
     .footer-link-container {
       margin-top: 32px;
       padding-top: 16px;
@@ -238,36 +305,22 @@
 <body>
 <div class="wrap">
 
-  <!-- LOGO A VLAJKY POD LOGEM -->
+  <!-- LOGO A VLAJKY -->
   <div class="logo-container">
     <img src="Tradisa-logo-bl.png" alt="Tradisa Logo" class="brand-logo">
     
     <div class="lang-picker">
-      <button class="lang-btn" data-lang="de" title="Deutsch">
-        <img src="de.svg" alt="DE">
-      </button>
-      <button class="lang-btn" data-lang="en" title="English">
-        <img src="gb.svg" alt="EN">
-      </button>
-      <button class="lang-btn" data-lang="cz" title="Čeština">
-        <img src="cz.svg" alt="CZ">
-      </button>
-      <button class="lang-btn" data-lang="hu" title="Magyar">
-        <img src="hu.svg" alt="HU">
-      </button>
-      <button class="lang-btn" data-lang="pl" title="Polski">
-        <img src="pl.svg" alt="PL">
-      </button>
-      <button class="lang-btn" data-lang="ro" title="Română">
-        <img src="ro.svg" alt="RO">
-      </button>
-      <button class="lang-btn" data-lang="ru" title="Русский">
-        <img src="ru.svg" alt="RU">
-      </button>
+      <button class="lang-btn" data-lang="de" title="Deutsch"><img src="de.svg" alt="DE"></button>
+      <button class="lang-btn" data-lang="en" title="English"><img src="gb.svg" alt="EN"></button>
+      <button class="lang-btn" data-lang="cz" title="Čeština"><img src="cz.svg" alt="CZ"></button>
+      <button class="lang-btn" data-lang="hu" title="Magyar"><img src="hu.svg" alt="HU"></button>
+      <button class="lang-btn" data-lang="pl" title="Polski"><img src="pl.svg" alt="PL"></button>
+      <button class="lang-btn" data-lang="ro" title="Română"><img src="ro.svg" alt="RO"></button>
+      <button class="lang-btn" data-lang="ru" title="Русский"><img src="ru.svg" alt="RU"></button>
     </div>
   </div>
   
-  <!-- KARTA 1 -->
+  <!-- KARTA 1: VSTUPNÍ FORMULÁŘ -->
   <div id="step-one-container">
     <div class="card">
       <label id="t-lbl-event" for="event">Besuchszweck</label>
@@ -296,22 +349,48 @@
       </div>
     </div>
 
-    <!-- ODDĚLENÝ ODKAZ NA SPODKU ÚVODNÍ STRÁNKY -->
     <div class="footer-link-container">
       <a id="t-link-sheet-1" href="https://docs.google.com/spreadsheets/d/14JY3pVGkHyJmKMuELZCVU_PEHpvDgVXs5fPVw_OwZB8/edit?usp=sharing" target="_blank" class="btn-link secondary">Besucherliste öffnen</a>
     </div>
   </div>
 
-  <!-- KARTA 2 -->
+  <!-- KARTA 2: BEZPEČNOSTNÍ PROTOKOL -->
   <div id="step-two-container" class="hidden">
     
     <div class="card terms-card">
-      <h3 id="t-h3-terms">Sicherheitsregeln für den Betriebsbereich (EXPRESLog)</h3>
-      <ul id="t-rules-list"></ul>
+      <h3 id="t-h3-terms" style="margin-top:0; color:#34d399; text-align:center;">Safety Information & Instructions</h3>
+      
+      <!-- ZÁKAZY A PRAVIDLA -->
+      <div class="sec-section-title" id="t-sec-general">General Rules</div>
+      <div class="icon-grid" id="t-general-icons"></div>
+
+      <!-- POVINNÉ VYBAVENÍ OOPP -->
+      <div class="sec-section-title" id="t-sec-ppe">Mandatory PPE (PSA)</div>
+      <div class="icon-grid" id="t-ppe-icons"></div>
+
+      <!-- NAKLÁDKA / VYKLÁDKA -->
+      <div class="sec-section-title" id="t-sec-loading">Loading / Unloading & VDI 2700</div>
+      <ul class="rule-list" id="t-loading-rules"></ul>
+
+      <!-- ŽIVOTNÍ PROSTŘEDÍ / ÚNIK KAPALIN -->
+      <div class="sec-section-title" id="t-sec-env">Environmental / Spill</div>
+      <ul class="rule-list" id="t-env-rules"></ul>
+
+      <!-- DŮLEŽITÉ UPOZORNĚNÍ -->
+      <div class="warning-box" id="t-warning-text">
+        ⚠️ <strong>Important:</strong> The use of a portable starter motor (Booster, cables) is strictly forbidden for Electric and/or Hybrid vehicles.
+      </div>
+
+      <!-- NOUZOVÉ KONTAKTY -->
+      <div class="sec-section-title" id="t-sec-emergency">Emergency Contacts</div>
+      <div style="font-size: 0.85rem; font-weight: bold; text-align: center; color: #f87171; margin-top: 6px;" id="t-emergency-text">
+        Firefighters: 112 | Police: 110 | European Emergency: 112
+      </div>
     </div>
 
+    <!-- PODPISOVÁ ČÁST -->
     <div class="card">
-      <h3 id="t-h3-signature">Unterschrift</h3>
+      <h3 id="t-h3-signature" style="margin-top:0;">Unterschrift</h3>
       
       <div id="sig-form-wrapper">
         <p id="t-sig-declaration" class="sig-declaration"></p>
@@ -328,7 +407,6 @@
         <h3 id="t-success-title" style="margin: 0 0 8px 0; color: #22c55e;">Vielen Dank!</h3>
         <p id="t-success-text" style="margin: 0 0 16px 0; color: #cbd5e1; font-size: 0.9rem;"></p>
         <button id="btn-new-visitor" class="primary" style="margin-bottom: 10px;">Neuer Besucher</button>
-        <!-- ODKAZ NA TABULKU PO ÚSPĚŠNÉM ODESLÁNÍ -->
         <a id="t-link-sheet-2" href="https://docs.google.com/spreadsheets/d/14JY3pVGkHyJmKMuELZCVU_PEHpvDgVXs5fPVw_OwZB8/edit?usp=sharing" target="_blank" class="btn-link secondary">Besucherliste öffnen</a>
       </div>
 
@@ -339,6 +417,9 @@
 
 <script>
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbznDtaDvUkFQM1jEplC1PnDxAtGPxnoFc7VqExTrxaQRNqqSzCLPy5v_vzpKK5hgYex/exec";
+
+  // Definice HTML pro značku 30
+  const speedSignHTML = '<div class="speed-sign-30">30</div>';
 
   const translations = {
     de: {
@@ -360,22 +441,45 @@
       errSelect: "Bitte wählen Sie den Besuchszweck aus.",
       errCustomEvent: "Bitte tragen Sie den eigenen Zweck ein.",
       errName: "Bitte geben Sie Vor- und Nachnamen ein (mindestens zwei Wörter).",
-      errBoth: "Bitte überprüfen Sie den Zweck und den Namen.",
       errSig: "Bitte leisten Sie eine Unterschrift vor der Bestätigung.",
       errServer: "Fehler beim Speichern der Daten. Bitte Verbindung prüfen.",
-      h3Terms: "Sicherheitsregeln für den Betriebsbereich (EXPRESLog)",
-      rules: [
-        "<strong>Warnweste:</strong> Zutritt nur mit Hochsicherheits-Warnweste (Klasse 2 oder höher) gestattet.",
-        "<strong>Sicherheitsschuhe:</strong> Geschlossene Sicherheitsschuhe mit Zehenschutzkappe und rutschfester Sohle sind Pflicht.",
-        "<strong>Markierte Wege:</strong> Nutzen Sie ausschließlich die grün markierten Fußwege. Abkürzungen sind verboten.",
-        "<strong>Vorfahrt:</strong> Flurförderzeuge (Gabelstapler) und LKW haben stets Vorrang vor Fußgängern.",
-        "<strong>Blickkontakt:</strong> Suchen Sie immer direkten Blickkontakt zum Fahrer, bevor Sie dessen Fahrspur kreuzen.",
-        "<strong>Handyverbot:</strong> Die Nutzung von Mobiltelefonen oder Kopfhörern im Betriebsbereich ist strengstens untersagt.",
-        "<strong>Toter Winkel:</strong> Achten Sie besonders auf tote Winkel bei geparkten LKW, Containern und Gebäudeecken.",
-        "<strong>Schutzhelm:</strong> Helm-Pflicht in Zonen mit Kranbetrieb oder Überkopfbeladung.",
-        "<strong>Schwebende Lasten:</strong> Das Betreten von Bereichen unter schwebenden Lasten ist verboten.",
-        "<strong>Meldepflicht:</strong> Schäden, ausgelaufene Flüssigkeiten oder Beinahe-Unfälle sofort dem Schichtleiter melden."
+      
+      h3Terms: "Sicherheitsinformationen & Anweisungen (TRADISA)",
+      secGeneral: "Allgemeine Verbote & Regeln",
+      secPpe: "Vorgeschriebene Schutzausrüstung (PSA)",
+      secLoading: "Be- und Entladen / VDI 2700",
+      secEnv: "Umweltschutz & Notfall",
+      secEmergency: "Notrufnummern",
+      
+      generalIcons: [
+        { symbol: "📷🚫", label: "Kein Fotografieren" },
+        { symbol: "🚶‍♂️🚫", label: "Keine unbefugten Personen" },
+        { symbol: "🍷🚫", label: "Kein Alkohol" },
+        { symbol: "💉🚬🌿🚫", label: "Keine Drogen / Rauchen" },
+        { symbol: "🐕🚫", label: "Keine Tiere" },
+        { symbol: "💼🚫", label: "Keine Geschäftstransaktionen" },
+        { symbol: "🩳🚫", label: "Angemessene Kleidung" },
+        { symbol: "📱🚫", label: "Kein Handy während Fahrt / Be-Entladung" },
+        { symbol: speedSignHTML, label: "Höchstgeschwindigkeit 30 km/h" }
       ],
+      ppeIcons: [
+        { symbol: "🥾", label: "Sicherheitsschuhe" },
+        { symbol: "🦺", label: "Warnweste" },
+        { symbol: "🧥", label: "Schutzanzug" },
+        { symbol: "🧤", label: "Schutzhandschuhe" }
+      ],
+      loadingRules: [
+        "<strong>Motor aus:</strong> Während des Be- und Entladens darf der Motor nicht laufen.",
+        "<strong>Schlüssel abziehen:</strong> Fahrzeugschlüssel müssen abgezogen sein.",
+        "<strong>Ausrüstung VDI 2700:</strong> 24 Spanngurte (mit Kantenschutz, Schlauch, Elastizität 4%), 35 Keile, Sicherheitsstützen mit 4 Seilen."
+      ],
+      envRules: [
+        "<strong>Ausgetretene Flüssigkeiten (Öl, Diesel):</strong> Sofort den Wachdienst informieren.",
+        "<strong>Sicherung:</strong> Absperrkegel aufstellen und Absorb-Kit (Bindemittel) nutzen."
+      ],
+      warningText: "⚠️ <strong>Wichtig:</strong> Die Verwendung eines mobilen Starthilfegeräts (Booster, Kabel) ist bei Elektro- und/oder Hybridfahrzeugen strengstens verboten.",
+      emergencyText: "Feuerwehr: 112 | Polizei: 110 | Europaweiter Notruf: 112",
+      
       h3Sig: "Unterschrift",
       sigDeclaration: "Mit meiner Unterschrift bestätige ich, die oben genannten Regeln gelesen zu haben und diese einzuhalten.",
       btnClearSig: "Unterschrift löschen",
@@ -390,7 +494,7 @@
       optSelect: "-- Vyberte účel návštěvy --",
       optShipment: "Zásilka",
       optService: "Servis",
-      optPickup: "Odběr / Abholer",
+      optPickup: "Odběr",
       optVisit: "Návštěva",
       optOther: "Jiná volba",
       phCustomEvent: "Napište účel návštěvy...",
@@ -403,24 +507,47 @@
       errSelect: "Prosím vyberte účel návštěvy.",
       errCustomEvent: "Prosím vyplňte zadaný účel návštěvy.",
       errName: "Prosím zadejte jméno i příjmení (minimálně dvě slova).",
-      errBoth: "Prosím zkontrolujte výběr účelu návštěvy a zadejte jméno i příjmení.",
       errSig: "Před potvrzením se prosím podepište.",
-      errServer: "Chyba při ukládání dat. Zkontrolujte připojení k internetu.",
-      h3Terms: "Bezpečnostní pravidla pro pohyb na provozní ploše (Spedice EXPRESLog)",
-      rules: [
-        "<strong>Reflexní vesta:</strong> Vstup na provozní plochu je povolen pouze v reflexní vestě s vysokou viditelností (třída 2 nebo vyšší).",
-        "<strong>Bezpečnostní obuv:</strong> Všichni pracovníci i návštěvníci musí nosit uzavřenou bezpečnostní obuv s ocelovou nebo kompozitní špičkou a protiskluzovou podrážkou.",
-        "<strong>Vyznačené koridory:</strong> Pro pěší pohyb využívejte výhradně zeleně vyznačené chodníky a přechody. Je přísně zakázáno zkracovat si cestu přes manipulativní zóny.",
-        "<strong>Přednost v jízdě:</strong> Manipulační technika (vysokozdvižné vozíky, tahače) a nákladní automobily mají vždy přednost před pěšími.",
-        "<strong>Oční kontakt:</strong> Než vstoupíte do dráhy vozidla nebo vysokozdvižného vozíku, vždy navažte přímý oční kontakt s řidičem a vyčkejte, až vás zaznamená.",
-        "<strong>Zákaz mobilních telefonů:</strong> Na provozní ploše je přísně zakázáno používat mobilní telefony, sluchátka nebo provádět jakékoli jiné činnosti odvádějící pozornost.",
-        "<strong>Sledování slepých úhlů:</strong> Při obcházení zaparkovaných kamionů, kontejnerů a v rozích budov dbejte zvýšené opatrnosti a udržujte dostatečný odstup od slepých úhlů.",
-        "<strong>Používání ochranné přilby:</strong> V zónách s rizikem pádu břemene nebo při nakládce/vykládce ve výškách je povinné nosit ochrannou přilbu.",
-        "<strong>Zákaz vstupu pod břemeno:</strong> Je přísně zakázáno vstupovat pod zavěšená břemena nebo se zdržovat v těsné blízkosti zvedacího mechanizmu techniky.",
-        "<strong>Ohlášení nebezpečí a úrazů:</strong> Jakékoli poškození infrastruktury, rozlité provozní kapaliny nebo „skoronehody“ okamžitě nahlaste vedoucímu směny."
+      errServer: "Chyba při ukládání dat. Zkontrolujte připojení.",
+      
+      h3Terms: "Bezpečnostní informace a pokyny (TRADISA)",
+      secGeneral: "Obecná pravidla a zákazy",
+      secPpe: "Povinné ochranné pomůcky (PSA)",
+      secLoading: "Nakládka / Vykládka a VDI 2700",
+      secEnv: "Ochrana prostředí / Únik kapalin",
+      secEmergency: "Tísňové linky",
+      
+      generalIcons: [
+        { symbol: "📷🚫", label: "Zákaz focení" },
+        { symbol: "🚶‍♂️🚫", label: "Zákaz třetích osob" },
+        { symbol: "🍷🚫", label: "Zákaz alkoholu" },
+        { symbol: "💉🚬🌿🚫", label: "Zákaz drog a kouření" },
+        { symbol: "🐕🚫", label: "Zákaz zvířat" },
+        { symbol: "💼🚫", label: "Zákaz obchodu" },
+        { symbol: "🩳🚫", label: "Vhodné oblečení" },
+        { symbol: "📱🚫", label: "Zákaz mobilu za jízdy a nakládky" },
+        { symbol: speedSignHTML, label: "Rychlost max 30 km/h" }
       ],
+      ppeIcons: [
+        { symbol: "🥾", label: "Bezpečnostní obuv" },
+        { symbol: "🦺", label: "Reflexní vesta" },
+        { symbol: "🧥", label: "Ochranný oblek" },
+        { symbol: "🧤", label: "Ochranné rukavice" }
+      ],
+      loadingRules: [
+        "<strong>Vypnout motor:</strong> Během nakládky a vykládky nesmí běžet motor.",
+        "<strong>Vytáhnout klíčky:</strong> Klíčky od vozidla musí být vytažené ze spínací skříňky.",
+        "<strong>Vybavení VDI 2700:</strong> 24 upínacích pásů (s chrániči hran, návleky, průtažnost 4%), 35 klínů, bezpečnostní sloupky se 4 lany."
+      ],
+      envRules: [
+        "<strong>Unikající kapaliny (olej, nafta):</strong> Ihned informujte ostrahu.",
+        "<strong>Zabezpečení:</strong> Použijte výstražné kužely a sorpční kit (absorbční sadu)."
+      ],
+      warningText: "⚠️ <strong>Důležité:</strong> Použití přenosného startéru (Booster, kabely) je u elektrických a/nebo hybridních vozidel přísně zakázáno.",
+      emergencyText: "Hasiči: 112 | Policie: 110 | Evropské tísňové číslo: 112",
+      
       h3Sig: "Podpis",
-      sigDeclaration: "Svým podpisem stvrzuji, že jsem se seznámil/a s výše uvedenými pravidly a zavazuji se k jejich řádnému dodržování.",
+      sigDeclaration: "Svým podpisem stvrzuji, že jsem se seznámil/a s výše uvedenými pravidly a zavazuji se k jejich dodržování.",
       btnClearSig: "Vymazat podpis",
       btnConfirmSig: "Odeslat a potvrdit",
       successTitle: "Děkujeme!",
@@ -445,23 +572,46 @@
       linkSheet: "Open Visitor List",
       errSelect: "Please select the purpose of your visit.",
       errCustomEvent: "Please fill in the custom visit purpose.",
-      errName: "Please enter both first and last name (at least two words).",
-      errBoth: "Please check purpose selection and enter full name.",
+      errName: "Please enter both first and last name.",
       errSig: "Please provide a signature before confirming.",
       errServer: "Error saving data. Please check your connection.",
-      h3Terms: "Safety Rules for Operating Area (EXPRESLog Freight)",
-      rules: [
-        "<strong>High-Visibility Vest:</strong> Entry is permitted only with a high-visibility vest (Class 2 or higher).",
-        "<strong>Safety Footwear:</strong> Closed safety shoes with steel or composite toecaps and anti-slip soles are mandatory.",
-        "<strong>Designated Walkways:</strong> Use green-marked pedestrian paths only. Shortening routes across handling zones is prohibited.",
-        "<strong>Right of Way:</strong> Handling equipment (forklifts, tuggers) and trucks always have priority over pedestrians.",
-        "<strong>Eye Contact:</strong> Always establish direct eye contact with drivers before crossing their path.",
-        "<strong>No Mobile Phones:</strong> Using mobile phones or headphones in operating areas is strictly forbidden.",
-        "<strong>Blind Spots:</strong> Pay extra attention around parked trucks, containers, and building corners.",
-        "<strong>Hard Hats:</strong> Helmets are required in areas with overhead load hazards or high unloading.",
-        "<strong>Suspended Loads:</strong> Never walk under suspended loads or stay near lifting mechanisms.",
-        "<strong>Report Hazards:</strong> Immediately report damages, fluid spills, or near-misses to the shift supervisor."
+      
+      h3Terms: "Safety Information & Instructions (TRADISA)",
+      secGeneral: "General Rules & Prohibitions",
+      secPpe: "Mandatory Personal Protective Equipment",
+      secLoading: "Loading / Unloading & VDI 2700",
+      secEnv: "Environmental / Spill Response",
+      secEmergency: "Emergency Numbers",
+      
+      generalIcons: [
+        { symbol: "📷🚫", label: "No photography" },
+        { symbol: "🚶‍♂️🚫", label: "No unauthorized persons" },
+        { symbol: "🍷🚫", label: "No alcohol" },
+        { symbol: "💉🚬🌿🚫", label: "No drugs / smoking" },
+        { symbol: "🐕🚫", label: "No pets allowed" },
+        { symbol: "💼🚫", label: "No business transactions" },
+        { symbol: "🩳🚫", label: "Proper attire required" },
+        { symbol: "📱🚫", label: "No mobile phone during drive / loading" },
+        { symbol: speedSignHTML, label: "Max speed 30 km/h" }
       ],
+      ppeIcons: [
+        { symbol: "🥾", label: "Safety shoes" },
+        { symbol: "🦺", label: "High-vis vest" },
+        { symbol: "🧥", label: "Protective suit" },
+        { symbol: "🧤", label: "Safety gloves" }
+      ],
+      loadingRules: [
+        "<strong>No Engine Running:</strong> Engine must be turned off during loading and unloading.",
+        "<strong>Remove Keys:</strong> Vehicle keys must be removed from ignition.",
+        "<strong>VDI 2700 Equipment:</strong> 24 straps (with protective sheaths, 4% elasticity), 35 shims, safety posts with 4 safety cables."
+      ],
+      envRules: [
+        "<strong>Spill of polluting liquid (oil, diesel):</strong> Inform the guardian immediately.",
+        "<strong>Containment:</strong> Use warning cones and the absorbent kit."
+      ],
+      warningText: "⚠️ <strong>Important:</strong> The use of a portable starter motor (Booster, cables) is strictly forbidden for Electric and/or Hybrid vehicles.",
+      emergencyText: "Firefighters: 112 | Police: 110 | European Emergency: 112",
+      
       h3Sig: "Signature",
       sigDeclaration: "By signing below, I confirm that I have read the safety rules above and agree to comply with them.",
       btnClearSig: "Clear Signature",
@@ -473,44 +623,67 @@
     hu: {
       title: "Vendégkönyv",
       lblEvent: "Látogatás célja",
-      optSelect: "-- Válassza ki a látogatás célját --",
+      optSelect: "-- Válassza ki a célt --",
       optShipment: "Szállítás",
       optService: "Szerviz",
       optPickup: "Átvétel",
       optVisit: "Látogatás",
-      optOther: "Egyéb lehetőség",
-      phCustomEvent: "Adja meg a célját...",
+      optOther: "Egyéb",
+      phCustomEvent: "Adja meg a célt...",
       btnSaveCustom: "Mentés",
       lblName: "Vezetéknév és keresztnév",
       phName: "Kovács János",
-      btnResetForm: "Űrlap alaphelyzetbe állítása",
+      btnResetForm: "Alaphelyzet",
       btnNext: "Tovább",
-      linkSheet: "Vendéglista megnyitása",
-      errSelect: "Kérjük, válassza ki a látogatás célját.",
-      errCustomEvent: "Kérjük, adja meg a látogatás célját.",
-      errName: "Kérjük, adja meg a teljes nevét (legalább két szó).",
-      errBoth: "Kérjük, ellenőrizze a megadott adatokat.",
-      errSig: "Kérjük, írja alá a megerősítés előtt.",
-      errServer: "Hiba az adatok mentése során. Kérjük, ellenőrizze a kapcsolatot.",
-      h3Terms: "Biztonsági szabályok az üzemi területen (EXPRESLog)",
-      rules: [
-        "<strong>Láthatósági mellény:</strong> A belépés csak láthatósági mellényben (2. osztályú) engedélyezett.",
-        "<strong>Munkavédelmi cipő:</strong> Zárt munkavédelmi cipő viselése kötelező.",
-        "<strong>Kijelölt útvonalak:</strong> Kizárólag a zölddel jelölt gyalogos útvonalakat használja.",
-        "<strong>Elsőbbség:</strong> A gépeknek és teherautóknak mindig elsőbbségük van.",
-        "<strong>Szemkontaktus:</strong> Mindig vegye fel a szemkontaktust a gépjárművezetővel.",
-        "<strong>Mobiltelefon tilalom:</strong> Mobiltelefon és fülhallgató használata szigorúan tilos.",
-        "<strong>Vakfoltok:</strong> Ügyeljen a vakfoltokra a parkoló teherautók körül.",
-        "<strong>Védősisak:</strong> Teheremelési zónákban a védősisak használata kötelező.",
-        "<strong>Függő teher:</strong> Függő teher alatt tartózkodni szigorúan tilos.",
-        "<strong>Veszélyek jelentése:</strong> Bármilyen sérülést azonnal jelentsen a műszakvezetőnek."
+      linkSheet: "Vendéglista",
+      errSelect: "Kérjük, válassza ki a célt.",
+      errCustomEvent: "Kérjük, adja meg a célt.",
+      errName: "Kérjük, adja meg a teljes nevét.",
+      errSig: "Kérjük, írja alá.",
+      errServer: "Hiba az adatok mentésekor.",
+      
+      h3Terms: "Biztonsági információk és utasítások (TRADISA)",
+      secGeneral: "Általános szabályok",
+      secPpe: "Kötelező védőfelszerelés",
+      secLoading: "Fel- / Lerakodás & VDI 2700",
+      secEnv: "Környezetvédelem",
+      secEmergency: "Segélyhívószámok",
+      
+      generalIcons: [
+        { symbol: "📷🚫", label: "Tilos fotózni" },
+        { symbol: "🚶‍♂️🚫", label: "Illetéktelenek tilos" },
+        { symbol: "🍷🚫", label: "Alkohol tilos" },
+        { symbol: "💉🚬🌿🚫", label: "Drog / Dopping tilos" },
+        { symbol: "🐕🚫", label: "Állatot behozni tilos" },
+        { symbol: "💼🚫", label: "Üzletelni tilos" },
+        { symbol: "🩳🚫", label: "Megfelelő ruházat" },
+        { symbol: "📱🚫", label: "Telefon tilos vezetés/rakodás közben" },
+        { symbol: speedSignHTML, label: "Max sebesség 30 km/h" }
       ],
+      ppeIcons: [
+        { symbol: "🥾", label: "Munkavédelmi cipő" },
+        { symbol: "🦺", label: "Láthatósági mellény" },
+        { symbol: "🧥", label: "Védőruha" },
+        { symbol: "🧤", label: "Védőkesztyű" }
+      ],
+      loadingRules: [
+        "<strong>Motor leállítása:</strong> Fel- és lerakodás közben a motor nem járhat.",
+        "<strong>Kulcs kivétele:</strong> A kulcsot ki kell venni.",
+        "<strong>VDI 2700 felszerelés:</strong> 24 db heveder, 35 ék, biztonsági oszlopok."
+      ],
+      envRules: [
+        "<strong>Folyadékszivárgás:</strong> Azonnal értesítse a portást.",
+        "<strong>Készlet:</strong> Használja a bójákat és a felitató készletet."
+      ],
+      warningText: "⚠️ <strong>Fontos:</strong> Elektromos és/vagy hibrid járműveknél szigorúan tilos hordozó indítómotort (Booster) használni.",
+      emergencyText: "Tűzoltóság: 112 | Rendőrség: 110 | Segélyhívó: 112",
+      
       h3Sig: "Aláírás",
-      sigDeclaration: "Aláírásommal igazolom, hogy a fenti szabályokat megismertem és elfogadom.",
-      btnClearSig: "Aláírás törlése",
-      btnConfirmSig: "Küldés és megerősítés",
+      sigDeclaration: "Aláírásommal igazolom a szabályok ismeretét és betartását.",
+      btnClearSig: "Törlés",
+      btnConfirmSig: "Küldés",
       successTitle: "Köszönjük!",
-      successText: "Az aláírását és a szabályok elfogadását sikeresen rögzítettük.",
+      successText: "Az aláírást sikeresen rögzítettük.",
       btnNewVisitor: "Új látogató"
     },
     pl: {
@@ -522,81 +695,127 @@
       optPickup: "Odbiór",
       optVisit: "Wizyta",
       optOther: "Inna opcja",
-      phCustomEvent: "Wpisz cel wizyty...",
+      phCustomEvent: "Wpisz cel...",
       btnSaveCustom: "Zapisz",
       lblName: "Imię i nazwisko",
       phName: "Jan Kowalski",
-      btnResetForm: "Zresetuj formularz",
+      btnResetForm: "Zresetuj",
       btnNext: "Dalej",
-      linkSheet: "Otwórz listę gości",
-      errSelect: "Proszę wybrać cel wizyty.",
-      errCustomEvent: "Proszę podać cel wizyty.",
-      errName: "Proszę podać imię i nazwisko (co najmniej dwa słowa).",
-      errBoth: "Proszę sprawdzić cel wizyty oraz wprowadzić imię i nazwisko.",
-      errSig: "Proszę złożyć podpis przed potwierdzeniem.",
-      errServer: "Błąd podczas zapisywania danych. Sprawdź połączenie.",
-      h3Terms: "Zasady bezpieczeństwa na terenie operacyjnym (EXPRESLog)",
-      rules: [
-        "<strong>Kamizelka odblaskowa:</strong> Wstęp na teren operacyjny jest dozwolony wyłącznie w kamizelce odblaskowej (klasa 2 lub wyższa).",
-        "<strong>Obuwie ochronne:</strong> Obowiązkowe jest noszenie zamkniętego obuwia ochronnego z podnoskiem stalowym/kompozytowym i podeszwą antypoślizgową.",
-        "<strong>Wyznaczone ciągi:</strong> Należy poruszać się wyłącznie po zielono oznaczonych chodnikach i przejściach dla pieszych.",
-        "<strong>Pierwszeństwo przejazdu:</strong> Wózki widłowe i pojazdy ciężarowe mają zawsze pierwszeństwo przed pieszymi.",
-        "<strong>Kontakt wzrokowy:</strong> Przed wejściem na tor jazdy pojazdu zawsze nawiąż bezpośredni kontakt wzrokowy z kierowcą.",
-        "<strong>Zakaz używania telefonów:</strong> Używanie telefonów komórkowych lub słuchawek na terenie operacyjnym jest surowo zabronione.",
-        "<strong>Martwe pola:</strong> Zachowaj szczególną ostrożność przy omijaniu zaparkowanych ciężarówek i w rogach budynków.",
-        "<strong>Kask ochronny:</strong> Obowiązkowy w strefach zagrożenia upadkiem ładunku lub podczas załadunku/rozładunku.",
-        "<strong>Zakaz przebywania pod ładunkiem:</strong> Surowo zabrania się wchodzenia pod zawieszone ładunki.",
-        "<strong>Zgłaszanie zagrożeń:</strong> Wszelkie uszkodzenia, wycieki lub incydenty należy natychmiast zgłaszać kierownikowi zmiany."
+      linkSheet: "Lista gości",
+      errSelect: "Wybierz cel wizyty.",
+      errCustomEvent: "Podaj cel wizyty.",
+      errName: "Podaj imię i nazwisko.",
+      errSig: "Proszę złożyć podpis.",
+      errServer: "Błąd zapisu.",
+      
+      h3Terms: "Informacje o bezpieczeństwie (TRADISA)",
+      secGeneral: "Ogólne zasady i zakazy",
+      secPpe: "Obowiązkowe ŚOI",
+      secLoading: "Załadunek / Rozładunek & VDI 2700",
+      secEnv: "Ochrona środowiska",
+      secEmergency: "Numery alarmowe",
+      
+      generalIcons: [
+        { symbol: "📷🚫", label: "Zakaz fotografowania" },
+        { symbol: "🚶‍♂️🚫", label: "Brak osób postronnych" },
+        { symbol: "🍷🚫", label: "Zakaz alkoholu" },
+        { symbol: "💉🚬🌿🚫", label: "Zakaz narkotyków/tytoniu" },
+        { symbol: "🐕🚫", label: "Zakaz zwierząt" },
+        { symbol: "💼🚫", label: "Zakaz transakcji" },
+        { symbol: "🩳🚫", label: "Odpowiedni ubiór" },
+        { symbol: "📱🚫", label: "Zakaz telefonu podczas jazdy/załadunku" },
+        { symbol: speedSignHTML, label: "Prędkość maks 30 km/h" }
       ],
+      ppeIcons: [
+        { symbol: "🥾", label: "Obuwie ochronne" },
+        { symbol: "🦺", label: "Kamizelka odblaskowa" },
+        { symbol: "🧥", label: "Odzież ochronna" },
+        { symbol: "🧤", label: "Rękawice ochronne" }
+      ],
+      loadingRules: [
+        "<strong>Silnik wyłączony:</strong> Silnik nie może pracować podczas załadunku i rozładunku.",
+        "<strong>Wyjęcie kluczyków:</strong> Kluczyki muszą być wyjęte ze stacyjki.",
+        "<strong>Wyposażenie VDI 2700:</strong> 24 pasy, 35 podkładek klinowych, słupki bezpieczeństwa."
+      ],
+      envRules: [
+        "<strong>Wyciek płynów:</strong> Natychmiast powiadomić ochronę.",
+        "<strong>Zestaw:</strong> Użyć pachołków i sorbentu."
+      ],
+      warningText: "⚠️ <strong>Ważne:</strong> Używanie przenośnego rozrusznika (Booster, kable) jest surowo zabronione w pojazdach elektrycznych i/lub hybrydowych.",
+      emergencyText: "Straż pożarna: 112 | Policja: 110 | Europejski numer alarmowy: 112",
+      
       h3Sig: "Podpis",
-      sigDeclaration: "Składając podpis, potwierdzam zapoznanie się z powyższymi zasadami i zobowiązuję się do ich przestrzegania.",
-      btnClearSig: "Wyczyść podpis",
-      btnConfirmSig: "Wyślij i potwierdź",
+      sigDeclaration: "Składając podpis potwierdzam zapoznanie się z zasadami.",
+      btnClearSig: "Wyczyść",
+      btnConfirmSig: "Wyślij",
       successTitle: "Dziękujemy!",
-      successText: "Twój podpis i akceptacja regulaminu zostały pomyślnie zapisane.",
+      successText: "Zapisano pomyślnie.",
       btnNewVisitor: "Nowy gość"
     },
     ro: {
       title: "Registru Vizitatori",
       lblEvent: "Scopul vizitei",
-      optSelect: "-- Selectați scopul vizitei --",
+      optSelect: "-- Selectați scopul --",
       optShipment: "Livrare",
       optService: "Service",
       optPickup: "Ridicare",
       optVisit: "Vizită",
-      optOther: "Altă opțiune",
+      optOther: "Altul",
       phCustomEvent: "Introduceți scopul...",
       btnSaveCustom: "Salvează",
       lblName: "Nume și prenume",
       phName: "Ion Popescu",
-      btnResetForm: "Resetează formularul",
+      btnResetForm: "Resetează",
       btnNext: "Mai departe",
-      linkSheet: "Deschide lista vizitatorilor",
-      errSelect: "Vă rugăm să selectați scopul vizitei.",
-      errCustomEvent: "Vă rugăm să completați scopul vizitei.",
-      errName: "Vă rugăm să introduceți atât numele, cât și prenumele.",
-      errBoth: "Vă rugăm să verificați scopul și numele complet.",
-      errSig: "Vă rugăm să semnați înainte de a confirma.",
-      errServer: "Eroare la salvarea datelor. Vă rugăm să verificați conexiunea.",
-      h3Terms: "Reguli de siguranță pentru zona operațională (EXPRESLog)",
-      rules: [
-        "<strong>Vestă reflectorizantă:</strong> Accesul este permis doar cu vestă reflectorizantă (Clasa 2 sau mai înaltă).",
-        "<strong>Încălțăminte de protecție:</strong> Încălțămintea închisă cu bombeu metalic și talpă antiderapantă este obligatorie.",
-        "<strong>Culoare desemnate:</strong> Folosiți exclusiv traseele pietonale marcate cu verde.",
-        "<strong>Prioritate de trecere:</strong> Stivuitoarele și camioanele au întotdeauna prioritate față de pietoni.",
-        "<strong>Contact vizual:</strong> Stabiliți întotdeauna contact vizual cu șoferul înainte de a-i tăia calea.",
-        "<strong>Interzis telefoanele:</strong> Utilizarea telefoanelor sau căștilor în zona operațională este strict interzisă.",
-        "<strong>Unghiuri moarte:</strong> Fiți foarte atenți în jurul camioanelor parcate, containerelor și colțurilor clădirilor.",
-        "<strong>Cască de protecție:</strong> Casca este obligatorie în zonele cu risc de cădere a obiectelor.",
-        "<strong>Sarcini suspendate:</strong> Este interzis accesul sub sarcinile suspendate ale echipamentelor.",
-        "<strong>Raportare pericole:</strong> Raportați imediat șefului de schimb orice daună, scurgere sau incident."
+      linkSheet: "Lista vizitatori",
+      errSelect: "Selectați scopul.",
+      errCustomEvent: "Completați scopul.",
+      errName: "Introduceți numele complet.",
+      errSig: "Semnați vă rog.",
+      errServer: "Eroare la salvare.",
+      
+      h3Terms: "Informații de siguranță (TRADISA)",
+      secGeneral: "Reguli generale",
+      secPpe: "Echipament de protecție obligatoriu",
+      secLoading: "Încărcare / Descărcare & VDI 2700",
+      secEnv: "Mediu / Scurgeri",
+      secEmergency: "Numere de urgență",
+      
+      generalIcons: [
+        { symbol: "📷🚫", label: "Interzis foto" },
+        { symbol: "🚶‍♂️🚫", label: "Fără persoane neautorizate" },
+        { symbol: "🍷🚫", label: "Fără alcool" },
+        { symbol: "💉🚬🌿🚫", label: "Fără droguri / fumat" },
+        { symbol: "🐕🚫", label: "Fără animale" },
+        { symbol: "💼🚫", label: "Fără tranzacții" },
+        { symbol: "🩳🚫", label: "Îmbrăcăminte adecvată" },
+        { symbol: "📱🚫", label: "Fără telefon mobil la volan / încărcare" },
+        { symbol: speedSignHTML, label: "Viteză maximă 30 km/h" }
       ],
+      ppeIcons: [
+        { symbol: "🥾", label: "Încălțăminte protecție" },
+        { symbol: "🦺", label: "Vestă reflectorizantă" },
+        { symbol: "🧥", label: "Costum de protecție" },
+        { symbol: "🧤", label: "Mănuși de protecție" }
+      ],
+      loadingRules: [
+        "<strong>Motor oprit:</strong> Motorul nu trebuie să funcționeze în timpul operațiunilor.",
+        "<strong>Cheile scoase:</strong> Cheile trebuie scoase din contact.",
+        "<strong>Echipament VDI 2700:</strong> 24 chingi, 35 cale, stâlpi de siguranță."
+      ],
+      envRules: [
+        "<strong>Scurgere lichide:</strong> Anunțați imediat paza.",
+        "<strong>Intervenție:</strong> Folosiți conurile și kitul absorbant."
+      ],
+      warningText: "⚠️  <strong>Important:</strong> Utilizarea unui starter portabil (Booster) este strict interzisă pentru vehiculele electrice și/sau hibride.",
+      emergencyText: "Pompieri: 112 | Poliție: 110 | Urgență europeană: 112",
+      
       h3Sig: "Semnătură",
-      sigDeclaration: "Prin semnătură, confirm că am citit regulile de mai sus și mă oblig să le respect întocmai.",
-      btnClearSig: "Șterge semnătura",
-      btnConfirmSig: "Confirmă și trimite",
-      successTitle: "Vă mulțumim!",
-      successText: "Semnătura și acordul dumneavoastră au fost înregistrate cu succes.",
+      sigDeclaration: "Prin semnătură confirm respectarea regulilor.",
+      btnClearSig: "Șterge",
+      btnConfirmSig: "Trimite",
+      successTitle: "Mulțumim!",
+      successText: "Înregistrat cu succes.",
       btnNewVisitor: "Vizitator nou"
     },
     ru: {
@@ -605,41 +824,64 @@
       optSelect: "-- Выберите цель визита --",
       optShipment: "Доставка",
       optService: "Сервис",
-      optPickup: "Забор / Самовывоз",
+      optPickup: "Самовывоз",
       optVisit: "Визит",
-      optOther: "Другой вариант",
-      phCustomEvent: "Укажите цель визита...",
+      optOther: "Другое",
+      phCustomEvent: "Укажите цель...",
       btnSaveCustom: "Сохранить",
       lblName: "Имя и фамилия",
       phName: "Иван Иванов",
-      btnResetForm: "Сбросить форму",
+      btnResetForm: "Сбросить",
       btnNext: "Далее",
-      linkSheet: "Открыть список посещений",
-      errSelect: "Пожалуйста, выберите цель визита.",
-      errCustomEvent: "Пожалуйста, укажите цель визита.",
-      errName: "Пожалуйста, введите имя и фамилию (минимум два слова).",
-      errBoth: "Пожалуйста, проверьте цель визита и введите имя и фамилию.",
-      errSig: "Пожалуйста, поставьте подпись перед подтверждением.",
-      errServer: "Ошибка при сохранении данных. Проверьте подключение.",
-      h3Terms: "Правила безопасности на территории (EXPRESLog)",
-      rules: [
-        "<strong>Сигнальный жилет:</strong> Вход разрешен только в сигнальном жилете высокой видимости (класс 2 или выше).",
-        "<strong>Защитная обувь:</strong> Обязательна закрытая защитная обувь с металлическим или композитным подноском.",
-        "<strong>Выделенные пешеходные зоны:</strong> Передвигайтесь строго по зеленым пешеходным дорожкам.",
-        "<strong>Приоритет движения:</strong> Погрузочная техника и грузовые автомобили всегда имеют преимущество.",
-        "<strong>Визуальный контакт:</strong> Убедитесь в наличии визуального контакта с водителем, прежде чем пересекать его путь.",
-        "<strong>Запрет мобильных телефонов:</strong> Использование телефонов или наушников строго запрещено.",
-        "<strong>Слепые зоны:</strong> Будьте предельно внимательны возле припаркованных грузовиков и углов зданий.",
-        "<strong>Защитная каска:</strong> Ношение каски обязательно в зонах с риском падения груза.",
-        "<strong>Запрет нахождения под грузом:</strong> Строго запрещено находиться под подвешенным грузом.",
-        "<strong>Сообщение об опасности:</strong> О любых повреждениях или происшествиях немедленно сообщайте начальнику смены."
+      linkSheet: "Список гостей",
+      errSelect: "Выберите цель визита.",
+      errCustomEvent: "Укажите цель визита.",
+      errName: "Введите имя и фамилию.",
+      errSig: "Поставьте подпись.",
+      errServer: "Ошибка сохранения.",
+      
+      h3Terms: "Информация по безопасности (TRADISA)",
+      secGeneral: "Общие правила и запреты",
+      secPpe: "Обязательные СИЗ",
+      secLoading: "Погрузка / Разгрузка & VDI 2700",
+      secEnv: "Охрана окружающей среды",
+      secEmergency: "Экстренные номера",
+      
+      generalIcons: [
+        { symbol: "📷🚫", label: "Запрет фотосъемки" },
+        { symbol: "🚶‍♂️🚫", label: "Без посторонних лиц" },
+        { symbol: "🍷🚫", label: "Запрет алкоголя" },
+        { symbol: "💉🚬🌿🚫", label: "Запрет наркотиков/курения" },
+        { symbol: "🐕🚫", label: "Запрет животных" },
+        { symbol: "💼🚫", label: "Запрет сделок" },
+        { symbol: "🩳🚫", label: "Надлежащая одежда" },
+        { symbol: "📱🚫", label: "Запрет телефона за рулем/погрузке" },
+        { symbol: speedSignHTML, label: "Скорость до 30 км/ч" }
       ],
+      ppeIcons: [
+        { symbol: "🥾", label: "Защитная обувь" },
+        { symbol: "🦺", label: "Сигнальный жилет" },
+        { symbol: "🧥", label: "Защитный костюм" },
+        { symbol: "🧤", label: "Перчатки" }
+      ],
+      loadingRules: [
+        "<strong>Двигатель выключен:</strong> Во время погрузки/разгрузки двигатель не должен работать.",
+        "<strong>Извлечь ключи:</strong> Ключи должны быть вынуты из замка зажигания.",
+        "<strong>Оборудование VDI 2700:</strong> 24 ремня, 35 подкладок, стойки безопасности."
+      ],
+      envRules: [
+        "<strong>Утечка жидкостей:</strong> Немедленно сообщить охране.",
+        "<strong>Ликвидация:</strong> Использовать конусы и абсорбирующий набор."
+      ],
+      warningText: "⚠️ <strong>Важно:</strong> Использование пускового устройства (Бустер, кабели) строго запрещено для электромобилей и/или гибридов.",
+      emergencyText: "Пожарная служба: 112 | Полиция: 110 | Единый номер: 112",
+      
       h3Sig: "Подпись",
-      sigDeclaration: "Своей подписью я подтверждаю, что ознакомлен(а) с вышеуказанными правилами и обязуюсь их соблюдать.",
-      btnClearSig: "Очистить подпись",
-      btnConfirmSig: "Отправить и подтвердить",
+      sigDeclaration: "Своей подписью подтверждаю ознакомление с правилами.",
+      btnClearSig: "Очистить",
+      btnConfirmSig: "Отправить",
       successTitle: "Спасибо!",
-      successText: "Ваша подпись и согласие с правилами успешно зарегистрированы.",
+      successText: "Данные успешно сохранены.",
       btnNewVisitor: "Новый посетитель"
     }
   };
@@ -658,7 +900,6 @@
   const elSigError = document.getElementById('sig-error');
   const elStepOne = document.getElementById('step-one-container');
   const elStepTwo = document.getElementById('step-two-container');
-  const elRulesList = document.getElementById('t-rules-list');
   const elValError = document.getElementById('validation-error');
   const elSigFormWrapper = document.getElementById('sig-form-wrapper');
   const elSuccessMessage = document.getElementById('success-message');
@@ -667,7 +908,7 @@
   const elLinkSheet2 = document.getElementById('t-link-sheet-2');
   const ctx = canvas.getContext('2d');
 
-  const K = 'pwa-test-v2';
+  const K = 'pwa-test-v3';
   let st = JSON.parse(localStorage.getItem(K) || JSON.stringify({
     event: "",
     customEvent: "",
@@ -676,7 +917,7 @@
   }));
 
   function isOtherOption(val) {
-    const otherValues = ["Andere Option", "Jiná volba", "Other option", "Egyéb lehetőség", "Inna opcja", "Altă opțiune", "Другой вариант"];
+    const otherValues = ["Andere Option", "Jiná volba", "Other option", "Egyéb", "Inna opcja", "Altă opțiune", "Другое"];
     return otherValues.includes(val);
   }
 
@@ -704,7 +945,30 @@
     elLinkSheet2.textContent = t.linkSheet;
 
     document.getElementById('t-h3-terms').textContent = t.h3Terms;
-    elRulesList.innerHTML = t.rules.map(r => `<li>${r}</li>`).join('');
+    document.getElementById('t-sec-general').textContent = t.secGeneral;
+    document.getElementById('t-sec-ppe').textContent = t.secPpe;
+    document.getElementById('t-sec-loading').textContent = t.secLoading;
+    document.getElementById('t-sec-env').textContent = t.secEnv;
+    document.getElementById('t-sec-emergency').textContent = t.secEmergency;
+
+    document.getElementById('t-general-icons').innerHTML = t.generalIcons.map(item => `
+      <div class="icon-box">
+        <div class="icon-symbol">${item.symbol}</div>
+        <div class="icon-label">${item.label}</div>
+      </div>
+    `).join('');
+
+    document.getElementById('t-ppe-icons').innerHTML = t.ppeIcons.map(item => `
+      <div class="icon-box">
+        <div class="icon-symbol">${item.symbol}</div>
+        <div class="icon-label">${item.label}</div>
+      </div>
+    `).join('');
+
+    document.getElementById('t-loading-rules').innerHTML = t.loadingRules.map(r => `<li>${r}</li>`).join('');
+    document.getElementById('t-env-rules').innerHTML = t.envRules.map(r => `<li>${r}</li>`).join('');
+    document.getElementById('t-warning-text').innerHTML = t.warningText;
+    document.getElementById('t-emergency-text').textContent = t.emergencyText;
 
     document.getElementById('t-h3-signature').textContent = t.h3Sig;
     elSigDeclaration.textContent = t.sigDeclaration;
@@ -847,7 +1111,7 @@
     if(rect.width > 0) {
       canvas.width = rect.width;
       canvas.height = rect.height;
-      ctx.lineWidth = 6;
+      ctx.lineWidth = 4;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
       ctx.strokeStyle = '#0f172a';
