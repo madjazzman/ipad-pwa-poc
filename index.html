@@ -197,25 +197,30 @@
     }
 
     .icon-symbol {
-      font-size: 1.8rem;
-      margin-bottom: 4px;
+      height: 40px;
       display: flex;
       align-items: center;
       justify-content: center;
+      margin-bottom: 4px;
     }
 
-    /* Vlastní stylování dopravní značky 30 */
+    .icon-symbol img {
+      max-height: 40px;
+      max-width: 40px;
+      object-fit: contain;
+    }
+
     .speed-sign-30 {
-      width: 44px;
-      height: 44px;
+      width: 40px;
+      height: 40px;
       background-color: #ffffff;
-      border: 5px solid #dc2626;
+      border: 4px solid #dc2626;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 900;
-      font-size: 1.1rem;
+      font-size: 1rem;
       color: #000000;
       box-shadow: 0 2px 4px rgba(0,0,0,0.3);
       letter-spacing: -1px;
@@ -421,6 +426,12 @@
   // Definice HTML pro značku 30
   const speedSignHTML = '<div class="speed-sign-30">30</div>';
 
+  // Pomocná funkce pro ISO 7010 piktogramy - automaticky řeší p010 jako PNG
+  const isoIcon = (code, alt) => {
+    const ext = (code === 'p010') ? 'png' : 'svg';
+    return `<img src="iso-${code}.${ext}" alt="${alt}">`;
+  };
+
   const translations = {
     de: {
       title: "Besucherbuch",
@@ -452,14 +463,15 @@
       secEmergency: "Notrufnummern",
       
       generalIcons: [
-        { symbol: "📷🚫", label: "Kein Fotografieren" },
-        { symbol: "🚶‍♂️🚫", label: "Keine unbefugten Personen" },
-        { symbol: "🍷🚫", label: "Kein Alkohol" },
-        { symbol: "💉🚬🌿🚫", label: "Keine Drogen / Rauchen" },
-        { symbol: "🐕🚫", label: "Keine Tiere" },
-        { symbol: "💼🚫", label: "Keine Geschäftstransaktionen" },
-        { symbol: "🩳🚫", label: "Angemessene Kleidung" },
-        { symbol: "📱🚫", label: "Kein Handy während Fahrt / Be-Entladung" },
+        { symbol: isoIcon('p022', 'No photography'), label: "Kein Fotografieren" },
+        { symbol: isoIcon('p001', 'General prohibition'), label: "Keine unbefugten Personen" },
+        { symbol: isoIcon('p010', 'No alcohol'), label: "Kein Alkohol" },
+        { symbol: isoIcon('p058', 'No drugs'), label: "Keine Drogen" },
+        { symbol: isoIcon('p002', 'No smoking'), label: "Rauchen nur an gekennzeichneten Stellen" },
+        { symbol: isoIcon('p021', 'No pets'), label: "Keine Tiere" },
+        { symbol: isoIcon('p001', 'Business'), label: "Keine Geschäftstransaktionen" },
+        { symbol: isoIcon('p001', 'Attire'), label: "Angemessene Kleidung" },
+        { symbol: isoIcon('p019', 'No mobile phone'), label: "Kein Handy während Fahrt / Be-Entladung" },
         { symbol: speedSignHTML, label: "Höchstgeschwindigkeit 30 km/h" }
       ],
       ppeIcons: [
@@ -518,14 +530,15 @@
       secEmergency: "Tísňové linky",
       
       generalIcons: [
-        { symbol: "📷🚫", label: "Zákaz focení" },
-        { symbol: "🚶‍♂️🚫", label: "Zákaz třetích osob" },
-        { symbol: "🍷🚫", label: "Zákaz alkoholu" },
-        { symbol: "💉🚬🌿🚫", label: "Zákaz drog a kouření" },
-        { symbol: "🐕🚫", label: "Zákaz zvířat" },
-        { symbol: "💼🚫", label: "Zákaz obchodu" },
-        { symbol: "🩳🚫", label: "Vhodné oblečení" },
-        { symbol: "📱🚫", label: "Zákaz mobilu za jízdy a nakládky" },
+        { symbol: isoIcon('p022', 'Zákaz focení'), label: "Zákaz focení" },
+        { symbol: isoIcon('p001', 'Zákaz vstupu'), label: "Zákaz třetích osob" },
+        { symbol: isoIcon('p010', 'Zákaz alkoholu'), label: "Zákaz alkoholu" },
+        { symbol: isoIcon('p058', 'Zákaz drog'), label: "Zákaz drog" },
+        { symbol: isoIcon('p002', 'Zákaz kouření'), label: "Kouření povoleno jen na vyhrazených místech" },
+        { symbol: isoIcon('p021', 'Zákaz zvířat'), label: "Zákaz zvířat" },
+        { symbol: isoIcon('p001', 'Zákaz obchodu'), label: "Zákaz obchodu" },
+        { symbol: isoIcon('p001', 'Oblečení'), label: "Vhodné oblečení" },
+        { symbol: isoIcon('p019', 'Zákaz mobilu'), label: "Zákaz mobilu za jízdy a nakládky" },
         { symbol: speedSignHTML, label: "Rychlost max 30 km/h" }
       ],
       ppeIcons: [
@@ -584,14 +597,15 @@
       secEmergency: "Emergency Numbers",
       
       generalIcons: [
-        { symbol: "📷🚫", label: "No photography" },
-        { symbol: "🚶‍♂️🚫", label: "No unauthorized persons" },
-        { symbol: "🍷🚫", label: "No alcohol" },
-        { symbol: "💉🚬🌿🚫", label: "No drugs / smoking" },
-        { symbol: "🐕🚫", label: "No pets allowed" },
-        { symbol: "💼🚫", label: "No business transactions" },
-        { symbol: "🩳🚫", label: "Proper attire required" },
-        { symbol: "📱🚫", label: "No mobile phone during drive / loading" },
+        { symbol: isoIcon('p022', 'No photography'), label: "No photography" },
+        { symbol: isoIcon('p001', 'No unauthorized'), label: "No unauthorized persons" },
+        { symbol: isoIcon('p010', 'No alcohol'), label: "No alcohol" },
+        { symbol: isoIcon('p058', 'No drugs'), label: "No drugs" },
+        { symbol: isoIcon('p002', 'No smoking'), label: "Smoking allowed only in designated areas" },
+        { symbol: isoIcon('p021', 'No pets'), label: "No pets allowed" },
+        { symbol: isoIcon('p001', 'No business'), label: "No business transactions" },
+        { symbol: isoIcon('p001', 'Attire'), label: "Proper attire required" },
+        { symbol: isoIcon('p019', 'No mobile'), label: "No mobile phone during drive / loading" },
         { symbol: speedSignHTML, label: "Max speed 30 km/h" }
       ],
       ppeIcons: [
@@ -650,14 +664,15 @@
       secEmergency: "Segélyhívószámok",
       
       generalIcons: [
-        { symbol: "📷🚫", label: "Tilos fotózni" },
-        { symbol: "🚶‍♂️🚫", label: "Illetéktelenek tilos" },
-        { symbol: "🍷🚫", label: "Alkohol tilos" },
-        { symbol: "💉🚬🌿🚫", label: "Drog / Dopping tilos" },
-        { symbol: "🐕🚫", label: "Állatot behozni tilos" },
-        { symbol: "💼🚫", label: "Üzletelni tilos" },
-        { symbol: "🩳🚫", label: "Megfelelő ruházat" },
-        { symbol: "📱🚫", label: "Telefon tilos vezetés/rakodás közben" },
+        { symbol: isoIcon('p022', 'No photo'), label: "Tilos fotózni" },
+        { symbol: isoIcon('p001', 'No entry'), label: "Illetéktelenek tilos" },
+        { symbol: isoIcon('p010', 'No alcohol'), label: "Alkohol tilos" },
+        { symbol: isoIcon('p058', 'No drugs'), label: "Drog tilos" },
+        { symbol: isoIcon('p002', 'No smoking'), label: "Dohányzás csak a kijelölt helyen" },
+        { symbol: isoIcon('p021', 'No pets'), label: "Állatot behozni tilos" },
+        { symbol: isoIcon('p001', 'No business'), label: "Üzletelni tilos" },
+        { symbol: isoIcon('p001', 'Attire'), label: "Megfelelő ruházat" },
+        { symbol: isoIcon('p019', 'No phone'), label: "Telefon tilos vezetés/rakodás közben" },
         { symbol: speedSignHTML, label: "Max sebesség 30 km/h" }
       ],
       ppeIcons: [
@@ -716,14 +731,15 @@
       secEmergency: "Numery alarmowe",
       
       generalIcons: [
-        { symbol: "📷🚫", label: "Zakaz fotografowania" },
-        { symbol: "🚶‍♂️🚫", label: "Brak osób postronnych" },
-        { symbol: "🍷🚫", label: "Zakaz alkoholu" },
-        { symbol: "💉🚬🌿🚫", label: "Zakaz narkotyków/tytoniu" },
-        { symbol: "🐕🚫", label: "Zakaz zwierząt" },
-        { symbol: "💼🚫", label: "Zakaz transakcji" },
-        { symbol: "🩳🚫", label: "Odpowiedni ubiór" },
-        { symbol: "📱🚫", label: "Zakaz telefonu podczas jazdy/załadunku" },
+        { symbol: isoIcon('p022', 'No photo'), label: "Zakaz fotografowania" },
+        { symbol: isoIcon('p001', 'No entry'), label: "Brak osób postronnych" },
+        { symbol: isoIcon('p010', 'No alcohol'), label: "Zakaz alkoholu" },
+        { symbol: isoIcon('p058', 'No drugs'), label: "Zakaz narkotyków" },
+        { symbol: isoIcon('p002', 'No smoking'), label: "Palenie dozwolone tylko w wyznaczonych miejscach" },
+        { symbol: isoIcon('p021', 'No pets'), label: "Zakaz zwierząt" },
+        { symbol: isoIcon('p001', 'No business'), label: "Zakaz transakcji" },
+        { symbol: isoIcon('p001', 'Attire'), label: "Odpowiedni ubiór" },
+        { symbol: isoIcon('p019', 'No phone'), label: "Zakaz telefonu podczas jazdy/załadunku" },
         { symbol: speedSignHTML, label: "Prędkość maks 30 km/h" }
       ],
       ppeIcons: [
@@ -782,14 +798,15 @@
       secEmergency: "Numere de urgență",
       
       generalIcons: [
-        { symbol: "📷🚫", label: "Interzis foto" },
-        { symbol: "🚶‍♂️🚫", label: "Fără persoane neautorizate" },
-        { symbol: "🍷🚫", label: "Fără alcool" },
-        { symbol: "💉🚬🌿🚫", label: "Fără droguri / fumat" },
-        { symbol: "🐕🚫", label: "Fără animale" },
-        { symbol: "💼🚫", label: "Fără tranzacții" },
-        { symbol: "🩳🚫", label: "Îmbrăcăminte adecvată" },
-        { symbol: "📱🚫", label: "Fără telefon mobil la volan / încărcare" },
+        { symbol: isoIcon('p022', 'No photo'), label: "Interzis foto" },
+        { symbol: isoIcon('p001', 'No entry'), label: "Fără persoane neautorizate" },
+        { symbol: isoIcon('p010', 'No alcohol'), label: "Fără alcool" },
+        { symbol: isoIcon('p058', 'No drugs'), label: "Fără droguri" },
+        { symbol: isoIcon('p002', 'No smoking'), label: "Fumatul permis doar în locuri amenajate" },
+        { symbol: isoIcon('p021', 'No pets'), label: "Fără animale" },
+        { symbol: isoIcon('p001', 'No business'), label: "Fără tranzacții" },
+        { symbol: isoIcon('p001', 'Attire'), label: "Îmbrăcăminte adecvată" },
+        { symbol: isoIcon('p019', 'No phone'), label: "Fără telefon mobil la volan / încărcare" },
         { symbol: speedSignHTML, label: "Viteză maximă 30 km/h" }
       ],
       ppeIcons: [
@@ -848,14 +865,15 @@
       secEmergency: "Экстренные номера",
       
       generalIcons: [
-        { symbol: "📷🚫", label: "Запрет фотосъемки" },
-        { symbol: "🚶‍♂️🚫", label: "Без посторонних лиц" },
-        { symbol: "🍷🚫", label: "Запрет алкоголя" },
-        { symbol: "💉🚬🌿🚫", label: "Запрет наркотиков/курения" },
-        { symbol: "🐕🚫", label: "Запрет животных" },
-        { symbol: "💼🚫", label: "Запрет сделок" },
-        { symbol: "🩳🚫", label: "Надлежащая одежда" },
-        { symbol: "📱🚫", label: "Запрет телефона за рулем/погрузке" },
+        { symbol: isoIcon('p022', 'No photo'), label: "Запрет фотосъемки" },
+        { symbol: isoIcon('p001', 'No entry'), label: "Без посторонних лиц" },
+        { symbol: isoIcon('p010', 'No alcohol'), label: "Запрет алкоголя" },
+        { symbol: isoIcon('p058', 'No drugs'), label: "Запрет наркотиков" },
+        { symbol: isoIcon('p002', 'No smoking'), label: "Курение разрешено только в специально отведенных местах" },
+        { symbol: isoIcon('p021', 'No pets'), label: "Запрет животных" },
+        { symbol: isoIcon('p001', 'No business'), label: "Запрет сделок" },
+        { symbol: isoIcon('p001', 'Attire'), label: "Надлежащая одежда" },
+        { symbol: isoIcon('p019', 'No phone'), label: "Запрет телефона за рулем/погрузке" },
         { symbol: speedSignHTML, label: "Скорость до 30 км/ч" }
       ],
       ppeIcons: [
@@ -960,7 +978,7 @@
 
     document.getElementById('t-ppe-icons').innerHTML = t.ppeIcons.map(item => `
       <div class="icon-box">
-        <div class="icon-symbol">${item.symbol}</div>
+        <div class="icon-symbol" style="font-size: 1.8rem;">${item.symbol}</div>
         <div class="icon-label">${item.label}</div>
       </div>
     `).join('');
