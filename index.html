@@ -91,8 +91,10 @@
 
       <!-- ODKAZ NA PLNE ZNĚNÍ BEZPEČNOSTNÍCH PRAVIDEL -->
       <div style="margin-top: 16px; text-align: center;">
-        <a id="t-link-full-rules" href="full_rules.pdf" target="_blank" rel="noopener" class="btn-link secondary">
-          Odkaz na plné znění bezpečnostních pravidla
+        
+        <a id="t-link-full-rules" href="full_rules.pdf" onclick="openPdf(event)" class="btn-link secondary">
+          Odkaz na plné znění bezpečnostních pravidel
+        
         </a>
       </div>
     </div>
@@ -125,7 +127,7 @@
 </div>
 
 <script>
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbznDtaDvUkFQM1jEplC1PnDxAtGPxnoFc7VqExTrxaQRNqqSzCLPy5v_vzpKK5hgYex/exec";
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby9k-EQkFlk9Cjeq9i31OpVLR_PiwJvYjg0h93u_jVK_TyTfSxc2o01QE3gC6y7l-uE/exec";
 
   const isoIcon = (code, alt) => {
     const ext = (code === 'p010') ? 'png' : 'svg';
@@ -688,6 +690,35 @@
   const elLinkFullRules = document.getElementById('t-link-full-rules');
   const ctx = canvas.getContext('2d');
 
+  // Cached once so applyLanguage() doesn't re-query the DOM every time it runs.
+  const elT = {
+    lblEvent: document.getElementById('t-lbl-event'),
+    optSelect: document.getElementById('t-opt-select'),
+    optEinlagerung: document.getElementById('t-opt-einlagerung'),
+    optAuslagerung: document.getElementById('t-opt-auslagerung'),
+    optAvis: document.getElementById('t-opt-avis'),
+    optWareneingang: document.getElementById('t-opt-wareneingang'),
+    optVisit: document.getElementById('t-opt-visit'),
+    optService: document.getElementById('t-opt-service'),
+    optOther: document.getElementById('t-opt-other'),
+    lblName: document.getElementById('t-lbl-name'),
+    h3Terms: document.getElementById('t-h3-terms'),
+    secGeneral: document.getElementById('t-sec-general'),
+    secPpe: document.getElementById('t-sec-ppe'),
+    secLoading: document.getElementById('t-sec-loading'),
+    secEnv: document.getElementById('t-sec-env'),
+    secEmergency: document.getElementById('t-sec-emergency'),
+    generalIcons: document.getElementById('t-general-icons'),
+    ppeIcons: document.getElementById('t-ppe-icons'),
+    loadingRules: document.getElementById('t-loading-rules'),
+    envRules: document.getElementById('t-env-rules'),
+    warningText: document.getElementById('t-warning-text'),
+    emergencyText: document.getElementById('t-emergency-text'),
+    h3Signature: document.getElementById('t-h3-signature'),
+    successTitle: document.getElementById('t-success-title'),
+    successText: document.getElementById('t-success-text'),
+  };
+
   const K = 'pwa-test-v3';
   let st = JSON.parse(localStorage.getItem(K) || JSON.stringify({
     event: "",
@@ -696,68 +727,74 @@
     lang: "de"
   }));
 
+  // Set lookup instead of rebuilding + scanning an array on every call.
+  const OTHER_OPTION_VALUES = new Set(["Andere Option", "Jiná volba", "Other option", "Otra opción", "Inna opcja", "Altă opțiune", "Другое"]);
+
   function isOtherOption(val) {
-    const otherValues = ["Andere Option", "Jiná volba", "Other option", "Otra opción", "Inna opcja", "Altă opțiune", "Другое"];
-    return otherValues.includes(val);
+    return OTHER_OPTION_VALUES.has(val);
   }
 
+  // Applies the full translation set to the DOM: rebuilds text, placeholders and
+  // the icon/rule lists. This does real work (innerHTML rebuilds), so it must only
+  // run when the language actually changes (or on first load) — never on every
+  // keystroke. Per-keystroke state syncing lives in render() below instead.
   function applyLanguage(lang) {
     const t = translations[lang] || translations.de;
     document.title = t.title;
-    
-    document.getElementById('t-lbl-event').textContent = t.lblEvent;
-    document.getElementById('t-opt-select').textContent = t.optSelect;
-    document.getElementById('t-opt-einlagerung').textContent = t.optEinlagerung;
-    document.getElementById('t-opt-auslagerung').textContent = t.optAuslagerung;
-    document.getElementById('t-opt-avis').textContent = t.optAvis;
-    document.getElementById('t-opt-wareneingang').textContent = t.optWareneingang;
-    document.getElementById('t-opt-visit').textContent = t.optVisit;
-    document.getElementById('t-opt-service').textContent = t.optService;
-    document.getElementById('t-opt-other').textContent = t.optOther;
+
+    elT.lblEvent.textContent = t.lblEvent;
+    elT.optSelect.textContent = t.optSelect;
+    elT.optEinlagerung.textContent = t.optEinlagerung;
+    elT.optAuslagerung.textContent = t.optAuslagerung;
+    elT.optAvis.textContent = t.optAvis;
+    elT.optWareneingang.textContent = t.optWareneingang;
+    elT.optVisit.textContent = t.optVisit;
+    elT.optService.textContent = t.optService;
+    elT.optOther.textContent = t.optOther;
     elCustomEvent.placeholder = t.phCustomEvent;
     elBtnSaveCustom.textContent = t.btnSaveCustom;
 
-    document.getElementById('t-lbl-name').textContent = t.lblName;
+    elT.lblName.textContent = t.lblName;
     elName.placeholder = t.phName;
     elResetForm.textContent = t.btnResetForm;
     elBtnNext.textContent = t.btnNext;
-    
+
     elLinkSheet1.textContent = t.linkSheet;
     elLinkSheet2.textContent = t.linkSheet;
 
-    document.getElementById('t-h3-terms').textContent = t.h3Terms;
-    document.getElementById('t-sec-general').textContent = t.secGeneral;
-    document.getElementById('t-sec-ppe').textContent = t.secPpe;
-    document.getElementById('t-sec-loading').textContent = t.secLoading;
-    document.getElementById('t-sec-env').textContent = t.secEnv;
-    document.getElementById('t-sec-emergency').textContent = t.secEmergency;
+    elT.h3Terms.textContent = t.h3Terms;
+    elT.secGeneral.textContent = t.secGeneral;
+    elT.secPpe.textContent = t.secPpe;
+    elT.secLoading.textContent = t.secLoading;
+    elT.secEnv.textContent = t.secEnv;
+    elT.secEmergency.textContent = t.secEmergency;
     elLinkFullRules.textContent = t.linkFullRules;
 
-    document.getElementById('t-general-icons').innerHTML = t.generalIcons.map(item => `
+    elT.generalIcons.innerHTML = t.generalIcons.map(item => `
       <div class="icon-box">
         <div class="icon-symbol">${item.symbol}</div>
         <div class="icon-label">${escapeHtml(item.label)}</div>
       </div>
     `).join('');
 
-    document.getElementById('t-ppe-icons').innerHTML = t.ppeIcons.map(item => `
+    elT.ppeIcons.innerHTML = t.ppeIcons.map(item => `
       <div class="icon-box">
         <div class="icon-symbol">${item.symbol}</div>
         <div class="icon-label">${escapeHtml(item.label)}</div>
       </div>
     `).join('');
 
-    document.getElementById('t-loading-rules').innerHTML = t.loadingRules.map(r => `<li>${r}</li>`).join('');
-    document.getElementById('t-env-rules').innerHTML = t.envRules.map(r => `<li>${r}</li>`).join('');
-    document.getElementById('t-warning-text').innerHTML = t.warningText;
-    document.getElementById('t-emergency-text').textContent = t.emergencyText;
+    elT.loadingRules.innerHTML = t.loadingRules.map(r => `<li>${r}</li>`).join('');
+    elT.envRules.innerHTML = t.envRules.map(r => `<li>${r}</li>`).join('');
+    elT.warningText.innerHTML = t.warningText;
+    elT.emergencyText.textContent = t.emergencyText;
 
-    document.getElementById('t-h3-signature').textContent = t.h3Sig;
+    elT.h3Signature.textContent = t.h3Sig;
     elSigDeclaration.textContent = t.sigDeclaration;
     elClearSig.textContent = t.btnClearSig;
     elConfirmSig.textContent = t.btnConfirmSig;
-    document.getElementById('t-success-title').textContent = t.successTitle;
-    document.getElementById('t-success-text').textContent = t.successText;
+    elT.successTitle.textContent = t.successTitle;
+    elT.successText.textContent = t.successText;
     elBtnNewVisitor.textContent = t.btnNewVisitor;
 
     document.querySelectorAll('.lang-btn').forEach(btn => {
@@ -765,18 +802,15 @@
     });
   }
 
+  // Cheap, called on every keystroke/state change: just syncs input values,
+  // toggles the custom-event field, and persists state. No DOM text rebuilding.
   function render() {
     elEvent.value = st.event;
     elCustomEvent.value = st.customEvent || "";
     elName.value = st.name;
-    
-    if (isOtherOption(st.event)) {
-      elCustomEventContainer.classList.remove('hidden');
-    } else {
-      elCustomEventContainer.classList.add('hidden');
-    }
 
-    applyLanguage(st.lang);
+    elCustomEventContainer.classList.toggle('hidden', !isOtherOption(st.event));
+
     localStorage.setItem(K, JSON.stringify(st));
   }
 
@@ -784,8 +818,8 @@
     st.event = "";
     st.customEvent = "";
     st.name = "";
-    st.lang = "de"; 
-    
+    st.lang = "de";
+
     elValError.classList.add('hidden');
     elSigError.classList.add('hidden');
     elEvent.classList.remove('input-error');
@@ -793,12 +827,14 @@
     elName.classList.remove('input-error');
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    hasSignature = false;
 
     elSigFormWrapper.classList.remove('hidden');
     elSuccessMessage.classList.add('hidden');
     elStepTwo.classList.add('hidden');
     elStepOne.classList.remove('hidden');
 
+    applyLanguage(st.lang);
     render();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
@@ -806,6 +842,7 @@
   document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       st.lang = btn.dataset.lang;
+      applyLanguage(st.lang);
       render();
     });
   });
@@ -887,6 +924,7 @@
   });
 
   let isDrawing = false;
+  let hasSignature = false; // tracks whether a stroke has actually been drawn, avoids scanning canvas pixels
 
   function resizeCanvas() {
     const rect = canvas.getBoundingClientRect();
@@ -932,11 +970,18 @@
     ctx.moveTo(pos.x, pos.y);
   }
 
+  function openPdf(event) {
+  event.preventDefault();
+  // Vynutí otevření v novém okně/záložce Safari
+  window.open('full_rules.pdf', '_blank', 'noopener,noreferrer');
+ }
+
   function draw(e) {
     if (!isDrawing) return;
     const pos = getPos(e);
     ctx.lineTo(pos.x, pos.y);
     ctx.stroke();
+    hasSignature = true;
   }
 
   function stopDrawing() {
@@ -952,23 +997,16 @@
   canvas.addEventListener('touchmove', draw, { passive: true });
   canvas.addEventListener('touchend', stopDrawing);
 
-  function isCanvasBlank(c) {
-    const pixels = ctx.getImageData(0, 0, c.width, c.height).data;
-    for (let i = 0; i < pixels.length; i += 4) {
-      if (pixels[i + 3] !== 0) return false;
-    }
-    return true;
-  }
-
   elClearSig.addEventListener('click', () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    hasSignature = false;
     elSigError.classList.add('hidden');
   });
 
   elConfirmSig.addEventListener('click', () => {
     const t = translations[st.lang] || translations.de;
-    
-    if (isCanvasBlank(canvas)) {
+
+    if (!hasSignature) {
       elSigError.textContent = t.errSig;
       elSigError.classList.remove('hidden');
       return;
@@ -1012,6 +1050,7 @@
     });
   });
 
+  applyLanguage(st.lang);
   render();
 </script>
 </body>
