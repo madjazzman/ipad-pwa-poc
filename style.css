@@ -332,3 +332,62 @@ a.btn-link.secondary:hover {
   text-decoration: underline;    /* Podtržení textu */
 }
 
+/* Modální zobrazení PDF (řeší chybějící navigaci v standalone PWA na iOS) */
+.pdf-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: #002b1a;
+  display: flex;
+  flex-direction: column;
+}
+
+.pdf-modal.hidden {
+  display: none !important;
+}
+
+.pdf-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex: 0 0 auto;
+  padding: 12px 16px;
+  padding-top: calc(12px + env(safe-area-inset-top, 0px));
+  background: #003822;
+  border-bottom: 1px solid #005c38;
+}
+
+.pdf-modal-title {
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 0.95rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pdf-modal-close {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 8px;
+  border: 1px solid #005c38;
+  background: #002215;
+  color: #ffffff;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pdf-modal-frame {
+  flex: 1 1 auto;
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: #ffffff;
+}

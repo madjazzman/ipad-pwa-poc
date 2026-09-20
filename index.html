@@ -124,6 +124,16 @@
   </div>
 </div>
 
+<!-- MODÁLNÍ ZOBRAZENÍ PDF - v samostatné (nainstalované) PWA na iOS nejde jinak spolehlivě
+     PDF zavřít/vrátit se zpět, protože standalone webview nemá žádné prohlížečové UI. -->
+<div id="pdf-modal" class="pdf-modal hidden">
+  <div class="pdf-modal-header">
+    <span id="pdf-modal-title" class="pdf-modal-title"></span>
+    <button id="btn-close-pdf" class="pdf-modal-close" type="button" aria-label="Close">✕</button>
+  </div>
+  <iframe id="pdf-modal-frame" class="pdf-modal-frame" title="PDF"></iframe>
+</div>
+
 <script>
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby9k-EQkFlk9Cjeq9i31OpVLR_PiwJvYjg0h93u_jVK_TyTfSxc2o01QE3gC6y7l-uE/exec";
 
@@ -962,13 +972,30 @@
     ctx.moveTo(pos.x, pos.y);
   }
 
+  const elPdfModal = document.getElementById('pdf-modal');
+  const elPdfModalFrame = document.getElementById('pdf-modal-frame');
+  const elPdfModalTitle = document.getElementById('pdf-modal-title');
+  const elBtnClosePdf = document.getElementById('btn-close-pdf');
+
+  // Ve standalone PWA na iOS/iPadOS nemá webview žádné ovládací prvky prohlížeče
+  // (žádná adresní lišta, žádné tlačítko zpět, žádné swipe gesto zpět) - window.open()
+  // tam navíc neotevírá nové okno, jen naviguje ten samý webview pryč z appky bez
+  // možnosti se vrátit. Proto se PDF v standalone režimu zobrazí v vlastním
+  // celoobrazovkovém overlay s viditelným tlačítkem Zavřít, které appka plně ovládá.
   function openPdf(event) {
     const isStandalone = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
-    if (isStandalone) {
-      event.preventDefault();
-      window.open('full_rules.pdf', '_system');
-    }
+    if (!isStandalone) return; // normální tab v prohlížeči má vlastní UI, necháme výchozí target="_blank"
+
+    event.preventDefault();
+    elPdfModalTitle.textContent = elLinkFullRules.textContent;
+    elPdfModalFrame.src = event.currentTarget.href;
+    elPdfModal.classList.remove('hidden');
   }
+
+  elBtnClosePdf.addEventListener('click', () => {
+    elPdfModal.classList.add('hidden');
+    elPdfModalFrame.src = ''; // uvolní PDF z paměti, až se příště otevře, načte se znovu
+  });
 
   function draw(e) {
     if (!isDrawing) return;
