@@ -91,10 +91,8 @@
 
       <!-- ODKAZ NA PLNE ZNĚNÍ BEZPEČNOSTNÍCH PRAVIDEL -->
       <div style="margin-top: 16px; text-align: center;">
-        
-        <a id="t-link-full-rules" href="full_rules.pdf" onclick="openPdf(event)" class="btn-link secondary">
-          Odkaz na plné znění bezpečnostních pravidel
-        
+        <a id="t-link-full-rules" href="full_rules.pdf" target="_blank" rel="noopener" onclick="openPdf(event)" class="btn-link secondary">
+          Odkaz na plné znění bezpečnostních pravidla
         </a>
       </div>
     </div>
@@ -734,10 +732,6 @@
     return OTHER_OPTION_VALUES.has(val);
   }
 
-  // Applies the full translation set to the DOM: rebuilds text, placeholders and
-  // the icon/rule lists. This does real work (innerHTML rebuilds), so it must only
-  // run when the language actually changes (or on first load) — never on every
-  // keystroke. Per-keystroke state syncing lives in render() below instead.
   function applyLanguage(lang) {
     const t = translations[lang] || translations.de;
     document.title = t.title;
@@ -802,8 +796,6 @@
     });
   }
 
-  // Cheap, called on every keystroke/state change: just syncs input values,
-  // toggles the custom-event field, and persists state. No DOM text rebuilding.
   function render() {
     elEvent.value = st.event;
     elCustomEvent.value = st.customEvent || "";
@@ -924,7 +916,7 @@
   });
 
   let isDrawing = false;
-  let hasSignature = false; // tracks whether a stroke has actually been drawn, avoids scanning canvas pixels
+  let hasSignature = false;
 
   function resizeCanvas() {
     const rect = canvas.getBoundingClientRect();
@@ -971,10 +963,12 @@
   }
 
   function openPdf(event) {
-  event.preventDefault();
-  // Vynutí otevření v novém okně/záložce Safari
-  window.open('full_rules.pdf', '_blank', 'noopener,noreferrer');
- }
+    const isStandalone = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
+    if (isStandalone) {
+      event.preventDefault();
+      window.open('full_rules.pdf', '_system');
+    }
+  }
 
   function draw(e) {
     if (!isDrawing) return;
