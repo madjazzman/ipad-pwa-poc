@@ -9,303 +9,8 @@
   <meta name="apple-mobile-web-app-title" content="Besucherbuch">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icon.svg">
+  <link rel="stylesheet" href="style.css">
   <title>Besucherbuch</title>
-  <style>
-    body {
-      background-color: #002b1a;
-      color: #ffffff;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-      margin: 0;
-      padding: 16px;
-    }
-
-    .wrap {
-      max-width: 650px;
-      margin: 0 auto;
-    }
-
-    .logo-container {
-      text-align: center;
-      margin-bottom: 20px;
-      padding-top: 10px;
-    }
-    .brand-logo {
-      max-width: 240px;
-      height: auto;
-      display: inline-block;
-    }
-
-    .lang-picker {
-      display: flex;
-      gap: 8px;
-      justify-content: center;
-      margin-top: 15px;
-      flex-wrap: nowrap;
-    }
-    .lang-btn {
-      background: #003822;
-      border: 1px solid #005c38;
-      padding: 6px 10px;
-      border-radius: 8px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform 0.1s, border-color 0.2s, background-color 0.2s;
-    }
-    .lang-btn img {
-      width: 24px;
-      height: 16px;
-      object-fit: cover;
-      border-radius: 2px;
-      display: block;
-      pointer-events: none;
-    }
-    .lang-btn:active {
-      transform: scale(0.92);
-    }
-    .lang-btn.active {
-      border-color: #22c55e;
-      background: #001f13;
-      box-shadow: 0 0 8px rgba(34, 197, 94, 0.4);
-    }
-
-    .card {
-      background: #003822;
-      border: 1px solid #005c38;
-      border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 16px;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
-    }
-
-    input, select, button, a.btn-link {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid #005c38;
-      background: #002215;
-      color: #ffffff;
-      box-sizing: border-box;
-      font-size: 1rem;
-      text-align: center;
-      text-decoration: none;
-      display: block;
-      font-weight: bold;
-    }
-
-    button {
-      background-color: #10b981;
-      color: white;
-      font-weight: bold;
-      border: none;
-      cursor: pointer;
-      transition: background-color 0.2s;
-    }
-    button:hover {
-      background-color: #059669;
-    }
-    button.secondary, a.btn-link.secondary {
-      background-color: transparent;
-      border: 1px solid #005c38;
-      color: #cbd5e1;
-    }
-    a.btn-link.secondary:hover {
-      background-color: rgba(0, 92, 56, 0.3);
-    }
-
-    #sig-canvas {
-      border: 2px dashed #005c38;
-      border-radius: 8px;
-      touch-action: none;
-      background: #ffffff;
-      cursor: crosshair;
-      width: 100%;
-      max-width: 400px;
-      height: 150px;
-    }
-
-    .btn-group {
-      display: flex;
-      gap: 8px;
-      margin-top: 10px;
-    }
-
-    .custom-option-group {
-      display: flex;
-      gap: 8px;
-      margin-top: 8px;
-      margin-bottom: 12px;
-    }
-    .custom-option-group input {
-      flex: 1;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    /* STYL PRO BEZPEČNOSTNÍ PROTOKOL */
-    .terms-card {
-      max-height: 55vh;
-      overflow-y: auto;
-      line-height: 1.4;
-      font-size: 0.88rem;
-      scrollbar-width: thin;
-      scrollbar-color: #10b981 #002215;
-      padding: 12px;
-    }
-    .terms-card::-webkit-scrollbar {
-      width: 8px;
-    }
-    .terms-card::-webkit-scrollbar-track {
-      background: #002215;
-      border-radius: 4px;
-    }
-    .terms-card::-webkit-scrollbar-thumb {
-      background: #10b981;
-      border-radius: 4px;
-    }
-
-    .sec-section-title {
-      font-size: 0.95rem;
-      color: #34d399;
-      margin: 14px 0 8px 0;
-      border-bottom: 1px solid #005c38;
-      padding-bottom: 4px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .icon-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-
-    .icon-box {
-      background: #002215;
-      border: 1px solid #004d2f;
-      border-radius: 8px;
-      padding: 8px;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .icon-symbol {
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 4px;
-    }
-
-    .icon-symbol img {
-      max-height: 40px;
-      max-width: 40px;
-      object-fit: contain;
-    }
-
-    .speed-sign-30 {
-      width: 40px;
-      height: 40px;
-      background-color: #ffffff;
-      border: 4px solid #dc2626;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 900;
-      font-size: 1rem;
-      color: #000000;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-      letter-spacing: -1px;
-    }
-
-    .icon-label {
-      font-size: 0.75rem;
-      color: #e2e8f0;
-      line-height: 1.2;
-    }
-
-    .rule-list {
-      padding-left: 18px;
-      margin: 6px 0;
-    }
-    .rule-list li {
-      margin-bottom: 6px;
-    }
-
-    .warning-box {
-      background: rgba(239, 68, 68, 0.15);
-      border: 1px solid #ef4444;
-      border-radius: 8px;
-      padding: 10px;
-      margin-top: 12px;
-      font-size: 0.85rem;
-      color: #fca5a5;
-    }
-
-    .sig-declaration {
-      font-size: 0.85rem;
-      color: #f87171;
-      font-weight: bold;
-      margin-bottom: 10px;
-      line-height: 1.4;
-    }
-
-    .error-msg {
-      color: #f87171;
-      font-size: 0.85rem;
-      margin-top: 8px;
-      font-weight: 600;
-    }
-    .input-error {
-      border: 2px solid #ef4444 !important;
-    }
-
-    .success-box {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 24px 16px;
-      text-align: center;
-    }
-
-    .success-icon {
-      width: 64px;
-      height: 64px;
-      background-color: #22c55e;
-      color: #ffffff;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 36px;
-      font-weight: bold;
-      margin-bottom: 12px;
-      box-shadow: 0 0 16px rgba(34, 197, 94, 0.4);
-      animation: popIn 0.3s ease-out;
-    }
-
-    @keyframes popIn {
-      0% { transform: scale(0); opacity: 0; }
-      80% { transform: scale(1.1); opacity: 1; }
-      100% { transform: scale(1); }
-    }
-
-    .footer-link-container {
-      margin-top: 32px;
-      padding-top: 16px;
-      border-top: 1px dashed #005c38;
-      text-align: center;
-    }
-  </style>
 </head>
 <body>
 <div class="wrap">
@@ -317,8 +22,8 @@
     <div class="lang-picker">
       <button class="lang-btn" data-lang="de" title="Deutsch"><img src="de.svg" alt="DE"></button>
       <button class="lang-btn" data-lang="en" title="English"><img src="gb.svg" alt="EN"></button>
+      <button class="lang-btn" data-lang="es" title="Español"><img src="es.svg" alt="ES"></button>
       <button class="lang-btn" data-lang="cz" title="Čeština"><img src="cz.svg" alt="CZ"></button>
-      <button class="lang-btn" data-lang="hu" title="Magyar"><img src="hu.svg" alt="HU"></button>
       <button class="lang-btn" data-lang="pl" title="Polski"><img src="pl.svg" alt="PL"></button>
       <button class="lang-btn" data-lang="ro" title="Română"><img src="ro.svg" alt="RO"></button>
       <button class="lang-btn" data-lang="ru" title="Русский"><img src="ru.svg" alt="RU"></button>
@@ -331,31 +36,33 @@
       <label id="t-lbl-event" for="event">Besuchszweck</label>
       <select id="event">
         <option value="" id="t-opt-select">-- Besuchszweck auswählen --</option>
-        <option value="Lieferung" id="t-opt-shipment">Lieferung</option>
-        <option value="Service" id="t-opt-service">Service</option>
-        <option value="Abholer" id="t-opt-pickup">Abholer</option>
+        <option value="Einlagerung" id="t-opt-einlagerung">Einlagerung</option>
+        <option value="Auslagerung" id="t-opt-auslagerung">Auslagerung</option>
+        <option value="Avis" id="t-opt-avis">Avis</option>
+        <option value="Wareneingang" id="t-opt-wareneingang">Wareneingang</option>
         <option value="Besuch" id="t-opt-visit">Besuch</option>
+        <option value="Service" id="t-opt-service">Service</option>
         <option value="Andere Option" id="t-opt-other">Andere Option</option>
       </select>
 
       <div id="custom-event-container" class="custom-option-group hidden">
-        <input id="custom-event" placeholder="Geben Sie den Zweck ein...">
+        <input id="custom-event" type="text" placeholder="Geben Sie den Zweck ein...">
         <button id="btn-save-custom" class="secondary" type="button">Speichern</button>
       </div>
       
       <label id="t-lbl-name" for="name" style="margin-top: 12px; display: block;">Vor- und Nachname</label>
-      <input id="name" placeholder="Max Mustermann">
+      <input id="name" placeholder="Max Mustermann" autocomplete="off">
       
       <div id="validation-error" class="error-msg hidden"></div>
 
       <div class="btn-group">
-        <button id="reset-form" class="secondary">Formular zurücksetzen</button>
-        <button id="btn-next">Weiter</button>
+        <button id="reset-form" class="secondary" type="button">Formular zurücksetzen</button>
+        <button id="btn-next" type="button">Weiter</button>
       </div>
     </div>
 
     <div class="footer-link-container">
-      <a id="t-link-sheet-1" href="https://docs.google.com/spreadsheets/d/14JY3pVGkHyJmKMuELZCVU_PEHpvDgVXs5fPVw_OwZB8/edit?usp=sharing" target="_blank" class="btn-link secondary">Besucherliste öffnen</a>
+      <a id="t-link-sheet-1" href="https://docs.google.com/spreadsheets/d/14JY3pVGkHyJmKMuELZCVU_PEHpvDgVXs5fPVw_OwZB8/edit?usp=sharing" target="_blank" rel="noopener" class="btn-link secondary">Besucherliste öffnen</a>
     </div>
   </div>
 
@@ -365,32 +72,22 @@
     <div class="card terms-card">
       <h3 id="t-h3-terms" style="margin-top:0; color:#34d399; text-align:center;">Safety Information & Instructions</h3>
       
-      <!-- ZÁKAZY A PRAVIDLA -->
       <div class="sec-section-title" id="t-sec-general">General Rules</div>
       <div class="icon-grid" id="t-general-icons"></div>
 
-      <!-- POVINNÉ VYBAVENÍ OOPP -->
       <div class="sec-section-title" id="t-sec-ppe">Mandatory PPE (PSA)</div>
       <div class="icon-grid" id="t-ppe-icons"></div>
 
-      <!-- NAKLÁDKA / VYKLÁDKA -->
       <div class="sec-section-title" id="t-sec-loading">Loading / Unloading & VDI 2700</div>
       <ul class="rule-list" id="t-loading-rules"></ul>
 
-      <!-- ŽIVOTNÍ PROSTŘEDÍ / ÚNIK KAPALIN -->
       <div class="sec-section-title" id="t-sec-env">Environmental / Spill</div>
       <ul class="rule-list" id="t-env-rules"></ul>
 
-      <!-- DŮLEŽITÉ UPOZORNĚNÍ -->
-      <div class="warning-box" id="t-warning-text">
-        ⚠️ <strong>Important:</strong> The use of a portable starter motor (Booster, cables) is strictly forbidden for Electric and/or Hybrid vehicles.
-      </div>
+      <div class="warning-box" id="t-warning-text"></div>
 
-      <!-- NOUZOVÉ KONTAKTY -->
       <div class="sec-section-title" id="t-sec-emergency">Emergency Contacts</div>
-      <div style="font-size: 0.85rem; font-weight: bold; text-align: center; color: #f87171; margin-top: 6px;" id="t-emergency-text">
-        Firefighters: 112 | Police: 110 | European Emergency: 112
-      </div>
+      <div style="font-size: 0.85rem; font-weight: bold; text-align: center; color: #f87171; margin-top: 6px;" id="t-emergency-text"></div>
     </div>
 
     <!-- PODPISOVÁ ČÁST -->
@@ -402,8 +99,8 @@
         <canvas id="sig-canvas"></canvas>
         <div id="sig-error" class="error-msg hidden"></div>
         <div class="btn-group">
-          <button id="clear-sig" class="secondary">Unterschrift löschen</button>
-          <button id="confirm-sig">Bestätigen & Absenden</button>
+          <button id="clear-sig" class="secondary" type="button">Unterschrift löschen</button>
+          <button id="confirm-sig" type="button">Bestätigen & Absenden</button>
         </div>
       </div>
 
@@ -411,8 +108,8 @@
         <div class="success-icon">✓</div>
         <h3 id="t-success-title" style="margin: 0 0 8px 0; color: #22c55e;">Vielen Dank!</h3>
         <p id="t-success-text" style="margin: 0 0 16px 0; color: #cbd5e1; font-size: 0.9rem;"></p>
-        <button id="btn-new-visitor" class="primary" style="margin-bottom: 10px;">Neuer Besucher</button>
-        <a id="t-link-sheet-2" href="https://docs.google.com/spreadsheets/d/14JY3pVGkHyJmKMuELZCVU_PEHpvDgVXs5fPVw_OwZB8/edit?usp=sharing" target="_blank" class="btn-link secondary">Besucherliste öffnen</a>
+        <button id="btn-new-visitor" class="primary" type="button" style="margin-bottom: 10px;">Neuer Besucher</button>
+        <a id="t-link-sheet-2" href="https://docs.google.com/spreadsheets/d/14JY3pVGkHyJmKMuELZCVU_PEHpvDgVXs5fPVw_OwZB8/edit?usp=sharing" target="_blank" rel="noopener" class="btn-link secondary">Besucherliste öffnen</a>
       </div>
 
     </div>
@@ -423,24 +120,41 @@
 <script>
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbznDtaDvUkFQM1jEplC1PnDxAtGPxnoFc7VqExTrxaQRNqqSzCLPy5v_vzpKK5hgYex/exec";
 
-  // Definice HTML pro značku 30
-  const speedSignHTML = '<div class="speed-sign-30">30</div>';
-
-  // Pomocná funkce pro ISO 7010 piktogramy - automaticky řeší p010 jako PNG
   const isoIcon = (code, alt) => {
     const ext = (code === 'p010') ? 'png' : 'svg';
-    return `<img src="iso-${code}.${ext}" alt="${alt}">`;
+    return `<img src="iso-${code}.${ext}" alt="${escapeHtml(alt)}">`;
   };
+
+  const cameraIcon = `<img src="kamera.svg" alt="Kamera">`;
+  const speedSign30Icon = `<img src="30.svg" alt="30 km/h">`;
+  const shortIcon = `<img src="short.png" alt="Oblečení">`;
+
+  const vestIcon = `<img src="vest.png" alt="Warnweste">`;
+  const suitIcon = `<img src="obleceni.svg" alt="Schutzanzug">`;
+  const shoesIcon = `<img src="boty.svg" alt="Sicherheitsschuhe">`;
+  const glovesIcon = `<img src="rukavice.svg" alt="Schutzhandschuhe">`;
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
 
   const translations = {
     de: {
       title: "Besucherbuch",
       lblEvent: "Besuchszweck",
       optSelect: "-- Besuchszweck auswählen --",
-      optShipment: "Lieferung",
-      optService: "Service",
-      optPickup: "Abholer",
+      optEinlagerung: "Einlagerung",
+      optAuslagerung: "Auslagerung",
+      optAvis: "Avis",
+      optWareneingang: "Wareneingang",
       optVisit: "Besuch",
+      optService: "Service",
       optOther: "Andere Option",
       phCustomEvent: "Geben Sie den Zweck ein...",
       btnSaveCustom: "Speichern",
@@ -455,7 +169,7 @@
       errSig: "Bitte leisten Sie eine Unterschrift vor der Bestätigung.",
       errServer: "Fehler beim Speichern der Daten. Bitte Verbindung prüfen.",
       
-      h3Terms: "Sicherheitsinformationen & Anweisungen (TRADISA)",
+      h3Terms: "Sicherheitsinformationen & Anweisungen",
       secGeneral: "Allgemeine Verbote & Regeln",
       secPpe: "Vorgeschriebene Schutzausrüstung (PSA)",
       secLoading: "Be- und Entladen / VDI 2700",
@@ -464,26 +178,29 @@
       
       generalIcons: [
         { symbol: isoIcon('p022', 'No photography'), label: "Kein Fotografieren" },
-        { symbol: isoIcon('p001', 'General prohibition'), label: "Keine unbefugten Personen" },
+        { symbol: isoIcon('p020', 'No unauthorized'), label: "Keine unbefugten Personen" },
         { symbol: isoIcon('p010', 'No alcohol'), label: "Kein Alkohol" },
         { symbol: isoIcon('p058', 'No drugs'), label: "Keine Drogen" },
         { symbol: isoIcon('p002', 'No smoking'), label: "Rauchen nur an gekennzeichneten Stellen" },
         { symbol: isoIcon('p021', 'No pets'), label: "Keine Tiere" },
-        { symbol: isoIcon('p001', 'Business'), label: "Keine Geschäftstransaktionen" },
-        { symbol: isoIcon('p001', 'Attire'), label: "Angemessene Kleidung" },
+        { symbol: shortIcon, label: "Angemessene Kleidung" },
         { symbol: isoIcon('p019', 'No mobile phone'), label: "Kein Handy während Fahrt / Be-Entladung" },
-        { symbol: speedSignHTML, label: "Höchstgeschwindigkeit 30 km/h" }
+        { symbol: speedSign30Icon, label: "Höchstgeschwindigkeit 30 km/h" },
+        { symbol: cameraIcon, label: "Videoüberwachter Bereich mit Aufzeichnung" }
       ],
       ppeIcons: [
-        { symbol: "🥾", label: "Sicherheitsschuhe" },
-        { symbol: "🦺", label: "Warnweste" },
-        { symbol: "🧥", label: "Schutzanzug" },
-        { symbol: "🧤", label: "Schutzhandschuhe" }
+        { symbol: shoesIcon, label: "Sicherheitsschuhe" },
+        { symbol: vestIcon, label: "Warnweste" },
+        { symbol: suitIcon, label: "Schutzanzug" },
+        { symbol: glovesIcon, label: "Schutzhandschuhe" }
       ],
       loadingRules: [
         "<strong>Motor aus:</strong> Während des Be- und Entladens darf der Motor nicht laufen.",
         "<strong>Schlüssel abziehen:</strong> Fahrzeugschlüssel müssen abgezogen sein.",
-        "<strong>Ausrüstung VDI 2700:</strong> 24 Spanngurte (mit Kantenschutz, Schlauch, Elastizität 4%), 35 Keile, Sicherheitsstützen mit 4 Seilen."
+        "<strong>VDI 2700 Ausrüstung:</strong>",
+        "24 Spanngurte (mit Kantenschutz, Schlauch, Elastizität 4%)<div class=\"rule-img-container\"><img src=\"pas.jpg\" alt=\"Spanngurte\"></div>",
+        "35 Keile<div class=\"rule-img-container\"><img src=\"klin.jpg\" alt=\"Keile\"></div>",
+        "Sicherheitsstützen mit 4 Seilen<div class=\"rule-img-container\"><img src=\"zabradli.png\" alt=\"Sicherheitsstützen\"></div>"
       ],
       envRules: [
         "<strong>Ausgetretene Flüssigkeiten (Öl, Diesel):</strong> Sofort den Wachdienst informieren.",
@@ -504,10 +221,12 @@
       title: "Návštěvní kniha",
       lblEvent: "Účel návštěvy",
       optSelect: "-- Vyberte účel návštěvy --",
-      optShipment: "Zásilka",
-      optService: "Servis",
-      optPickup: "Odběr",
+      optEinlagerung: "Naskladnění",
+      optAuslagerung: "Vyskladnění",
+      optAvis: "Avis",
+      optWareneingang: "Příjem zásilek",
       optVisit: "Návštěva",
+      optService: "Servis",
       optOther: "Jiná volba",
       phCustomEvent: "Napište účel návštěvy...",
       btnSaveCustom: "Uložit",
@@ -522,7 +241,7 @@
       errSig: "Před potvrzením se prosím podepište.",
       errServer: "Chyba při ukládání dat. Zkontrolujte připojení.",
       
-      h3Terms: "Bezpečnostní informace a pokyny (TRADISA)",
+      h3Terms: "Bezpečnostní informace a pokyny",
       secGeneral: "Obecná pravidla a zákazy",
       secPpe: "Povinné ochranné pomůcky (PSA)",
       secLoading: "Nakládka / Vykládka a VDI 2700",
@@ -531,26 +250,29 @@
       
       generalIcons: [
         { symbol: isoIcon('p022', 'Zákaz focení'), label: "Zákaz focení" },
-        { symbol: isoIcon('p001', 'Zákaz vstupu'), label: "Zákaz třetích osob" },
+        { symbol: isoIcon('p020', 'Zákaz vstupu'), label: "Zákaz třetích osob" },
         { symbol: isoIcon('p010', 'Zákaz alkoholu'), label: "Zákaz alkoholu" },
         { symbol: isoIcon('p058', 'Zákaz drog'), label: "Zákaz drog" },
         { symbol: isoIcon('p002', 'Zákaz kouření'), label: "Kouření povoleno jen na vyhrazených místech" },
         { symbol: isoIcon('p021', 'Zákaz zvířat'), label: "Zákaz zvířat" },
-        { symbol: isoIcon('p001', 'Zákaz obchodu'), label: "Zákaz obchodu" },
-        { symbol: isoIcon('p001', 'Oblečení'), label: "Vhodné oblečení" },
+        { symbol: shortIcon, label: "Vhodné oblečení" },
         { symbol: isoIcon('p019', 'Zákaz mobilu'), label: "Zákaz mobilu za jízdy a nakládky" },
-        { symbol: speedSignHTML, label: "Rychlost max 30 km/h" }
+        { symbol: speedSign30Icon, label: "Rychlost max 30 km/h" },
+        { symbol: cameraIcon, label: "Prostor snímán kamerou se záznamem" }
       ],
       ppeIcons: [
-        { symbol: "🥾", label: "Bezpečnostní obuv" },
-        { symbol: "🦺", label: "Reflexní vesta" },
-        { symbol: "🧥", label: "Ochranný oblek" },
-        { symbol: "🧤", label: "Ochranné rukavice" }
+        { symbol: shoesIcon, label: "Bezpečnostní obuv" },
+        { symbol: vestIcon, label: "Reflexní vesta" },
+        { symbol: suitIcon, label: "Ochranný oblek" },
+        { symbol: glovesIcon, label: "Ochranné rukavice" }
       ],
       loadingRules: [
         "<strong>Vypnout motor:</strong> Během nakládky a vykládky nesmí běžet motor.",
         "<strong>Vytáhnout klíčky:</strong> Klíčky od vozidla musí být vytažené ze spínací skříňky.",
-        "<strong>Vybavení VDI 2700:</strong> 24 upínacích pásů (s chrániči hran, návleky, průtažnost 4%), 35 klínů, bezpečnostní sloupky se 4 lany."
+        "<strong>Vybavení VDI 2700:</strong>",
+        "24 upínacích pásů (s chrániči hran, návleky, průtažnost 4%)<div class=\"rule-img-container\"><img src=\"pas.jpg\" alt=\"Upínací pásy\"></div>",
+        "35 klínů<div class=\"rule-img-container\"><img src=\"klin.jpg\" alt=\"Zajišťovací klíny\"></div>",
+        "Bezpečnostní sloupky se 4 lany.<div class=\"rule-img-container\"><img src=\"zabradli.png\" alt=\"Bezpečnostní sloupky\"></div>"
       ],
       envRules: [
         "<strong>Unikající kapaliny (olej, nafta):</strong> Ihned informujte ostrahu.",
@@ -571,10 +293,12 @@
       title: "Visitor Logbook",
       lblEvent: "Purpose of visit",
       optSelect: "-- Select purpose of visit --",
-      optShipment: "Shipment",
-      optService: "Service",
-      optPickup: "Pickup",
+      optEinlagerung: "Inbound / Stocking",
+      optAuslagerung: "Outbound / Retrieval",
+      optAvis: "Avis",
+      optWareneingang: "Goods Receipt",
       optVisit: "Visit",
+      optService: "Service",
       optOther: "Other option",
       phCustomEvent: "Enter visit purpose...",
       btnSaveCustom: "Save",
@@ -589,7 +313,7 @@
       errSig: "Please provide a signature before confirming.",
       errServer: "Error saving data. Please check your connection.",
       
-      h3Terms: "Safety Information & Instructions (TRADISA)",
+      h3Terms: "Safety Information & Instructions",
       secGeneral: "General Rules & Prohibitions",
       secPpe: "Mandatory Personal Protective Equipment",
       secLoading: "Loading / Unloading & VDI 2700",
@@ -598,26 +322,29 @@
       
       generalIcons: [
         { symbol: isoIcon('p022', 'No photography'), label: "No photography" },
-        { symbol: isoIcon('p001', 'No unauthorized'), label: "No unauthorized persons" },
+        { symbol: isoIcon('p020', 'No unauthorized'), label: "No unauthorized persons" },
         { symbol: isoIcon('p010', 'No alcohol'), label: "No alcohol" },
         { symbol: isoIcon('p058', 'No drugs'), label: "No drugs" },
         { symbol: isoIcon('p002', 'No smoking'), label: "Smoking allowed only in designated areas" },
         { symbol: isoIcon('p021', 'No pets'), label: "No pets allowed" },
-        { symbol: isoIcon('p001', 'No business'), label: "No business transactions" },
-        { symbol: isoIcon('p001', 'Attire'), label: "Proper attire required" },
+        { symbol: shortIcon, label: "Proper attire required" },
         { symbol: isoIcon('p019', 'No mobile'), label: "No mobile phone during drive / loading" },
-        { symbol: speedSignHTML, label: "Max speed 30 km/h" }
+        { symbol: speedSign30Icon, label: "Max speed 30 km/h" },
+        { symbol: cameraIcon, label: "Area monitored by CCTV with recording" }
       ],
       ppeIcons: [
-        { symbol: "🥾", label: "Safety shoes" },
-        { symbol: "🦺", label: "High-vis vest" },
-        { symbol: "🧥", label: "Protective suit" },
-        { symbol: "🧤", label: "Safety gloves" }
+        { symbol: shoesIcon, label: "Safety shoes" },
+        { symbol: vestIcon, label: "High-vis vest" },
+        { symbol: suitIcon, label: "Protective suit" },
+        { symbol: glovesIcon, label: "Safety gloves" }
       ],
       loadingRules: [
-        "<strong>No Engine Running:</strong> Engine must be turned off during loading and unloading.",
-        "<strong>Remove Keys:</strong> Vehicle keys must be removed from ignition.",
-        "<strong>VDI 2700 Equipment:</strong> 24 straps (with protective sheaths, 4% elasticity), 35 shims, safety posts with 4 safety cables."
+        "<strong>Engine off:</strong> The engine must not be running during loading and unloading.",
+        "<strong>Remove keys:</strong> Vehicle keys must be removed.",
+        "<strong>VDI 2700 Equipment:</strong>",
+        "24 lashing straps (with edge protection, sleeve, 4% elasticity)<div class=\"rule-img-container\"><img src=\"pas.jpg\" alt=\"Lashing straps\"></div>",
+        "35 chocks<div class=\"rule-img-container\"><img src=\"klin.jpg\" alt=\"Chocks\"></div>",
+        "Safety posts with 4 ropes<div class=\"rule-img-container\"><img src=\"zabradli.png\" alt=\"Safety posts\"></div>"
       ],
       envRules: [
         "<strong>Spill of polluting liquid (oil, diesel):</strong> Inform the guardian immediately.",
@@ -634,81 +361,88 @@
       successText: "Your signature and agreement have been successfully saved.",
       btnNewVisitor: "New Visitor"
     },
-    hu: {
-      title: "Vendégkönyv",
-      lblEvent: "Látogatás célja",
-      optSelect: "-- Válassza ki a célt --",
-      optShipment: "Szállítás",
-      optService: "Szerviz",
-      optPickup: "Átvétel",
-      optVisit: "Látogatás",
-      optOther: "Egyéb",
-      phCustomEvent: "Adja meg a célt...",
-      btnSaveCustom: "Mentés",
-      lblName: "Vezetéknév és keresztnév",
-      phName: "Kovács János",
-      btnResetForm: "Alaphelyzet",
-      btnNext: "Tovább",
-      linkSheet: "Vendéglista",
-      errSelect: "Kérjük, válassza ki a célt.",
-      errCustomEvent: "Kérjük, adja meg a célt.",
-      errName: "Kérjük, adja meg a teljes nevét.",
-      errSig: "Kérjük, írja alá.",
-      errServer: "Hiba az adatok mentésekor.",
+    es: {
+      title: "Libro de visitas",
+      lblEvent: "Motivo de la visita",
+      optSelect: "-- Seleccione motivo de la visita --",
+      optEinlagerung: "Almacenamiento / Entrada",
+      optAuslagerung: "Desalmacenamiento / Salida",
+      optAvis: "Avis",
+      optWareneingang: "Recepción de mercancías",
+      optVisit: "Visita",
+      optService: "Servicio",
+      optOther: "Otra opción",
+      phCustomEvent: "Ingrese el motivo...",
+      btnSaveCustom: "Guardar",
+      lblName: "Nombre y apellidos",
+      phName: "Juan Pérez",
+      btnResetForm: "Restablecer formulario",
+      btnNext: "Siguiente",
+      linkSheet: "Abrir lista de visitas",
+      errSelect: "Por favor seleccione el motivo de la visita.",
+      errCustomEvent: "Por favor ingrese el motivo de la visita.",
+      errName: "Por favor ingrese tanto el nombre como el apellido.",
+      errSig: "Por favor firme antes de confirmar.",
+      errServer: "Error al guardar los datos. Compruebe su conexión.",
       
-      h3Terms: "Biztonsági információk és utasítások (TRADISA)",
-      secGeneral: "Általános szabályok",
-      secPpe: "Kötelező védőfelszerelés",
-      secLoading: "Fel- / Lerakodás & VDI 2700",
-      secEnv: "Környezetvédelem",
-      secEmergency: "Segélyhívószámok",
+      h3Terms: "Información e instrucciones de seguridad",
+      secGeneral: "Normas generales y prohibiciones",
+      secPpe: "Equipos de Protección Individual (EPI) obligatorios",
+      secLoading: "Carga / Descarga & VDI 2700",
+      secEnv: "Protección ambiental / Derrames",
+      secEmergency: "Teléfonos de emergencia",
       
       generalIcons: [
-        { symbol: isoIcon('p022', 'No photo'), label: "Tilos fotózni" },
-        { symbol: isoIcon('p001', 'No entry'), label: "Illetéktelenek tilos" },
-        { symbol: isoIcon('p010', 'No alcohol'), label: "Alkohol tilos" },
-        { symbol: isoIcon('p058', 'No drugs'), label: "Drog tilos" },
-        { symbol: isoIcon('p002', 'No smoking'), label: "Dohányzás csak a kijelölt helyen" },
-        { symbol: isoIcon('p021', 'No pets'), label: "Állatot behozni tilos" },
-        { symbol: isoIcon('p001', 'No business'), label: "Üzletelni tilos" },
-        { symbol: isoIcon('p001', 'Attire'), label: "Megfelelő ruházat" },
-        { symbol: isoIcon('p019', 'No phone'), label: "Telefon tilos vezetés/rakodás közben" },
-        { symbol: speedSignHTML, label: "Max sebesség 30 km/h" }
+        { symbol: isoIcon('p022', 'Prohibido fotografiar'), label: "Prohibido fotografiar" },
+        { symbol: isoIcon('p020', 'Prohibido personal no autorizado'), label: "Prohibido personal no autorizado" },
+        { symbol: isoIcon('p010', 'Prohibido alcohol'), label: "Prohibido alcohol" },
+        { symbol: isoIcon('p058', 'Prohibidas drogas'), label: "Prohibidas drogas" },
+        { symbol: isoIcon('p002', 'Prohibido fumar'), label: "Fumar solo en zonas autorizadas" },
+        { symbol: isoIcon('p021', 'Prohibidos animales'), label: "Prohibidos animales" },
+        { symbol: shortIcon, label: "Indumentaria adecuada" },
+        { symbol: isoIcon('p019', 'Prohibido móvil'), label: "Prohibido móvil durante la conducción/carga" },
+        { symbol: speedSign30Icon, label: "Velocidad máxima 30 km/h" },
+        { symbol: cameraIcon, label: "Zona videovigilada con grabación" }
       ],
       ppeIcons: [
-        { symbol: "🥾", label: "Munkavédelmi cipő" },
-        { symbol: "🦺", label: "Láthatósági mellény" },
-        { symbol: "🧥", label: "Védőruha" },
-        { symbol: "🧤", label: "Védőkesztyű" }
+        { symbol: shoesIcon, label: "Calzado de seguridad" },
+        { symbol: vestIcon, label: "Chaleco reflectante" },
+        { symbol: suitIcon, label: "Ropa de protección" },
+        { symbol: glovesIcon, label: "Guantes de protección" }
       ],
       loadingRules: [
-        "<strong>Motor leállítása:</strong> Fel- és lerakodás közben a motor nem járhat.",
-        "<strong>Kulcs kivétele:</strong> A kulcsot ki kell venni.",
-        "<strong>VDI 2700 felszerelés:</strong> 24 db heveder, 35 ék, biztonsági oszlopok."
+        "<strong>Motor apagado:</strong> El motor no debe estar en marcha durante la carga y descarga.",
+        "<strong>Retirar llaves:</strong> Las llaves del vehículo deben estar retiradas.",
+        "<strong>Equipamiento VDI 2700:</strong>",
+        "24 cinchas de trincaje (con protección de cantos, funda, elasticidad 4%), postes de seguridad con 4 cuerdas.<div class=\"rule-img-container\"><img src=\"pas.jpg\" alt=\"Cinchas de trincaje\"></div>",
+        "35 calzos<div class=\"rule-img-container\"><img src=\"klin.jpg\" alt=\"Calzos\"></div>",
+        "Postes de seguridad con 4 cuerdas<div class=\"rule-img-container\"><img src=\"zabradli.png\" alt=\"Postes de seguridad\"></div>"
       ],
       envRules: [
-        "<strong>Folyadékszivárgás:</strong> Azonnal értesítse a portást.",
-        "<strong>Készlet:</strong> Használja a bójákat és a felitató készletet."
+        "<strong>Fuga de líquidos (aceite, diésel):</strong> Informar inmediatamente al personal de seguridad.",
+        "<strong>Contención:</strong> Usar conos de señalización y el kit absorbente."
       ],
-      warningText: "⚠️ <strong>Fontos:</strong> Elektromos és/vagy hibrid járműveknél szigorúan tilos hordozó indítómotort (Booster) használni.",
-      emergencyText: "Tűzoltóság: 112 | Rendőrség: 110 | Segélyhívó: 112",
+      warningText: "⚠️ <strong>Importante:</strong> El uso de arrancadores portátiles (booster, cables) está estrictamente prohibido en vehículos eléctricos y/o híbridos.",
+      emergencyText: "Bomberos: 112 | Policía: 110 | Emergencias Europa: 112",
       
-      h3Sig: "Aláírás",
-      sigDeclaration: "Aláírásommal igazolom a szabályok ismeretét és betartását.",
-      btnClearSig: "Törlés",
-      btnConfirmSig: "Küldés",
-      successTitle: "Köszönjük!",
-      successText: "Az aláírást sikeresen rögzítettük.",
-      btnNewVisitor: "Új látogató"
+      h3Sig: "Firma",
+      sigDeclaration: "Con mi firma confirmo que he leído y acepto cumplir las normas de seguridad anteriores.",
+      btnClearSig: "Borrar firma",
+      btnConfirmSig: "Confirmar y enviar",
+      successTitle: "¡Muchas gracias!",
+      successText: "Su firma y conformidad han sido registradas correctamente.",
+      btnNewVisitor: "Nuevo visitante"
     },
     pl: {
       title: "Księga gości",
       lblEvent: "Cel wizyty",
       optSelect: "-- Wybierz cel wizyty --",
-      optShipment: "Dostawa",
-      optService: "Serwis",
-      optPickup: "Odbiór",
+      optEinlagerung: "Przyjęcie na magazyn",
+      optAuslagerung: "Wydanie z magazynu",
+      optAvis: "Avis",
+      optWareneingang: "Odbiór przesyłek",
       optVisit: "Wizyta",
+      optService: "Serwis",
       optOther: "Inna opcja",
       phCustomEvent: "Wpisz cel...",
       btnSaveCustom: "Zapisz",
@@ -723,7 +457,7 @@
       errSig: "Proszę złożyć podpis.",
       errServer: "Błąd zapisu.",
       
-      h3Terms: "Informacje o bezpieczeństwie (TRADISA)",
+      h3Terms: "Informacje o bezpieczeństwie",
       secGeneral: "Ogólne zasady i zakazy",
       secPpe: "Obowiązkowe ŚOI",
       secLoading: "Załadunek / Rozładunek & VDI 2700",
@@ -732,26 +466,29 @@
       
       generalIcons: [
         { symbol: isoIcon('p022', 'No photo'), label: "Zakaz fotografowania" },
-        { symbol: isoIcon('p001', 'No entry'), label: "Brak osób postronnych" },
+        { symbol: isoIcon('p020', 'No entry'), label: "Brak osób postronnych" },
         { symbol: isoIcon('p010', 'No alcohol'), label: "Zakaz alkoholu" },
         { symbol: isoIcon('p058', 'No drugs'), label: "Zakaz narkotyków" },
         { symbol: isoIcon('p002', 'No smoking'), label: "Palenie dozwolone tylko w wyznaczonych miejscach" },
         { symbol: isoIcon('p021', 'No pets'), label: "Zakaz zwierząt" },
-        { symbol: isoIcon('p001', 'No business'), label: "Zakaz transakcji" },
-        { symbol: isoIcon('p001', 'Attire'), label: "Odpowiedni ubiór" },
+        { symbol: shortIcon, label: "Odpowiedni ubiór" },
         { symbol: isoIcon('p019', 'No phone'), label: "Zakaz telefonu podczas jazdy/załadunku" },
-        { symbol: speedSignHTML, label: "Prędkość maks 30 km/h" }
+        { symbol: speedSign30Icon, label: "Prędkość maks 30 km/h" },
+        { symbol: cameraIcon, label: "Obszar monitorowany – nagrywanie CCTV" }
       ],
       ppeIcons: [
-        { symbol: "🥾", label: "Obuwie ochronne" },
-        { symbol: "🦺", label: "Kamizelka odblaskowa" },
-        { symbol: "🧥", label: "Odzież ochronna" },
-        { symbol: "🧤", label: "Rękawice ochronne" }
+        { symbol: shoesIcon, label: "Obuwie ochronne" },
+        { symbol: vestIcon, label: "Kamizelka odblaskowa" },
+        { symbol: suitIcon, label: "Odzież ochronna" },
+        { symbol: glovesIcon, label: "Rękawice ochronne" }
       ],
       loadingRules: [
-        "<strong>Silnik wyłączony:</strong> Silnik nie może pracować podczas załadunku i rozładunku.",
-        "<strong>Wyjęcie kluczyków:</strong> Kluczyki muszą być wyjęte ze stacyjki.",
-        "<strong>Wyposażenie VDI 2700:</strong> 24 pasy, 35 podkładek klinowych, słupki bezpieczeństwa."
+        "<strong>Silnik wyłączony:</strong> Podczas załadunku i rozładunku silnik nie może pracować.",
+        "<strong>Wyjęcie kluczyków:</strong> Kluczyki do pojazdu muszą być wyjęte.",
+        "<strong>Wyposażenie VDI 2700:</strong>",
+        "24 pasy mocujące (z ochroną krawędzi, rękawem, rozciągliwość 4%)<div class=\"rule-img-container\"><img src=\"pas.jpg\" alt=\"Pasy mocujące\"></div>",
+        "35 klinów<div class=\"rule-img-container\"><img src=\"klin.jpg\" alt=\"Kliny\"></div>",
+        "Słupki bezpieczeństwa z 4 linami<div class=\"rule-img-container\"><img src=\"zabradli.png\" alt=\"Słupki bezpieczeństwa\"></div>"
       ],
       envRules: [
         "<strong>Wyciek płynów:</strong> Natychmiast powiadomić ochronę.",
@@ -772,10 +509,12 @@
       title: "Registru Vizitatori",
       lblEvent: "Scopul vizitei",
       optSelect: "-- Selectați scopul --",
-      optShipment: "Livrare",
-      optService: "Service",
-      optPickup: "Ridicare",
+      optEinlagerung: "Intrare în depozit",
+      optAuslagerung: "Ieșire din depozit",
+      optAvis: "Avis",
+      optWareneingang: "Recepție marfă / colete",
       optVisit: "Vizită",
+      optService: "Service",
       optOther: "Altul",
       phCustomEvent: "Introduceți scopul...",
       btnSaveCustom: "Salvează",
@@ -790,7 +529,7 @@
       errSig: "Semnați vă rog.",
       errServer: "Eroare la salvare.",
       
-      h3Terms: "Informații de siguranță (TRADISA)",
+      h3Terms: "Informații de siguranță",
       secGeneral: "Reguli generale",
       secPpe: "Echipament de protecție obligatoriu",
       secLoading: "Încărcare / Descărcare & VDI 2700",
@@ -799,32 +538,35 @@
       
       generalIcons: [
         { symbol: isoIcon('p022', 'No photo'), label: "Interzis foto" },
-        { symbol: isoIcon('p001', 'No entry'), label: "Fără persoane neautorizate" },
+        { symbol: isoIcon('p020', 'No entry'), label: "Fără persoane neautorizate" },
         { symbol: isoIcon('p010', 'No alcohol'), label: "Fără alcool" },
         { symbol: isoIcon('p058', 'No drugs'), label: "Fără droguri" },
         { symbol: isoIcon('p002', 'No smoking'), label: "Fumatul permis doar în locuri amenajate" },
         { symbol: isoIcon('p021', 'No pets'), label: "Fără animale" },
-        { symbol: isoIcon('p001', 'No business'), label: "Fără tranzacții" },
-        { symbol: isoIcon('p001', 'Attire'), label: "Îmbrăcăminte adecvată" },
+        { symbol: shortIcon, label: "Îmbrăcăminte adecvată" },
         { symbol: isoIcon('p019', 'No phone'), label: "Fără telefon mobil la volan / încărcare" },
-        { symbol: speedSignHTML, label: "Viteză maximă 30 km/h" }
+        { symbol: speedSign30Icon, label: "Viteză maximă 30 km/h" },
+        { symbol: cameraIcon, label: "Zonă supravegheată video cu înregistrare" }
       ],
       ppeIcons: [
-        { symbol: "🥾", label: "Încălțăminte protecție" },
-        { symbol: "🦺", label: "Vestă reflectorizantă" },
-        { symbol: "🧥", label: "Costum de protecție" },
-        { symbol: "🧤", label: "Mănuși de protecție" }
+        { symbol: shoesIcon, label: "Încălțăminte protecție" },
+        { symbol: vestIcon, label: "Vestă reflectorizantă" },
+        { symbol: suitIcon, label: "Costum de protecție" },
+        { symbol: glovesIcon, label: "Mănuși de protecție" }
       ],
       loadingRules: [
-        "<strong>Motor oprit:</strong> Motorul nu trebuie să funcționeze în timpul operațiunilor.",
-        "<strong>Cheile scoase:</strong> Cheile trebuie scoase din contact.",
-        "<strong>Echipament VDI 2700:</strong> 24 chingi, 35 cale, stâlpi de siguranță."
+        "<strong>Motor oprit:</strong> Motorul nu trebuie să funcționeze în timpul încărcării și descărcării.",
+        "<strong>Scoateți cheile:</strong> Cheile vehiculului trebuie scoase din contact.",
+        "<strong>Echipament VDI 2700:</strong>",
+        "24 chingi de ancorare (cu protecție pentru margini, manșon, elasticitate 4%)<div class=\"rule-img-container\"><img src=\"pas.jpg\" alt=\"Chingi de ancorare\"></div>",
+        "35 cale<div class=\"rule-img-container\"><img src=\"klin.jpg\" alt=\"Cale\"></div>",
+        "Stâlpi de siguranță cu 4 cabluri<div class=\"rule-img-container\"><img src=\"zabradli.png\" alt=\"Stâlpi de siguranță\"></div>"
       ],
       envRules: [
         "<strong>Scurgere lichide:</strong> Anunțați imediat paza.",
         "<strong>Intervenție:</strong> Folosiți conurile și kitul absorbant."
       ],
-      warningText: "⚠️  <strong>Important:</strong> Utilizarea unui starter portabil (Booster) este strict interzisă pentru vehiculele electrice și/sau hibride.",
+      warningText: "⚠️ <strong>Important:</strong> Utilizarea unui starter portabil (Booster) este strict interzisă pentru vehiculele electrice și/sau hibride.",
       emergencyText: "Pompieri: 112 | Poliție: 110 | Urgență europeană: 112",
       
       h3Sig: "Semnătură",
@@ -839,10 +581,12 @@
       title: "Журнал посещений",
       lblEvent: "Цель визита",
       optSelect: "-- Выберите цель визита --",
-      optShipment: "Доставка",
-      optService: "Сервис",
-      optPickup: "Самовывоз",
+      optEinlagerung: "Размещение на склад",
+      optAuslagerung: "Выемка со склада",
+      optAvis: "Avis",
+      optWareneingang: "Прием грузов / посылок",
       optVisit: "Визит",
+      optService: "Сервис",
       optOther: "Другое",
       phCustomEvent: "Укажите цель...",
       btnSaveCustom: "Сохранить",
@@ -857,7 +601,7 @@
       errSig: "Поставьте подпись.",
       errServer: "Ошибка сохранения.",
       
-      h3Terms: "Информация по безопасности (TRADISA)",
+      h3Terms: "Информация по безопасности",
       secGeneral: "Общие правила и запреты",
       secPpe: "Обязательные СИЗ",
       secLoading: "Погрузка / Разгрузка & VDI 2700",
@@ -866,26 +610,29 @@
       
       generalIcons: [
         { symbol: isoIcon('p022', 'No photo'), label: "Запрет фотосъемки" },
-        { symbol: isoIcon('p001', 'No entry'), label: "Без посторонних лиц" },
+        { symbol: isoIcon('p020', 'No entry'), label: "Без посторонних лиц" },
         { symbol: isoIcon('p010', 'No alcohol'), label: "Запрет алкоголя" },
         { symbol: isoIcon('p058', 'No drugs'), label: "Запрет наркотиков" },
         { symbol: isoIcon('p002', 'No smoking'), label: "Курение разрешено только в специально отведенных местах" },
         { symbol: isoIcon('p021', 'No pets'), label: "Запрет животных" },
-        { symbol: isoIcon('p001', 'No business'), label: "Запрет сделок" },
-        { symbol: isoIcon('p001', 'Attire'), label: "Надлежащая одежда" },
+        { symbol: shortIcon, label: "Надлежащая одежда" },
         { symbol: isoIcon('p019', 'No phone'), label: "Запрет телефона за рулем/погрузке" },
-        { symbol: speedSignHTML, label: "Скорость до 30 км/ч" }
+        { symbol: speedSign30Icon, label: "Скорость до 30 км/ч" },
+        { symbol: cameraIcon, label: "Территория под видеонаблюдением с записью" }
       ],
       ppeIcons: [
-        { symbol: "🥾", label: "Защитная обувь" },
-        { symbol: "🦺", label: "Сигнальный жилет" },
-        { symbol: "🧥", label: "Защитный костюм" },
-        { symbol: "🧤", label: "Перчатки" }
+        { symbol: shoesIcon, label: "Защитная обувь" },
+        { symbol: vestIcon, label: "Сигнальный жилет" },
+        { symbol: suitIcon, label: "Защитный костюм" },
+        { symbol: glovesIcon, label: "Перчатки" }
       ],
       loadingRules: [
-        "<strong>Двигатель выключен:</strong> Во время погрузки/разгрузки двигатель не должен работать.",
-        "<strong>Извлечь ключи:</strong> Ключи должны быть вынуты из замка зажигания.",
-        "<strong>Оборудование VDI 2700:</strong> 24 ремня, 35 подкладок, стойки безопасности."
+        "<strong>Двигатель выключен:</strong> Во время погрузки и разгрузки двигатель не должен работать.",
+        "<strong>Извлечь ключи:</strong> Ключи от транспортного средства должны быть вынуты.",
+        "<strong>Оборудование VDI 2700:</strong>",
+        "24 крепежных ремня (с защитой кромок, рукавом, эластичность 4%)<div class=\"rule-img-container\"><img src=\"pas.jpg\" alt=\"Крепежные ремни\"></div>",
+        "35 противооткатных упоров (клиньев)<div class=\"rule-img-container\"><img src=\"klin.jpg\" alt=\"Клинья\"></div>",
+        "Стойки безопасности с 4 тросами<div class=\"rule-img-container\"><img src=\"zabradli.png\" alt=\"Стойки безопасности\"></div>"
       ],
       envRules: [
         "<strong>Утечка жидкостей:</strong> Немедленно сообщить охране.",
@@ -935,21 +682,22 @@
   }));
 
   function isOtherOption(val) {
-    const otherValues = ["Andere Option", "Jiná volba", "Other option", "Egyéb", "Inna opcja", "Altă opțiune", "Другое"];
+    const otherValues = ["Andere Option", "Jiná volba", "Other option", "Otra opción", "Inna opcja", "Altă opțiune", "Другое"];
     return otherValues.includes(val);
   }
 
   function applyLanguage(lang) {
     const t = translations[lang] || translations.de;
-    
     document.title = t.title;
     
     document.getElementById('t-lbl-event').textContent = t.lblEvent;
     document.getElementById('t-opt-select').textContent = t.optSelect;
-    document.getElementById('t-opt-shipment').textContent = t.optShipment;
-    document.getElementById('t-opt-service').textContent = t.optService;
-    document.getElementById('t-opt-pickup').textContent = t.optPickup;
+    document.getElementById('t-opt-einlagerung').textContent = t.optEinlagerung;
+    document.getElementById('t-opt-auslagerung').textContent = t.optAuslagerung;
+    document.getElementById('t-opt-avis').textContent = t.optAvis;
+    document.getElementById('t-opt-wareneingang').textContent = t.optWareneingang;
     document.getElementById('t-opt-visit').textContent = t.optVisit;
+    document.getElementById('t-opt-service').textContent = t.optService;
     document.getElementById('t-opt-other').textContent = t.optOther;
     elCustomEvent.placeholder = t.phCustomEvent;
     elBtnSaveCustom.textContent = t.btnSaveCustom;
@@ -972,14 +720,14 @@
     document.getElementById('t-general-icons').innerHTML = t.generalIcons.map(item => `
       <div class="icon-box">
         <div class="icon-symbol">${item.symbol}</div>
-        <div class="icon-label">${item.label}</div>
+        <div class="icon-label">${escapeHtml(item.label)}</div>
       </div>
     `).join('');
 
     document.getElementById('t-ppe-icons').innerHTML = t.ppeIcons.map(item => `
       <div class="icon-box">
-        <div class="icon-symbol" style="font-size: 1.8rem;">${item.symbol}</div>
-        <div class="icon-label">${item.label}</div>
+        <div class="icon-symbol">${item.symbol}</div>
+        <div class="icon-label">${escapeHtml(item.label)}</div>
       </div>
     `).join('');
 
@@ -1126,13 +874,25 @@
 
   function resizeCanvas() {
     const rect = canvas.getBoundingClientRect();
-    if(rect.width > 0) {
-      canvas.width = rect.width;
-      canvas.height = rect.height;
+    if (rect.width > 0) {
+      const dpr = window.devicePixelRatio || 1;
+      
+      const tempCanvas = document.createElement('canvas');
+      tempCanvas.width = canvas.width;
+      tempCanvas.height = canvas.height;
+      const tempCtx = tempCanvas.getContext('2d');
+      tempCtx.drawImage(canvas, 0, 0);
+
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+
+      ctx.scale(dpr, dpr);
       ctx.lineWidth = 4;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
       ctx.strokeStyle = '#0f172a';
+
+      ctx.drawImage(tempCanvas, 0, 0, rect.width, rect.height);
     }
   }
 
@@ -1202,7 +962,7 @@
 
     let finalEvent = st.event;
     if (isOtherOption(st.event) && st.customEvent.trim() !== "") {
-      finalEvent = st.event + ": " + st.customEvent.trim();
+      finalEvent = st.customEvent.trim();
     }
 
     const payload = {
