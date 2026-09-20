@@ -88,6 +88,13 @@
 
       <div class="sec-section-title" id="t-sec-emergency">Emergency Contacts</div>
       <div style="font-size: 0.85rem; font-weight: bold; text-align: center; color: #f87171; margin-top: 6px;" id="t-emergency-text"></div>
+
+      <!-- ODKAZ NA PLNE ZNĚNÍ BEZPEČNOSTNÍCH PRAVIDEL -->
+      <div style="margin-top: 16px; text-align: center;">
+        <a id="t-link-full-rules" href="full_rules.pdf" target="_blank" rel="noopener" class="btn-link secondary">
+          Odkaz na plné znění bezpečnostních pravidla
+        </a>
+      </div>
     </div>
 
     <!-- PODPISOVÁ ČÁST -->
@@ -175,6 +182,7 @@
       secLoading: "Be- und Entladen / VDI 2700",
       secEnv: "Umweltschutz & Notfall",
       secEmergency: "Notrufnummern",
+      linkFullRules: "Link zum vollständigen Text der Sicherheitsregeln",
       
       generalIcons: [
         { symbol: isoIcon('p022', 'No photography'), label: "Kein Fotografieren" },
@@ -247,6 +255,7 @@
       secLoading: "Nakládka / Vykládka a VDI 2700",
       secEnv: "Ochrana prostředí / Únik kapalin",
       secEmergency: "Tísňové linky",
+      linkFullRules: "Odkaz na plné znění bezpečnostních pravidla",
       
       generalIcons: [
         { symbol: isoIcon('p022', 'Zákaz focení'), label: "Zákaz focení" },
@@ -319,6 +328,7 @@
       secLoading: "Loading / Unloading & VDI 2700",
       secEnv: "Environmental / Spill Response",
       secEmergency: "Emergency Numbers",
+      linkFullRules: "Link to full text of safety rules",
       
       generalIcons: [
         { symbol: isoIcon('p022', 'No photography'), label: "No photography" },
@@ -391,6 +401,7 @@
       secLoading: "Carga / Descarga & VDI 2700",
       secEnv: "Protección ambiental / Derrames",
       secEmergency: "Teléfonos de emergencia",
+      linkFullRules: "Enlace al texto completo de las normas de seguridad",
       
       generalIcons: [
         { symbol: isoIcon('p022', 'Prohibido fotografiar'), label: "Prohibido fotografiar" },
@@ -463,6 +474,7 @@
       secLoading: "Załadunek / Rozładunek & VDI 2700",
       secEnv: "Ochrona środowiska",
       secEmergency: "Numery alarmowe",
+      linkFullRules: "Link do pełnej treści zasad bezpieczeństwa",
       
       generalIcons: [
         { symbol: isoIcon('p022', 'No photo'), label: "Zakaz fotografowania" },
@@ -535,6 +547,7 @@
       secLoading: "Încărcare / Descărcare & VDI 2700",
       secEnv: "Mediu / Scurgeri",
       secEmergency: "Numere de urgență",
+      linkFullRules: "Link către textul complet al regulilor de siguranță",
       
       generalIcons: [
         { symbol: isoIcon('p022', 'No photo'), label: "Interzis foto" },
@@ -607,6 +620,7 @@
       secLoading: "Погрузка / Разгрузка & VDI 2700",
       secEnv: "Охрана окружающей среды",
       secEmergency: "Экстренные номера",
+      linkFullRules: "Ссылка на полный текст правил безопасности",
       
       generalIcons: [
         { symbol: isoIcon('p022', 'No photo'), label: "Запрет фотосъемки" },
@@ -671,6 +685,7 @@
   const elBtnNewVisitor = document.getElementById('btn-new-visitor');
   const elLinkSheet1 = document.getElementById('t-link-sheet-1');
   const elLinkSheet2 = document.getElementById('t-link-sheet-2');
+  const elLinkFullRules = document.getElementById('t-link-full-rules');
   const ctx = canvas.getContext('2d');
 
   const K = 'pwa-test-v3';
@@ -716,6 +731,7 @@
     document.getElementById('t-sec-loading').textContent = t.secLoading;
     document.getElementById('t-sec-env').textContent = t.secEnv;
     document.getElementById('t-sec-emergency').textContent = t.secEmergency;
+    elLinkFullRules.textContent = t.linkFullRules;
 
     document.getElementById('t-general-icons').innerHTML = t.generalIcons.map(item => `
       <div class="icon-box">

@@ -162,14 +162,11 @@ a.btn-link.secondary:hover {
 }
 
 .terms-card {
-  max-height: 55vh;
-  overflow-y: auto;
+  max-height: none;        /* Odstraní omezení výšky */
+  overflow-y: visible;     /* Zruší vertikální posuvník */
   line-height: 1.4;
   font-size: 0.88rem;
-  scrollbar-width: thin;
-  scrollbar-color: #10b981 #002215;
   padding: 12px;
-  -webkit-overflow-scrolling: touch;
 }
 
 .terms-card::-webkit-scrollbar {
@@ -327,3 +324,11 @@ a.btn-link.secondary:hover {
   border-top: 1px dashed #005c38;
   text-align: center;
 }
+
+/* Styl pro tlačítko/odkaz na plné znění pravidel */
+#t-link-full-rules {
+  color: #2563eb;               /* Modrá barva textu */
+  border-color: #2563eb;          /* Modrý rámeček (pokud třída btn-link používá border) */
+  text-decoration: underline;    /* Podtržení textu */
+}
+
