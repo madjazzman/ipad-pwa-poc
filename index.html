@@ -131,7 +131,7 @@
     <span id="pdf-modal-title" class="pdf-modal-title"></span>
     <button id="btn-close-pdf" class="pdf-modal-close" type="button" aria-label="Close">✕</button>
   </div>
-  <iframe id="pdf-modal-frame" class="pdf-modal-frame" title="PDF"></iframe>
+  <div id="pdf-modal-frame" class="pdf-modal-frame"></div>
 </div>
 
 <script>
@@ -977,24 +977,35 @@
   const elPdfModalTitle = document.getElementById('pdf-modal-title');
   const elBtnClosePdf = document.getElementById('btn-close-pdf');
 
+  // Seznam obrázků jednotlivých stránek PDF (vygenerované předem, uložené lokálně vedle index.html).
+  // Když se full_rules.pdf změní, je potřeba tyhle obrázky znovu vyexportovat a pole aktualizovat.
+  const PDF_PAGE_IMAGES = ['full_rules_1.jpg', 'full_rules_2.jpg', 'full_rules_3.jpg'];
+
   // Ve standalone PWA na iOS/iPadOS nemá webview žádné ovládací prvky prohlížeče
   // (žádná adresní lišta, žádné tlačítko zpět, žádné swipe gesto zpět) - window.open()
   // tam navíc neotevírá nové okno, jen naviguje ten samý webview pryč z appky bez
-  // možnosti se vrátit. Proto se PDF v standalone režimu zobrazí v vlastním
-  // celoobrazovkovém overlay s viditelným tlačítkem Zavřít, které appka plně ovládá.
+  // možnosti se vrátit. PDF vložené v <iframe> má navíc na iOS samostatnou chybu -
+  // vestavěný prohlížeč ukáže jen první stránku a nejde scrollovat dál. Proto se
+  // PDF v standalone režimu zobrazí jako sada obrázků stránek ve vlastním
+  // celoobrazovkovém, scrollovatelném overlay s tlačítkem Zavřít.
   function openPdf(event) {
     const isStandalone = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
     if (!isStandalone) return; // normální tab v prohlížeči má vlastní UI, necháme výchozí target="_blank"
 
     event.preventDefault();
+
+    if (!elPdfModalFrame.dataset.built) {
+      elPdfModalFrame.innerHTML = PDF_PAGE_IMAGES.map(src => `<img src="${src}" alt="">`).join('');
+      elPdfModalFrame.dataset.built = '1';
+    }
+
     elPdfModalTitle.textContent = elLinkFullRules.textContent;
-    elPdfModalFrame.src = event.currentTarget.href;
+    elPdfModalFrame.scrollTop = 0;
     elPdfModal.classList.remove('hidden');
   }
 
   elBtnClosePdf.addEventListener('click', () => {
     elPdfModal.classList.add('hidden');
-    elPdfModalFrame.src = ''; // uvolní PDF z paměti, až se příště otevře, načte se znovu
   });
 
   function draw(e) {
