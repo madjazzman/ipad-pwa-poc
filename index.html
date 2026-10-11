@@ -50,6 +50,9 @@
         <button id="btn-save-custom" class="secondary" type="button">Speichern</button>
       </div>
       
+      <label id="t-lbl-company" for="company" style="margin-top: 12px; display: block;">Firma</label>
+      <input id="company" placeholder="Muster GmbH" autocomplete="off">
+
       <label id="t-lbl-name" for="name" style="margin-top: 12px; display: block;">Vor- und Nachname</label>
       <input id="name" placeholder="Max Mustermann" autocomplete="off">
       
@@ -175,6 +178,8 @@
       optOther: "Andere Option",
       phCustomEvent: "Geben Sie den Zweck ein...",
       btnSaveCustom: "Speichern",
+      lblCompany: "Firma",
+      phCompany: "Muster GmbH",
       lblName: "Vor- und Nachname",
       phName: "Max Mustermann",
       btnResetForm: "Formular zurücksetzen",
@@ -183,6 +188,7 @@
       errSelect: "Bitte wählen Sie den Besuchszweck aus.",
       errCustomEvent: "Bitte tragen Sie den eigenen Zweck ein.",
       errName: "Bitte geben Sie Vor- und Nachnamen ein (mindestens zwei Wörter).",
+      errCompany: "Bitte geben Sie den Firmennamen ein.",
       errSig: "Bitte leisten Sie eine Unterschrift vor der Bestätigung.",
       errServer: "Fehler beim Speichern der Daten. Bitte Verbindung prüfen.",
       
@@ -248,6 +254,8 @@
       optOther: "Jiná volba",
       phCustomEvent: "Napište účel návštěvy...",
       btnSaveCustom: "Uložit",
+      lblCompany: "Firma",
+      phCompany: "Např. Novák s.r.o.",
       lblName: "Jméno a příjmení",
       phName: "Jan Novák",
       btnResetForm: "Resetovat formulář",
@@ -256,6 +264,7 @@
       errSelect: "Prosím vyberte účel návštěvy.",
       errCustomEvent: "Prosím vyplňte zadaný účel návštěvy.",
       errName: "Prosím zadejte jméno i příjmení (minimálně dvě slova).",
+      errCompany: "Prosím zadejte název firmy.",
       errSig: "Před potvrzením se prosím podepište.",
       errServer: "Chyba při ukládání dat. Zkontrolujte připojení.",
       
@@ -321,6 +330,8 @@
       optOther: "Other option",
       phCustomEvent: "Enter visit purpose...",
       btnSaveCustom: "Save",
+      lblCompany: "Company",
+      phCompany: "Example Ltd.",
       lblName: "First and last name",
       phName: "John Doe",
       btnResetForm: "Reset Form",
@@ -329,6 +340,7 @@
       errSelect: "Please select the purpose of your visit.",
       errCustomEvent: "Please fill in the custom visit purpose.",
       errName: "Please enter both first and last name.",
+      errCompany: "Please enter the company name.",
       errSig: "Please provide a signature before confirming.",
       errServer: "Error saving data. Please check your connection.",
       
@@ -394,6 +406,8 @@
       optOther: "Otra opción",
       phCustomEvent: "Ingrese el motivo...",
       btnSaveCustom: "Guardar",
+      lblCompany: "Empresa",
+      phCompany: "Ejemplo S.L.",
       lblName: "Nombre y apellidos",
       phName: "Juan Pérez",
       btnResetForm: "Restablecer formulario",
@@ -402,6 +416,7 @@
       errSelect: "Por favor seleccione el motivo de la visita.",
       errCustomEvent: "Por favor ingrese el motivo de la visita.",
       errName: "Por favor ingrese tanto el nombre como el apellido.",
+      errCompany: "Por favor ingrese el nombre de la empresa.",
       errSig: "Por favor firme antes de confirmar.",
       errServer: "Error al guardar los datos. Compruebe su conexión.",
       
@@ -467,6 +482,8 @@
       optOther: "Inna opcja",
       phCustomEvent: "Wpisz cel...",
       btnSaveCustom: "Zapisz",
+      lblCompany: "Firma",
+      phCompany: "Przykład Sp. z o.o.",
       lblName: "Imię i nazwisko",
       phName: "Jan Kowalski",
       btnResetForm: "Zresetuj",
@@ -475,6 +492,7 @@
       errSelect: "Wybierz cel wizyty.",
       errCustomEvent: "Podaj cel wizyty.",
       errName: "Podaj imię i nazwisko.",
+      errCompany: "Podaj nazwę firmy.",
       errSig: "Proszę złożyć podpis.",
       errServer: "Błąd zapisu.",
       
@@ -540,6 +558,8 @@
       optOther: "Altul",
       phCustomEvent: "Introduceți scopul...",
       btnSaveCustom: "Salvează",
+      lblCompany: "Companie",
+      phCompany: "Exemplu SRL",
       lblName: "Nume și prenume",
       phName: "Ion Popescu",
       btnResetForm: "Resetează",
@@ -548,6 +568,7 @@
       errSelect: "Selectați scopul.",
       errCustomEvent: "Completați scopul.",
       errName: "Introduceți numele complet.",
+      errCompany: "Introduceți numele companiei.",
       errSig: "Semnați vă rog.",
       errServer: "Eroare la salvare.",
       
@@ -613,6 +634,8 @@
       optOther: "Другое",
       phCustomEvent: "Укажите цель...",
       btnSaveCustom: "Сохранить",
+      lblCompany: "Компания",
+      phCompany: "ООО «Пример»",
       lblName: "Имя и фамилия",
       phName: "Иван Иванов",
       btnResetForm: "Сбросить",
@@ -621,6 +644,7 @@
       errSelect: "Выберите цель визита.",
       errCustomEvent: "Укажите цель визита.",
       errName: "Введите имя и фамилию.",
+      errCompany: "Укажите название компании.",
       errSig: "Поставьте подпись.",
       errServer: "Ошибка сохранения.",
       
@@ -679,6 +703,7 @@
   const elCustomEventContainer = document.getElementById('custom-event-container');
   const elCustomEvent = document.getElementById('custom-event');
   const elBtnSaveCustom = document.getElementById('btn-save-custom');
+  const elCompany = document.getElementById('company');
   const elName = document.getElementById('name');
   const elResetForm = document.getElementById('reset-form');
   const elBtnNext = document.getElementById('btn-next');
@@ -709,6 +734,7 @@
     optVisit: document.getElementById('t-opt-visit'),
     optService: document.getElementById('t-opt-service'),
     optOther: document.getElementById('t-opt-other'),
+    lblCompany: document.getElementById('t-lbl-company'),
     lblName: document.getElementById('t-lbl-name'),
     h3Terms: document.getElementById('t-h3-terms'),
     secGeneral: document.getElementById('t-sec-general'),
@@ -731,6 +757,7 @@
   let st = JSON.parse(localStorage.getItem(K) || JSON.stringify({
     event: "",
     customEvent: "",
+    company: "",
     name: "",
     lang: "de"
   }));
@@ -758,6 +785,8 @@
     elCustomEvent.placeholder = t.phCustomEvent;
     elBtnSaveCustom.textContent = t.btnSaveCustom;
 
+    elT.lblCompany.textContent = t.lblCompany;
+    elCompany.placeholder = t.phCompany;
     elT.lblName.textContent = t.lblName;
     elName.placeholder = t.phName;
     elResetForm.textContent = t.btnResetForm;
@@ -809,6 +838,7 @@
   function render() {
     elEvent.value = st.event;
     elCustomEvent.value = st.customEvent || "";
+    elCompany.value = st.company || "";
     elName.value = st.name;
 
     elCustomEventContainer.classList.toggle('hidden', !isOtherOption(st.event));
@@ -819,6 +849,7 @@
   function resetFullForm() {
     st.event = "";
     st.customEvent = "";
+    st.company = "";
     st.name = "";
     st.lang = "de";
 
@@ -826,6 +857,7 @@
     elSigError.classList.add('hidden');
     elEvent.classList.remove('input-error');
     elCustomEvent.classList.remove('input-error');
+    elCompany.classList.remove('input-error');
     elName.classList.remove('input-error');
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -875,6 +907,11 @@
     }
   });
 
+  elCompany.addEventListener('input', e => {
+    st.company = e.target.value;
+    render();
+  });
+
   elName.addEventListener('input', e => {
     st.name = e.target.value;
     render();
@@ -893,23 +930,28 @@
       isCustomValid = elCustomEvent.value.trim() !== "";
     }
 
+    const isCompanyValid = elCompany.value.trim() !== "";
     const words = elName.value.trim().split(/\s+/).filter(w => w.length > 0);
     const isNameValid = words.length >= 2;
 
     elEvent.classList.remove('input-error');
     elCustomEvent.classList.remove('input-error');
+    elCompany.classList.remove('input-error');
     elName.classList.remove('input-error');
     elValError.classList.add('hidden');
 
-    if (!isEventValid || !isCustomValid || !isNameValid) {
+    if (!isEventValid || !isCustomValid || !isCompanyValid || !isNameValid) {
       if (!isEventValid) elEvent.classList.add('input-error');
       if (!isCustomValid) elCustomEvent.classList.add('input-error');
+      if (!isCompanyValid) elCompany.classList.add('input-error');
       if (!isNameValid) elName.classList.add('input-error');
 
       if (!isEventValid) {
         elValError.textContent = t.errSelect;
       } else if (!isCustomValid) {
         elValError.textContent = t.errCustomEvent;
+      } else if (!isCompanyValid) {
+        elValError.textContent = t.errCompany;
       } else if (!isNameValid) {
         elValError.textContent = t.errName;
       }
@@ -1053,6 +1095,7 @@
 
     const payload = {
       event: finalEvent,
+      company: st.company.trim(),
       name: st.name,
       signature: signatureData
     };
